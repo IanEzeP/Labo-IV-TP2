@@ -1,0 +1,14 @@
+{
+  "projects": {
+    "default": "hostingclinicatp"
+  },
+  "targets": {
+    "hostingclinicatp": {
+      "hosting": {
+        "TP_2": [
+          "hostingclinicatp"
+        ]
+      }
+    }
+  }
+}
