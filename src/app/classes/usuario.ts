@@ -1,5 +1,6 @@
 export class Usuario 
 {
+    id : string = '';
     nombre : string = '';
     apellido : string = '';
     edad : number = 0;

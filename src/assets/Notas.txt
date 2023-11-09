@@ -14,7 +14,7 @@ Tener la posibilidad de registrarse, ingresar al sistema y administrar los usuar
 que van a poder utilizar nuestra plataforma. 
 
 ● Página de bienvenida
-    ○ Tiene que tener los accesos al login y registro del sistema
+    ○ Tiene que tener los accesos al login y registro del sistema (✔)
 ● Registro
     ○ Desde esta sección vamos a poder registrar Pacientes y Especialistas.
     ○ Para los pacientes los datos serán
@@ -26,6 +26,7 @@ que van a poder utilizar nuestra plataforma.
         ■ Mail
         ■ Password
         ■ 2 imágenes para su perfil.
+        (✔)
     ○ Para los Especialistas
         ■ Nombre
         ■ Apellido
@@ -37,14 +38,15 @@ que van a poder utilizar nuestra plataforma.
         ■ Mail
         ■ Password
         ■ Imagen de perfil
-    ○ Debemos validar los campos según corresponda
+        ()
+    ○ Debemos validar los campos según corresponda ()
 ● Login
     ○ Desde esta sección vamos a ingresar al sistema.
-    ○ Debe contar con los botones de acceso rápido
+    ○ Debe contar con los botones de acceso rápido ()
     ○ Los usuarios con perfil Especialista solo pueden ingresar si un usuario administrador
-    aprobó su cuenta y verificó el mail al momento de registrarse.
+    aprobó su cuenta y verificó el mail al momento de registrarse. ()
     ○ Los usuarios con perfil Paciente solo pueden ingresar si verificaron su mail al
-    momento de registrarse.
+    momento de registrarse. ()
 
 ● Sección Usuarios
     ○ Esta sección solamente la va a poder ver el usuario con perfil Administrador
@@ -61,13 +63,10 @@ que van a poder utilizar nuestra plataforma.
         ■ Password
         ■ imágen para su perfil.
 
-●Favicon
+●Favicon 
 ●Subido a la
-Web
+Web ✔
 ●Loading
-
-
-
 
 elementRef.nativeElement.textContent
 elementRef.nativeElement.innerText
@@ -75,3 +74,13 @@ elementRef.nativeElement.innerText
 #Sobre instalar Firestore:
  - Habilitar Firestore durante la creación (cuando usamos los comandos ng add @angular/fire)
 
+export const environment = {
+    firebase: {
+        projectId: 'hostingclinicatp',
+        appId: '1:49391722655:web:72ce4561ca8998cb29c2aa',
+        storageBucket: 'hostingclinicatp.appspot.com',
+        apiKey: 'AIzaSyB9vAWYRT-QyORlCo40_9SNl44pUnyjIU0',
+        authDomain: 'hostingclinicatp.firebaseapp.com',
+        messagingSenderId: '49391722655',
+    },
+};

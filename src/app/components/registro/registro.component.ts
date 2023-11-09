@@ -3,6 +3,7 @@ import { Usuario } from 'src/app/classes/usuario';
 import { Pacientes } from 'src/app/classes/pacientes';
 import { Especialistas } from 'src/app/classes/especialistas';
 import { AngularFirestore } from '@angular/fire/compat/firestore';
+import { collection } from '@angular/fire/firestore';
 
 @Component({
   selector: 'app-registro',
@@ -37,6 +38,76 @@ export class RegistroComponent {
 
   }
 
+  
+
+  guardarPaciente() 
+  {
+    const documento = this.firestore.doc('Pacientes/' + this.firestore.createId());
+
+    documento.set(
+    {
+      id: documento.ref.id,
+      Nombre : this.paciente.nombre,
+      Apellido : this.paciente.apellido,
+      Edad : this.paciente.edad,
+      DNI : this.paciente.dni,
+      Mail : this.paciente.mail,
+      Password : this.paciente.password,
+      ImagenPerfil : this.paciente.imagenPerfil,
+      ImagenAdicional : this.paciente.imagenAdicional,
+      ObraSocial : this.paciente.obraSocial,
+    });
+
+    this.validarDatoGuardado(documento.ref.id, 'Pacientes');
+  }
+
+  guardarEspecialista() 
+  {
+    const documento = this.firestore.doc('Especialistas/' + this.firestore.createId());
+
+    documento.set(
+    {
+      id: documento.ref.id,
+      Nombre : this.paciente.nombre,
+      Apellido : this.paciente.apellido,
+      Edad : this.paciente.edad,
+      DNI : this.paciente.dni,
+      Mail : this.paciente.mail,
+      Password : this.paciente.password,
+      ImagenPerfil : this.paciente.imagenPerfil,
+      ImagenAdicional : this.paciente.imagenAdicional,
+      ObraSocial : this.paciente.obraSocial,
+    });
+
+    this.validarDatoGuardado(documento.ref.id, 'Especialistas');
+  }
+
+  validarDatoGuardado(id : string, entidad : string)
+  {
+    const col = this.firestore.firestore.collection(entidad);
+
+    col.get().then((next : any) =>
+    {
+      let result : Array<any> = next;
+      let exito = false;
+
+      result.forEach(obj => 
+      {
+        if(id == obj.id)
+        {
+          exito = true;
+          console.log("Información guardada correctamente");//llamar funcion sweetalert
+          this.limpiarTextBox();
+        }
+      });
+
+      if(exito = false)
+      {
+        console.log("ERROR - No se pudo guardar la información en la base de datos");//llamar funcion sweetalert
+      }
+    });
+  }
+
   registrar()
   {
     if(this.condition && this.especialidades.length > 0)
@@ -63,7 +134,7 @@ export class RegistroComponent {
     this.especialista.imagenPerfil = this.imgPerfil1;
     this.especialista.especialidades = this.especialidades;
 
-    // Intentar crear método de instancia para subir a Firebase
+    this.guardarEspecialista();
   }
 
   registrarPaciente()
@@ -77,6 +148,8 @@ export class RegistroComponent {
     this.paciente.imagenPerfil = this.imgPerfil1;
     this.paciente.imagenAdicional = this.imgPerfil2;
     this.paciente.obraSocial = this.obraSocial;
+
+    this.guardarPaciente();
   }
 
   limpiarTextBox()
