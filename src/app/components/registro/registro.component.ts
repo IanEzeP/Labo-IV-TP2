@@ -26,7 +26,8 @@ export class RegistroComponent {
   imgPerfil1 = ''; //Tipo File?
 
   //Para especialista
-  especialidades = [];
+  storageEspecialidades : Array<string> = [];
+  especialidades : Array<string> = [];
   //CREAR FUNCION TRAER ESPECIALIDADES
 
   //Para paciente
@@ -35,7 +36,7 @@ export class RegistroComponent {
 
   constructor(private firestore : AngularFirestore)
   {
-
+    this.traerEspecialidades();
   }
 
   
@@ -68,23 +69,22 @@ export class RegistroComponent {
     documento.set(
     {
       id: documento.ref.id,
-      Nombre : this.paciente.nombre,
-      Apellido : this.paciente.apellido,
-      Edad : this.paciente.edad,
-      DNI : this.paciente.dni,
-      Mail : this.paciente.mail,
-      Password : this.paciente.password,
-      ImagenPerfil : this.paciente.imagenPerfil,
-      ImagenAdicional : this.paciente.imagenAdicional,
-      ObraSocial : this.paciente.obraSocial,
+      Nombre : this.especialista.nombre,
+      Apellido : this.especialista.apellido,
+      Edad : this.especialista.edad,
+      DNI : this.especialista.dni,
+      Mail : this.especialista.mail,
+      Password : this.especialista.password,
+      ImagenPerfil : this.especialista.imagenPerfil,
+      Especialidades : this.especialista.especialidades,
     });
 
     this.validarDatoGuardado(documento.ref.id, 'Especialistas');
   }
 
-  validarDatoGuardado(id : string, entidad : string)
+  validarDatoGuardado(id : string, coleccion : string)
   {
-    const col = this.firestore.firestore.collection(entidad);
+    const col = this.firestore.firestore.collection(coleccion);
 
     col.get().then((next : any) =>
     {
@@ -98,6 +98,7 @@ export class RegistroComponent {
           exito = true;
           console.log("Información guardada correctamente");//llamar funcion sweetalert
           this.limpiarTextBox();
+          this.reestablecerDatos(); 
         }
       });
 
@@ -106,6 +107,21 @@ export class RegistroComponent {
         console.log("ERROR - No se pudo guardar la información en la base de datos");//llamar funcion sweetalert
       }
     });
+  }
+
+  traerEspecialidades()
+  {
+    const col = this.firestore.collection('Especialidades');
+    col.valueChanges().subscribe((next : any) =>
+    {
+      let result : Array<any> = next;
+      console.log(result);
+      result.forEach(especialidad => 
+        {
+          this.storageEspecialidades.push(especialidad.nombreEspecialidad);
+        }
+      );
+    })
   }
 
   registrar()
@@ -161,6 +177,20 @@ export class RegistroComponent {
     this.mail = '';
     this.password = '';
     this.imgPerfil1 = '';
+    this.imgPerfil2 = '';
+    this.obraSocial = '';
+  }
+
+  reestablecerDatos()
+  {
+    this.nombre = '';
+    this.apellido = '';
+    this.edad = null;
+    this.dni = null;
+    this.mail = '';
+    this.password = '';
+    this.imgPerfil1 = '';
+    this.especialidades = [];
     this.imgPerfil2 = '';
     this.obraSocial = '';
   }

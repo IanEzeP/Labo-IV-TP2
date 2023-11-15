@@ -14,95 +14,65 @@
     <form class="needs-validation" novalidate>
         <div class="row g-3">
             <div class="col-sm-6">
-            <label for="firstName" class="form-label">Nombre</label>
-            <input type="text" class="form-control" name="Nombre" [(ngModel)]="nombre" required>
-                <div class="invalid-feedback">
-                    Valid first name is required.
-                </div>
+                <label for="firstName" class="form-label">Nombre</label>
+                <input type="text" class="form-control" name="Nombre" [(ngModel)]="nombre" required>
             </div>
-
             <div class="col-sm-6">
-            <label for="lastName" class="form-label">Apellido</label>
-            <input type="text" class="form-control" name="Apellido" [(ngModel)]="apellido" required>
-                <div class="invalid-feedback">
-                    Valid last name is required.
-                </div>
+                <label for="lastName" class="form-label">Apellido</label>
+                <input type="text" class="form-control" name="Apellido" [(ngModel)]="apellido" required>
             </div>
-            
             <div class="col-sm-6">
-            <label for="lastName" class="form-label">Edad</label>
-            <input type="number" class="form-control" name="Edad" [(ngModel)]="edad" required>
-                <div class="invalid-feedback">
-                    Valid last name is required.
-                </div>
+                <label for="lastName" class="form-label">Edad</label>
+                <input type="number" class="form-control" name="Edad" [(ngModel)]="edad" required>
             </div>
-
             <div class="col-sm-6">
-            <label for="lastName" class="form-label">DNI</label>
-            <input type="number" class="form-control" name="DNI" [(ngModel)]="dni" required>
-                <div class="invalid-feedback">
-                    Valid last name is required.
-                </div>
+                <label for="lastName" class="form-label">DNI</label>
+                <input type="number" class="form-control" name="DNI" [(ngModel)]="dni" required>
             </div>
-
             <div class="col-sm-6">
-            <label for="lastName" class="form-label">Correo</label>
-            <input type="text" class="form-control" name="Correo" [(ngModel)]="mail" required>
-                <div class="invalid-feedback">
-                    Valid last name is required.
-                </div>
+                <label for="lastName" class="form-label">Correo</label>
+                <input type="text" class="form-control" name="Correo" [(ngModel)]="mail" required>
             </div>
-
             <div class="col-sm-6">
-            <label for="lastName" class="form-label">Contraseña</label>
-            <input type="password" class="form-control" name="Password" [(ngModel)]="password" required>
+                <label for="lastName" class="form-label">Contraseña</label>
+                <input type="password" class="form-control" name="Password" [(ngModel)]="password" required>
                 <div class="invalid-feedback">
                     Podría agregar un boton con el simbolo del ojo para ver la contraseña (cambiar el type="password" a type="text")
                 </div>
             </div>
-
             <div class="col-sm-6">
-            <label for="lastName" class="form-label">Imagen de perfil</label>
-            <input type="text" class="form-control" name="ImgPerfil" [(ngModel)]="imgPerfil1" required>
-                <div class="invalid-feedback">
-                    Valid last name is required.
-                </div>
+                <label for="lastName" class="form-label">Imagen de perfil</label>
+                <input type="text" class="form-control" name="ImgPerfil" [(ngModel)]="imgPerfil1" required>
             </div>
-
             <div col-sm-6 *ngIf="condition; then registrarEspecialista else registrarPaciente"></div>
+
             <ng-template #registrarEspecialista>
-                <div class="col-sm-6">
-                    
-                <label for="lastName" class="form-label">Especialidad</label>
+            <div class="col-sm-6">
+            <label for="lastName" class="form-label">Especialidad</label>
                 <ol>
-                    <li *ngFor="let espec of especialidades; index as i">
-                    {{ "Especialidad " + i + ": " + espec }}
+                    <li *ngFor="let espec of storageEspecialidades; index as i">
+                    {{ espec }}
+                    <input type="checkbox" name="{{ espec }}" id="{{ i }}">
+                    </li>
+                    <li>
+                        Agregar especialidad
                     </li>
                 </ol>
                 <input type="text" class="form-control" name="Especialidad" [(ngModel)]="especialidades" required disabled>
-                    <div class="invalid-feedback">
-                        Valid last name is required.
-                    </div>
-                </div>
-
+            </div>
             </ng-template>
+
             <ng-template #registrarPaciente>
-                <div class="col-sm-6">
-                    <label for="lastName" class="form-label">Segunda imagen</label>
-                    <input type="text" class="form-control" name="ImgPerfil2" [(ngModel)]="imgPerfil2" required>
-                    <div class="invalid-feedback">
-                        Valid last name is required.
-                    </div>
-                </div>
-                <div class="col-sm-6">
+            <div class="col-sm-6">
+                <label for="lastName" class="form-label">Segunda imagen</label>
+                <input type="text" class="form-control" name="ImgPerfil2" [(ngModel)]="imgPerfil2" required>
+            </div>
+            <div class="col-sm-6">
                 <label for="lastName" class="form-label">Obra Social</label>
                 <input type="text" class="form-control" name="ObraSocial" [(ngModel)]="obraSocial" required>
-                    <div class="invalid-feedback">
-                        Valid last name is required.
-                    </div>
-                </div>
-
+            </div>
             </ng-template>
+
         </div>
         <button class="btn btn-primary btn-lg" (click)="registrar()">REGISTRAR</button>
     </form>
