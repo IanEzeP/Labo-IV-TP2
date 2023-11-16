@@ -1,0 +1,74 @@
+
+<div *ngIf="condition; then conditionTrue else conditionFalse"></div>
+<ng-template #conditionTrue>
+    <P>Para registrar un Paciente clickea acá</P><button (click)="cambiarEstado()">PACIENTES</button>
+    <p>REGISTRAR ESPECIALISTA</p>
+</ng-template>
+<ng-template #conditionFalse>
+    <P>Para registrar un Especialista clickea acá</P><button (click)="cambiarEstado()">ESPECIALISTAS</button>
+    <p>REGISTRAR PACIENTE</p>
+</ng-template>
+
+<div class="row g-5">
+<div class="col-md-12 col-lg-8">
+    <form class="needs-validation" novalidate>
+        <div class="row g-3">
+            <div class="col-sm-6">
+                <label for="firstName" class="form-label">Nombre</label>
+                <input type="text" class="form-control" name="Nombre" [(ngModel)]="nombre" required>
+            </div>
+            <div class="col-sm-6">
+                <label for="lastName" class="form-label">Apellido</label>
+                <input type="text" class="form-control" name="Apellido" [(ngModel)]="apellido" required>
+            </div>
+            <div class="col-sm-6">
+                <label for="lastName" class="form-label">Edad</label>
+                <input type="number" class="form-control" name="Edad" [(ngModel)]="edad" required>
+            </div>
+            <div class="col-sm-6">
+                <label for="lastName" class="form-label">DNI</label>
+                <input type="number" class="form-control" name="DNI" [(ngModel)]="dni" required>
+            </div>
+            <div class="col-sm-6">
+                <label for="lastName" class="form-label">Correo</label>
+                <input type="text" class="form-control" name="Correo" [(ngModel)]="mail" required>
+            </div>
+            <div class="col-sm-6">
+                <label for="lastName" class="form-label">Contraseña</label>
+                <input type="password" class="form-control" name="Password" [(ngModel)]="password" required>
+                <div class="invalid-feedback">
+                    Podría agregar un boton con el simbolo del ojo para ver la contraseña (cambiar el type="password" a type="text")
+                </div>
+            </div>
+            <div class="col-sm-6">
+                <label for="lastName" class="form-label">Imagen de perfil</label>
+                <input type="file" class="form-control" name="ImgPerfil" [(ngModel)]="imgPerfil1" required>
+            </div>
+            <div col-sm-6 *ngIf="condition; then registrarEspecialista else registrarPaciente"></div>
+
+            <ng-template #registrarEspecialista>
+            <div class="col-sm-6">
+            <label for="lastName" class="form-label">Especialidad</label>
+                <app-especialidades [listaEspecialidades]="storageEspecialidades"
+                (especialidadesSeleccionadasEvent)="atraparEspecialidades($event)"
+                ></app-especialidades>
+                <input type="text" class="form-control" name="Especialidad" [(ngModel)]="especialidades" required disabled>
+            </div>
+            </ng-template>
+
+            <ng-template #registrarPaciente>
+            <div class="col-sm-6">
+                <label for="lastName" class="form-label">Segunda imagen</label>
+                <input type="file" class="form-control" name="ImgPerfil2" [(ngModel)]="imgPerfil2" required>
+            </div>
+            <div class="col-sm-6">
+                <label for="lastName" class="form-label">Obra Social</label>
+                <input type="text" class="form-control" name="ObraSocial" [(ngModel)]="obraSocial" required>
+            </div>
+            </ng-template>
+
+        </div>
+        <button class="btn btn-primary btn-lg" (click)="registrar()">REGISTRAR</button>
+    </form>
+</div>
+</div>
