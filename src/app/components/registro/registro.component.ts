@@ -23,15 +23,14 @@ export class RegistroComponent {
   dni = null;
   mail = '';
   password = '';
-  imgPerfil1 = ''; //Tipo File?
+  imgPerfil1 : any = ''; //Tipo File?
 
   //Para especialista
   storageEspecialidades : Array<string> = [];
   especialidades : Array<string> = [];
-  //CREAR FUNCION TRAER ESPECIALIDADES
 
   //Para paciente
-  imgPerfil2 = '';
+  imgPerfil2 : any = '';
   obraSocial = '';
 
   constructor(private firestore : AngularFirestore)
@@ -39,9 +38,7 @@ export class RegistroComponent {
     this.traerEspecialidades();
   }
 
-  
-
-  guardarPaciente() 
+  guardarPaciente()
   {
     const documento = this.firestore.doc('Pacientes/' + this.firestore.createId());
 
@@ -62,7 +59,7 @@ export class RegistroComponent {
     this.validarDatoGuardado(documento.ref.id, 'Pacientes');
   }
 
-  guardarEspecialista() 
+  guardarEspecialista()
   {
     const documento = this.firestore.doc('Especialistas/' + this.firestore.createId());
 
@@ -91,14 +88,14 @@ export class RegistroComponent {
       let result : Array<any> = next;
       let exito = false;
 
-      result.forEach(obj => 
+      result.forEach(obj =>
       {
         if(id == obj.id)
         {
           exito = true;
           console.log("Información guardada correctamente");//llamar funcion sweetalert
           this.limpiarTextBox();
-          this.reestablecerDatos(); 
+          this.reestablecerDatos();
         }
       });
 
@@ -116,12 +113,17 @@ export class RegistroComponent {
     {
       let result : Array<any> = next;
       console.log(result);
-      result.forEach(especialidad => 
+      result.forEach(especialidad =>
         {
           this.storageEspecialidades.push(especialidad.nombreEspecialidad);
         }
       );
     })
+  }
+
+  atraparEspecialidades(especialidades : Array<string>)
+  {
+    this.especialidades = especialidades;
   }
 
   registrar()

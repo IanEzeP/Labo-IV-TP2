@@ -10,8 +10,8 @@ la duracion segun su especialidad).
 * Hay un sector dentro de la clinica que se encarga de la organizacion y administracion de la misma.
 
 Objetivos:
-Tener la posibilidad de registrarse, ingresar al sistema y administrar los usuarios 
-que van a poder utilizar nuestra plataforma. 
+Tener la posibilidad de registrarse, ingresar al sistema y administrar los usuarios
+que van a poder utilizar nuestra plataforma.
 
 ● Página de bienvenida
     ○ Tiene que tener los accesos al login y registro del sistema (✔)
@@ -50,7 +50,7 @@ que van a poder utilizar nuestra plataforma.
 
 ● Sección Usuarios
     ○ Esta sección solamente la va a poder ver el usuario con perfil Administrador
-    ○ Además de ver la información de los usuarios, desde esta sección se deberá habilitar o 
+    ○ Además de ver la información de los usuarios, desde esta sección se deberá habilitar o
     inhabilitar el acceso al sistema de los usuarios Especialista.
     ○ También se podrá generar nuevos usuarios, con el mismo requerimiento que en la
     sección registro. Pero desde esta sección se podrá generar un usuario Administrador.
@@ -63,7 +63,7 @@ que van a poder utilizar nuestra plataforma.
         ■ Password
         ■ imágen para su perfil.
 
-●Favicon 
+●Favicon
 ●Subido a la
 Web ✔
 ●Loading
@@ -84,3 +84,13 @@ export const environment = {
         messagingSenderId: '49391722655',
     },
 };
+
+Tips para el login de usuario rapido
+Utilizar componente con Input
+Dentro de ese componente traerme los usuarios (con foto) desde firestore
+Realizar ngFor para generar botones
+Por Output devolver al componente Login el nombre y contraseña,
+para que el usuario haga click a login (Utilizar el evento del boton).
+
+* Cada especialidad debe tener una foto
+* La "nueva especialidad" tiene que tener foto por defecto. Si andamos piola tiene que poder cargar foto junto a la nueva especialidad.

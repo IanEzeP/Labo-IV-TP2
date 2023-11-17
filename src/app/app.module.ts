@@ -14,6 +14,7 @@ import { getFirestore, provideFirestore } from '@angular/fire/firestore';
 import { FIREBASE_OPTIONS } from '@angular/fire/compat';
 import { environment } from 'src/environments/environment.development';
 import { getAuth, provideAuth } from '@angular/fire/auth';
+import { EspecialidadesComponent } from './components/especialidades/especialidades.component';
 
 @NgModule({
   declarations: [
@@ -21,7 +22,8 @@ import { getAuth, provideAuth } from '@angular/fire/auth';
     BienvenidaComponent,
     RegistroComponent,
     LoginComponent,
-    ErrorComponent
+    ErrorComponent,
+    EspecialidadesComponent
   ],
   imports: [
     BrowserModule,

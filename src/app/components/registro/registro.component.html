@@ -1,4 +1,3 @@
-
 <div *ngIf="condition; then conditionTrue else conditionFalse"></div>
 <ng-template #conditionTrue>
     <P>Para registrar un Paciente clickea acá</P><button (click)="cambiarEstado()">PACIENTES</button>
@@ -42,22 +41,16 @@
             </div>
             <div class="col-sm-6">
                 <label for="lastName" class="form-label">Imagen de perfil</label>
-                <input type="text" class="form-control" name="ImgPerfil" [(ngModel)]="imgPerfil1" required>
+                <input type="file" class="form-control" name="ImgPerfil" [(ngModel)]="imgPerfil1" required>
             </div>
             <div col-sm-6 *ngIf="condition; then registrarEspecialista else registrarPaciente"></div>
 
             <ng-template #registrarEspecialista>
             <div class="col-sm-6">
             <label for="lastName" class="form-label">Especialidad</label>
-                <ol>
-                    <li *ngFor="let espec of storageEspecialidades; index as i">
-                    {{ espec }}
-                    <input type="checkbox" name="{{ espec }}" id="{{ i }}">
-                    </li>
-                    <li>
-                        Agregar especialidad
-                    </li>
-                </ol>
+                <app-especialidades [listaEspecialidades]="storageEspecialidades"
+                (especialidadesSeleccionadasEvent)="atraparEspecialidades($event)"
+                ></app-especialidades>
                 <input type="text" class="form-control" name="Especialidad" [(ngModel)]="especialidades" required disabled>
             </div>
             </ng-template>
@@ -65,7 +58,7 @@
             <ng-template #registrarPaciente>
             <div class="col-sm-6">
                 <label for="lastName" class="form-label">Segunda imagen</label>
-                <input type="text" class="form-control" name="ImgPerfil2" [(ngModel)]="imgPerfil2" required>
+                <input type="file" class="form-control" name="ImgPerfil2" [(ngModel)]="imgPerfil2" required>
             </div>
             <div class="col-sm-6">
                 <label for="lastName" class="form-label">Obra Social</label>
