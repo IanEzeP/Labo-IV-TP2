@@ -94,7 +94,6 @@ export class RegistroComponent {
         {
           exito = true;
           console.log("Información guardada correctamente");//llamar funcion sweetalert
-          this.limpiarTextBox();
           this.reestablecerDatos();
         }
       });
@@ -169,20 +168,7 @@ export class RegistroComponent {
 
     this.guardarPaciente();
   }
-
-  limpiarTextBox()
-  {
-    this.nombre = '';
-    this.apellido = '';
-    this.edad = null;
-    this.dni = null;
-    this.mail = '';
-    this.password = '';
-    this.imgPerfil1 = '';
-    this.imgPerfil2 = '';
-    this.obraSocial = '';
-  }
-
+  
   reestablecerDatos()
   {
     this.nombre = '';
@@ -201,6 +187,6 @@ export class RegistroComponent {
   {
     this.condition = !this.condition;
 
-    this.limpiarTextBox();
+    this.reestablecerDatos();
   }
 }

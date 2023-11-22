@@ -32,7 +32,8 @@ import { EspecialidadesComponent } from './components/especialidades/especialida
     HttpClientModule,
     provideFirebaseApp(() => initializeApp({"projectId":"hostingclinicatp","appId":"1:49391722655:web:72ce4561ca8998cb29c2aa","storageBucket":"hostingclinicatp.appspot.com","apiKey":"AIzaSyB9vAWYRT-QyORlCo40_9SNl44pUnyjIU0","authDomain":"hostingclinicatp.firebaseapp.com","messagingSenderId":"49391722655"})),
     provideFirestore(() => getFirestore()),
-    provideAuth(() => getAuth())
+    provideAuth(() => getAuth()),
+    provideFirebaseApp(() => initializeApp({"projectId":"hostingclinicatp","appId":"1:49391722655:web:72ce4561ca8998cb29c2aa","storageBucket":"hostingclinicatp.appspot.com","locationId":"us-central","apiKey":"AIzaSyB9vAWYRT-QyORlCo40_9SNl44pUnyjIU0","authDomain":"hostingclinicatp.firebaseapp.com","messagingSenderId":"49391722655"}))
   ],
   providers: [{ provide: FIREBASE_OPTIONS, useValue: {"projectId":"hostingclinicatp","appId":"1:49391722655:web:72ce4561ca8998cb29c2aa","storageBucket":"hostingclinicatp.appspot.com","apiKey":"AIzaSyB9vAWYRT-QyORlCo40_9SNl44pUnyjIU0","authDomain":"hostingclinicatp.firebaseapp.com","messagingSenderId":"49391722655"} }],
   //providers: [{ provide: FIREBASE_OPTIONS, useValue: environment.firebase }],
