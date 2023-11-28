@@ -41,14 +41,15 @@
             </div>
             <div class="col-sm-6">
                 <label for="lastName" class="form-label">Imagen de perfil</label>
-                <input type="file" class="form-control" name="ImgPerfil" [(ngModel)]="imgPerfil1" required>
+                <input type="file" class="form-control" name="ImgPerfil" (change)="onFileChange1($event)" required>
             </div>
             <div col-sm-6 *ngIf="condition; then registrarEspecialista else registrarPaciente"></div>
 
             <ng-template #registrarEspecialista>
             <div class="col-sm-6">
             <label for="lastName" class="form-label">Especialidad</label>
-                <app-especialidades [listaEspecialidades]="storageEspecialidades"
+                <app-especialidades 
+                [listaEspecialidades]="storageEspecialidades"
                 (especialidadesSeleccionadasEvent)="atraparEspecialidades($event)"
                 ></app-especialidades>
                 <input type="text" class="form-control" name="Especialidad" [(ngModel)]="especialidades" required disabled>
@@ -58,7 +59,7 @@
             <ng-template #registrarPaciente>
             <div class="col-sm-6">
                 <label for="lastName" class="form-label">Segunda imagen</label>
-                <input type="file" class="form-control" name="ImgPerfil2" [(ngModel)]="imgPerfil2" required>
+                <input type="file" class="form-control" name="ImgPerfil2" (change)="onFileChange2($event)" required>
             </div>
             <div class="col-sm-6">
                 <label for="lastName" class="form-label">Obra Social</label>

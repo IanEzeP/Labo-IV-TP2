@@ -63,7 +63,7 @@ que van a poder utilizar nuestra plataforma.
         ■ Password
         ■ imágen para su perfil.
 
-●Favicon
+●Favicon ✔
 ●Subido a la
 Web ✔
 ●Loading
@@ -93,4 +93,4 @@ Por Output devolver al componente Login el nombre y contraseña,
 para que el usuario haga click a login (Utilizar el evento del boton).
 
 * Cada especialidad debe tener una foto
-* La "nueva especialidad" tiene que tener foto por defecto. Si andamos piola tiene que poder cargar foto junto a la nueva especialidad.
+* La "nueva especialidad" tiene que tener foto por defecto.
