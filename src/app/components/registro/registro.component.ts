@@ -27,7 +27,7 @@ export class RegistroComponent implements OnInit{
 
   //Para especialista
   storageEspecialidades : Array<string> = [];
-  especialidades : Array<string> = [];
+  especialidad : string = '';
 
   //Para paciente
   imgPerfil2 = '';
@@ -61,7 +61,7 @@ export class RegistroComponent implements OnInit{
 
   registrar()
   {
-    if(this.condition && this.especialidades.length > 0)
+    if(this.condition && this.especialidad != '')
     {
       this.registrarEspecialista();
     }
@@ -82,7 +82,7 @@ export class RegistroComponent implements OnInit{
     this.especialista.dni = this.dni!;
     this.especialista.mail = this.mail;
     this.especialista.password = this.password;
-    this.especialista.especialidades = this.especialidades;
+    this.especialista.especialidades.push(this.especialidad);
 
     this.guardarEspecialista();
   }
@@ -172,9 +172,9 @@ export class RegistroComponent implements OnInit{
     });
   }
 
-  atraparEspecialidades(especialidades : Array<string>)
+  atraparEspecialidades(especialidad : string)
   {
-    this.especialidades = especialidades;
+    this.especialidad = especialidad;
   }
 
   onFileChange1($event : any) //Para foto (paciente y especialista)
@@ -236,7 +236,7 @@ export class RegistroComponent implements OnInit{
     this.mail = '';
     this.password = '';
     this.imgPerfil1 = '';
-    this.especialidades = [];
+    this.especialidad = '';
     this.imgPerfil2 = '';
     this.obraSocial = '';
     this.imgFile1 = null;

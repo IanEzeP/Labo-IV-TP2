@@ -18,6 +18,7 @@ import { EspecialidadesComponent } from './components/especialidades/especialida
 
 import { AngularFireModule } from '@angular/fire/compat';
 import { AngularFireStorageModule } from "@angular/fire/compat/storage";
+import { NavigatorComponent } from './components/navigator/navigator.component';
 
 @NgModule({
   declarations: [
@@ -26,7 +27,8 @@ import { AngularFireStorageModule } from "@angular/fire/compat/storage";
     RegistroComponent,
     LoginComponent,
     ErrorComponent,
-    EspecialidadesComponent
+    EspecialidadesComponent,
+    NavigatorComponent
   ],
   imports: [
     BrowserModule,
@@ -41,7 +43,6 @@ import { AngularFireStorageModule } from "@angular/fire/compat/storage";
     provideFirebaseApp(() => initializeApp({"projectId":"hostingclinicatp","appId":"1:49391722655:web:72ce4561ca8998cb29c2aa","storageBucket":"hostingclinicatp.appspot.com","apiKey":"AIzaSyB9vAWYRT-QyORlCo40_9SNl44pUnyjIU0","authDomain":"hostingclinicatp.firebaseapp.com","messagingSenderId":"49391722655"}))
   ],//"locationId":"us-central"
   providers: [{ provide: FIREBASE_OPTIONS, useValue: {"projectId":"hostingclinicatp","appId":"1:49391722655:web:72ce4561ca8998cb29c2aa","storageBucket":"hostingclinicatp.appspot.com","apiKey":"AIzaSyB9vAWYRT-QyORlCo40_9SNl44pUnyjIU0","authDomain":"hostingclinicatp.firebaseapp.com","messagingSenderId":"49391722655"} }],
-  //providers: [{ provide: FIREBASE_OPTIONS, useValue: environment.firebase }],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

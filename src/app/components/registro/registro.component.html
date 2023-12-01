@@ -50,9 +50,9 @@
             <label for="lastName" class="form-label">Especialidad</label>
                 <app-especialidades 
                 [listaEspecialidades]="storageEspecialidades"
-                (especialidadesSeleccionadasEvent)="atraparEspecialidades($event)"
+                (especialidadSeleccionadaEvent)="atraparEspecialidades($event)"
                 ></app-especialidades>
-                <input type="text" class="form-control" name="Especialidad" [(ngModel)]="especialidades" required disabled>
+                <input type="text" class="form-control" name="Especialidad" [(ngModel)]="especialidad" required disabled>
             </div>
             </ng-template>
 

@@ -94,3 +94,11 @@ para que el usuario haga click a login (Utilizar el evento del boton).
 
 * Cada especialidad debe tener una foto
 * La "nueva especialidad" tiene que tener foto por defecto.
+
+
+
+
+Posibilidades:
+
+-Lo que sea del sprint 2 y sprint 3 de la Clínica para la proxima semana,
+cosa que vean que trabajé y que en ese día me den las correciones necesarias y entregar, para la otra semana el sprint 4.

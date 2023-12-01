@@ -1,15 +1,13 @@
 <ol>
     <li *ngFor="let especialidad of listaEspecialidades; index as i" >
-      <div class="" (click)="seleccionarEspecialidades(especialidad)">
+      <button class="" (click)="seleccionarEspecialidad(especialidad)">
         <span>{{ especialidad }}</span>
         <img src="../../../assets/traumatologo.png" style="width: 40px; height: 40px;">
-      </div>
+      </button>
     </li>
-    <!--
     <li>
-      <div class="" (click)="agregarEspecialidad()">
+      <button class="" (click)="agregarEspecialidad()">
         <span>Agregar nueva especialidad</span>
-        <img src="" alt="">
-      </div>
-    </li>-->
+      </button>
+    </li>
 </ol>
