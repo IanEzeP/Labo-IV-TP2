@@ -1,5 +1,5 @@
 export const environment = {
-    firebaseConfig : {
+    firebase : {
         apiKey: "AIzaSyB9vAWYRT-QyORlCo40_9SNl44pUnyjIU0",
         authDomain: "hostingclinicatp.firebaseapp.com",
         projectId: "hostingclinicatp",

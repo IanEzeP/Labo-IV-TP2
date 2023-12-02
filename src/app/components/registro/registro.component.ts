@@ -3,8 +3,11 @@ import { Pacientes } from 'src/app/classes/pacientes';
 import { Especialistas } from 'src/app/classes/especialistas';
 import { AngularFirestore } from '@angular/fire/compat/firestore';
 import { AngularFireStorage } from '@angular/fire/compat/storage';
+import { AlertasService } from 'src/app/servicios/alerta.service';
+import { DatabaseService } from 'src/app/servicios/database.service';
 //import { collection } from '@angular/fire/firestore';
-import { Usuario } from 'src/app/classes/usuario';
+//import { Usuario } from 'src/app/classes/usuario';
+
 @Component({
   selector: 'app-registro',
   templateUrl: './registro.component.html',
@@ -37,7 +40,10 @@ export class RegistroComponent implements OnInit{
   imgFile1 : any;
   imgFile2 : any;
 
-  constructor(private firestore : AngularFirestore, private firestorage : AngularFireStorage) {}
+  constructor(private firestore: AngularFirestore, private firestorage: AngularFireStorage, private alertas: AlertasService, private database: DatabaseService)
+  {
+
+  }
 
   ngOnInit(): void 
   {
@@ -49,8 +55,9 @@ export class RegistroComponent implements OnInit{
     const col = this.firestore.collection('Especialidades');
     col.valueChanges().subscribe((next : any) =>
     {
+      this.storageEspecialidades = [];
       let result : Array<any> = next;
-      console.log(result);
+
       result.forEach(especialidad =>
       {
         this.storageEspecialidades.push(especialidad.nombreEspecialidad);
@@ -78,8 +85,8 @@ export class RegistroComponent implements OnInit{
   {
     this.especialista.nombre = this.nombre;
     this.especialista.apellido = this.apellido;
-    this.especialista.edad = this.edad!;
-    this.especialista.dni = this.dni!;
+    this.especialista.edad = this.edad;
+    this.especialista.dni = this.dni;
     this.especialista.mail = this.mail;
     this.especialista.password = this.password;
     this.especialista.especialidades.push(this.especialidad);
@@ -92,7 +99,7 @@ export class RegistroComponent implements OnInit{
     this.paciente.nombre = this.nombre;
     this.paciente.apellido = this.apellido;
     this.paciente.edad = this.edad!;
-    this.paciente.dni = this.dni!;
+    this.paciente.dni = this.dni;
     this.paciente.mail = this.mail;
     this.paciente.password = this.password;
     this.paciente.obraSocial = this.obraSocial;
@@ -102,9 +109,10 @@ export class RegistroComponent implements OnInit{
 
   guardarEspecialista()
   {
-    const documento = this.firestore.doc('Especialistas/' + this.firestore.createId());
+    let coleccion = 'Especialistas';
 
-    this.subirFotoPerfil(documento.ref.id, 'Especialistas', this.imgFile1);
+    const documento = this.firestore.doc(coleccion + '/' + this.firestore.createId());
+    this.subirFotoPerfil(documento.ref.id, coleccion, this.imgFile1);
     
     documento.set(
     {
@@ -124,10 +132,12 @@ export class RegistroComponent implements OnInit{
 
   guardarPaciente()
   {
-    const documento = this.firestore.doc('Pacientes/' + this.firestore.createId());
+    let coleccion = 'Pacientes';
 
-    this.subirFotoPerfil(documento.ref.id, 'Pacientes', this.imgFile1);
-    this.subirFotoPerfil(documento.ref.id, 'Pacientes', this.imgFile2);
+    const documento = this.firestore.doc(coleccion + '/' + this.firestore.createId());
+
+    this.subirFotoPerfil(documento.ref.id, coleccion, this.imgFile1);
+    this.subirFotoPerfil(documento.ref.id, coleccion, this.imgFile2);
     
     documento.set(
     {
@@ -160,14 +170,14 @@ export class RegistroComponent implements OnInit{
         if(id == obj.id)
         {
           exito = true;
-          console.log("Información guardada correctamente");//llamar funcion sweetalert
+          this.alertas.successAlert("Registro exitoso");
           this.reestablecerDatos();
         }
       });
 
       if(exito == false)
       {
-        console.log("ERROR - No se pudo guardar la información en la base de datos");//llamar funcion sweetalert
+        this.alertas.failureAlert("ERROR - No se pudo registrar su perfil");
       }
     });
   }
@@ -227,7 +237,7 @@ export class RegistroComponent implements OnInit{
     this.reestablecerDatos();
   }
 
-  reestablecerDatos()
+  reestablecerDatos() //Cambia con el los form control
   {
     this.nombre = '';
     this.apellido = '';

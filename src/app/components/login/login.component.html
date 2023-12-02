@@ -1,0 +1,23 @@
+<div>
+    <div>
+        <form action="">
+            <h3>Inicio de sesión</h3>
+            <label for="mail">Correo electrónico</label>
+            <br>
+            <input name="mail" type="email" [(ngModel)]="email">
+            <br>
+            <br>
+            <label for="password">Contraseña</label>
+            <br>
+            <input name="password" type="password" [(ngModel)]="password">
+            <br><br>
+            <button (click)="iniciarSesion()">Iniciar Sesión</button>
+        </form>
+    </div>
+    <div>
+        <footer>
+           <span>Usuarios para acceso rápido...</span>
+            <!-- component-usuariosPreCargados --> 
+        </footer>
+    </div>
+</div>

@@ -11,3 +11,11 @@
       </button>
     </li>
 </ol>
+<div *ngIf="addEspecialidad == true, then conditionTrue else conditionFalse"></div>
+<ng-template #conditionTrue>
+<input type="text" class="form-control" name="Especialidad" [(ngModel)]="especialidad" required>
+<input type="button" value="Agregar" (click)="registrarEspecialidad(especialidad)">
+</ng-template>
+<ng-template #conditionFalse>
+<input type="text" class="form-control" name="Especialidad" [(ngModel)]="especialidad" required disabled>
+</ng-template>

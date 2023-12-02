@@ -38,7 +38,7 @@ que van a poder utilizar nuestra plataforma.
         ■ Mail
         ■ Password
         ■ Imagen de perfil
-        ()
+        (✔)
     ○ Debemos validar los campos según corresponda ()
 ● Login
     ○ Desde esta sección vamos a ingresar al sistema.
@@ -71,19 +71,6 @@ Web ✔
 elementRef.nativeElement.textContent
 elementRef.nativeElement.innerText
 
-#Sobre instalar Firestore:
- - Habilitar Firestore durante la creación (cuando usamos los comandos ng add @angular/fire)
-
-export const environment = {
-    firebase: {
-        projectId: 'hostingclinicatp',
-        appId: '1:49391722655:web:72ce4561ca8998cb29c2aa',
-        storageBucket: 'hostingclinicatp.appspot.com',
-        apiKey: 'AIzaSyB9vAWYRT-QyORlCo40_9SNl44pUnyjIU0',
-        authDomain: 'hostingclinicatp.firebaseapp.com',
-        messagingSenderId: '49391722655',
-    },
-};
 
 Tips para el login de usuario rapido
 Utilizar componente con Input
@@ -96,9 +83,7 @@ para que el usuario haga click a login (Utilizar el evento del boton).
 * La "nueva especialidad" tiene que tener foto por defecto.
 
 
-
-
 Posibilidades:
 
 -Lo que sea del sprint 2 y sprint 3 de la Clínica para la proxima semana,
-cosa que vean que trabajé y que en ese día me den las correciones necesarias y entregar, para la otra semana el sprint 4.
+cosa que vean que trabajé y que en ese día me den las correciones necesarias y entregar para la otra semana el sprint 4.
