@@ -8,6 +8,15 @@ export class AlertasService {
 
   constructor() { }
 
+  public sweetAlert(titulo: string, mensaje: string, icono: any)
+  {
+    return Swal.fire({
+      title: titulo,
+      text: mensaje,
+      icon: icono,
+    });
+  }
+
   public successToast(mensaje : string) : void
   {
     Swal.fire(

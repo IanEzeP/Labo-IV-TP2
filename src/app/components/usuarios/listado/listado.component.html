@@ -1,0 +1,20 @@
+<div style="display: flex; justify-content: center;">
+
+<div class="col-md-6">
+    <div class="overflow-auto" style="max-height: 550px;">
+    <app-pacientes
+    [listaPacientes]="arrayPac"
+    (PacienteSeleccionadoEvent)="detallarPaciente($event)"
+    ></app-pacientes>
+    </div>
+</div>
+<div class="col-md-6">
+<!-- Esto vamos a hacerlo a mano, cuando pueda discriminar roles por codigo lo pasamos a un componente nuevo-->
+    <div>
+        <app-detalle
+        [paciente]="paciente"
+        [condition]="datoObtenido"
+        ></app-detalle>
+    </div>
+</div>
+</div>

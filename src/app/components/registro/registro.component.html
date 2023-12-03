@@ -1,11 +1,11 @@
 <div *ngIf="condition; then conditionTrue else conditionFalse"></div>
 <ng-template #conditionTrue>
     <P>Para registrar un Paciente clickea acá</P><button (click)="cambiarEstado()">PACIENTES</button>
-    <p>REGISTRAR ESPECIALISTA</p>
+    <h2>REGISTRAR ESPECIALISTA</h2>
 </ng-template>
 <ng-template #conditionFalse>
     <P>Para registrar un Especialista clickea acá</P><button (click)="cambiarEstado()">ESPECIALISTAS</button>
-    <p>REGISTRAR PACIENTE</p>
+    <h2>REGISTRAR PACIENTE</h2>
 </ng-template>
 
 <div class="row g-5">

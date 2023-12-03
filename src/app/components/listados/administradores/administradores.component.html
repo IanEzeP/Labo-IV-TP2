@@ -1,0 +1,20 @@
+<table [cellPadding]="12">
+    <th>
+        ID
+    </th>
+    <th>
+        NOMBRE
+    </th>
+    <th>
+        CORREO
+    </th>
+    <tr *ngFor="let admin of listaAdministradores;" >
+        <td> {{ admin.id }} </td>
+        <td> {{ admin.nombre }} {{ admin.apellido }} </td>
+        <td> {{ admin.mail }} </td>
+        <td>
+            <button class="btn btn-primary" (click)="seleccionarAdministrador(admin)">VER DETALLE</button>
+        </td>
+    </tr>
+    
+</table>

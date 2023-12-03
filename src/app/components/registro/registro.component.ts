@@ -4,9 +4,7 @@ import { Especialistas } from 'src/app/classes/especialistas';
 import { AngularFirestore } from '@angular/fire/compat/firestore';
 import { AngularFireStorage } from '@angular/fire/compat/storage';
 import { AlertasService } from 'src/app/servicios/alerta.service';
-import { DatabaseService } from 'src/app/servicios/database.service';
-//import { collection } from '@angular/fire/firestore';
-//import { Usuario } from 'src/app/classes/usuario';
+import { AuthService } from 'src/app/servicios/auth.service';
 
 @Component({
   selector: 'app-registro',
@@ -14,6 +12,7 @@ import { DatabaseService } from 'src/app/servicios/database.service';
   styleUrls: ['./registro.component.css']
 })
 export class RegistroComponent implements OnInit{
+
 
   condition = true;
 
@@ -40,7 +39,8 @@ export class RegistroComponent implements OnInit{
   imgFile1 : any;
   imgFile2 : any;
 
-  constructor(private firestore: AngularFirestore, private firestorage: AngularFireStorage, private alertas: AlertasService, private database: DatabaseService)
+  constructor(private firestore: AngularFirestore, private firestorage: AngularFireStorage, 
+    private alertas: AlertasService, private auth: AuthService)
   {
 
   }
@@ -125,8 +125,10 @@ export class RegistroComponent implements OnInit{
       Password : this.especialista.password,
       ImagenPerfil : 'empty',
       Especialidades : this.especialista.especialidades,
+      autorizado: false,
     });
 
+    this.auth.register(this.especialista.mail, this.especialista.password).catch(error => console.log(error));
     this.validarDatoGuardado(documento.ref.id, 'Especialistas');
   }
 
@@ -153,6 +155,7 @@ export class RegistroComponent implements OnInit{
       ObraSocial : this.paciente.obraSocial,
     });
 
+    this.auth.register(this.paciente.mail, this.paciente.password).catch(error => console.log(error));
     this.validarDatoGuardado(documento.ref.id, 'Pacientes');
   }
 
@@ -170,7 +173,9 @@ export class RegistroComponent implements OnInit{
         if(id == obj.id)
         {
           exito = true;
-          this.alertas.successAlert("Registro exitoso");
+          this.alertas.sweetAlert("Registro exitoso",
+           "Hemos enviado un mail de verificación a tu correo electrónico. Es necesario verificarlo antes de que puedas iniciar sesión",
+           'success');
           this.reestablecerDatos();
         }
       });
@@ -237,7 +242,7 @@ export class RegistroComponent implements OnInit{
     this.reestablecerDatos();
   }
 
-  reestablecerDatos() //Cambia con el los form control
+  reestablecerDatos() //Cambia con los form control
   {
     this.nombre = '';
     this.apellido = '';

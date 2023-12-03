@@ -1,0 +1,37 @@
+<h2> Listado de Especialistas </h2>
+<p> Desde esta sección puede autorizar o denegar el acceso de los usuarios Especialistas al sistema.</p>
+
+<table [cellPadding]="12">
+    <th>
+        ID
+    </th>
+    <th>
+        NOMBRE
+    </th>
+    <th>
+        CORREO
+    </th>
+    <th>
+        ESPECIALIDADES
+    </th>
+    <th>
+        ESTADO
+    </th>
+    <tr *ngFor="let especialista of especialistas;" >
+        <td> {{ especialista.id }} </td>
+        <td> {{ especialista.nombre }} {{ especialista.apellido }} </td>
+        <td> {{ especialista.mail }} </td>
+        <td> {{ especialista.especialidades }} </td>
+        <td> {{ especialista.autorizado }} </td>
+        <td>
+        <div *ngIf="especialista.autorizado == true; then showDeshabilitar else showHabilitar"></div>
+        <ng-template #showHabilitar>
+            <button class="btn btn-success" (click)="cambiarAutorizacion(especialista)">HABILITAR ACCESO</button>
+        </ng-template>
+        <ng-template #showDeshabilitar>
+            <button class="btn btn-danger" (click)="cambiarAutorizacion(especialista)">INHABILITAR ACCESO</button>
+        </ng-template>
+        </td>
+    </tr>
+    
+</table>

@@ -28,7 +28,7 @@ export class AuthService {
       //this.userName = await this.data.getUserNameByUID(uid);
       //this.validationState = await this.data.getValidationStateByUID(uid);
       //this.rol = await this.data.getUserRolByEmailOrUserName(emailOrUsername);
-      console.log(credential);
+      //console.log(credential);
       this.logueado = true;
 
       return credential;
@@ -51,7 +51,7 @@ export class AuthService {
     //const userExist = await this.data.userExist(userData['UserName']);
     //if(!userExist)
     //{
-      const userCredential = await createUserWithEmailAndPassword(this.auth, email, password);
+      const userCredential = await createUserWithEmailAndPassword(this.auth, email, password); //Devuelve "algo" con Resolve() y Reject().
       await this.logIn(email, password);
       const user = userCredential.user;
       //const userUID = await this.getUserUid() || '';

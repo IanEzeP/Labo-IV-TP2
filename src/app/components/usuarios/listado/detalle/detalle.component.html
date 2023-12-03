@@ -1,0 +1,15 @@
+<div style="display: flex; justify-content: center;">
+    <div *ngIf="condition"><!-- Hacer que cambie lo que muestra según el rol -->
+        <p> Información: </p>
+        <p> Id: {{ paciente.id }} </p>
+        <p> Nombre: {{ paciente.nombre }} </p>
+        <p> Apellido: {{ paciente.apellido }} </p>
+        <p> Edad: {{ paciente.edad }} </p>
+        <p> DNI: {{ paciente.dni }} </p>
+        <p> Obra Social: {{ paciente.obraSocial }} </p>
+        <p> Email: {{ paciente.mail }} </p>
+        <p> Fotos: </p>
+        <img src="{{ paciente.imagenPerfil }}" width="320" height="320">
+        <img src="{{ paciente.imagenAdicional }}" width="320" height="320">
+    </div>
+</div>

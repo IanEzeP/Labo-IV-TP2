@@ -1,0 +1,20 @@
+<table [cellPadding]="12">
+    <th>
+        ID
+    </th>
+    <th>
+        NOMBRE
+    </th>
+    <th>
+        CORREO
+    </th>
+    <tr *ngFor="let paciente of listaPacientes;" >
+        <td> {{ paciente.id }} </td>
+        <td> {{ paciente.nombre }} {{ paciente.apellido }} </td>
+        <td> {{ paciente.mail }} </td>
+        <td>
+            <button class="btn btn-primary" (click)="seleccionarPaciente(paciente)">VER DETALLE</button>
+        </td>
+    </tr>
+    
+</table>

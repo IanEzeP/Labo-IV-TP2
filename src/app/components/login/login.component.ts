@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 import { AngularFirestore } from '@angular/fire/compat/firestore';
 import { AuthService } from '../../servicios/auth.service';
 import { AlertasService } from 'src/app/servicios/alerta.service';
+import { DatabaseService } from 'src/app/servicios/database.service';
 
 @Component({
   selector: 'app-login',
@@ -23,7 +24,7 @@ export class LoginComponent implements OnInit {
   */
   arrayUsuario : Array<Usuario> = [];
 
-  constructor(private firestore : AngularFirestore, private router: Router, private auth: AuthService, private alertas: AlertasService) { }
+  constructor(private firestore : AngularFirestore, private router: Router, private auth: AuthService, private alertas: AlertasService, private data: DatabaseService) { }
 
   ngOnInit(): void 
   {
@@ -38,7 +39,7 @@ export class LoginComponent implements OnInit {
     })
   }
 
-  cargarArrayUsuario(array : Array<any>)
+  cargarArrayUsuario(array : Array<any>) //Revisitar... para el login no lo veo necesario, pero puede ayudar para el inicio rápido
   {
     this.arrayUsuario = [];
     array.forEach(obj => {
@@ -55,38 +56,67 @@ export class LoginComponent implements OnInit {
     });
   }
 
-  iniciarSesion()
+  async validarSesion()
   {
-    if(this.validarSesion())
-    {
-      this.alertas.successToast("Sesion iniciada correctamente!");
-      this.router.navigateByUrl('/home');
-    }
-    else
-    {
-      this.alertas.failureAlert("Datos de inicio de sesion incorrectos.");
-    }
-  }
+    let usuario : Usuario = new Usuario();
+    usuario.mail = this.email;
+    usuario.password = this.password;
 
-  validarSesion() : boolean
-  {
-    let result : boolean = false;
-
-    for (let i = 0; i < this.arrayUsuario.length; i++) 
-    {
-      if((this.email === this.arrayUsuario[i].mail) && (this.password === this.arrayUsuario[i].password))
+    await this.login(usuario).then(res => {
+      
+      if(res!.user.emailVerified)
       {
-        result = true;
-        this.login(this.arrayUsuario[i]);
-        break;
+        this.alertas.successToast("Sesion iniciada correctamente!");
+        this.router.navigateByUrl('/home');
       }
-    }
+      else
+      {
+        this.alertas.failureAlert("Debe verificar su email para iniciar sesión.");
+      }  
+      
+      
+      
+      
+      
+      /*
+      const result = this.data.traerRol(res!.user.email || '');
 
-    return result;
+      result.then(rol => {
+        if(rol != 'NF' && rol != '')
+        {
+          if(res!.user.emailVerified)
+          {
+            this.auth.rol = rol; 
+            if(rol == 'especialista')
+            {
+              //Espera permiso de ingreso.
+              this.alertas.successToast("Acceso concedido. Sesion iniciada correctamente!");
+              this.router.navigateByUrl('/home');
+            }
+            else
+            {
+              this.alertas.successToast("Sesion iniciada correctamente!");
+              this.router.navigateByUrl('/home');
+            }
+          }
+          else
+          {
+            this.alertas.failureAlert("Debe verificar su email para iniciar sesión.");
+          }
+        }
+        else
+        {
+          this.alertas.failureAlert("Traer Rol devolvió NF o nada... chequear");
+        }
+      })*/
+    })
+    .catch(error => {
+      this.alertas.failureAlert("Datos de inicio de sesion incorrectos.");
+    });
   }
 
-  login(usuario : Usuario)
+  login(usuario : Usuario) //Por el momento es innecesaria
   {
-    this.auth.logIn(usuario.mail, usuario.password);
+    return this.auth.logIn(usuario.mail, usuario.password);
   }
 }

@@ -24,6 +24,16 @@ import { AlertasService } from './servicios/alerta.service';
 import { DatabaseService } from './servicios/database.service';
 import { AuthService } from './servicios/auth.service';
 import { AccessUsersComponent } from './components/login/access-users/access-users.component';
+import { LoadingComponent } from './components/loading/loading.component';
+import { VerificarComponent } from './components/registro/verificar/verificar.component';
+import { UsuariosComponent } from './components/usuarios/usuarios.component';
+import { ListadoComponent } from './components/usuarios/listado/listado.component';
+import { ManejarAccesoComponent } from './components/usuarios/manejar-acceso/manejar-acceso.component';
+import { RegistrarComponent } from './components/usuarios/registrar/registrar.component';
+import { AdministradoresComponent } from './components/listados/administradores/administradores.component';
+import { EspecialistasComponent } from './components/listados/especialistas/especialistas.component';
+import { PacientesComponent } from './components/listados/pacientes/pacientes.component';
+import { DetalleComponent } from './components/usuarios/listado/detalle/detalle.component';
 
 @NgModule({
   declarations: [
@@ -34,7 +44,17 @@ import { AccessUsersComponent } from './components/login/access-users/access-use
     ErrorComponent,
     EspecialidadesComponent,
     NavigatorComponent,
-    AccessUsersComponent
+    AccessUsersComponent,
+    LoadingComponent,
+    VerificarComponent,
+    UsuariosComponent,
+    ListadoComponent,
+    ManejarAccesoComponent,
+    RegistrarComponent,
+    AdministradoresComponent,
+    EspecialistasComponent,
+    PacientesComponent,
+    DetalleComponent
   ],
   imports: [
     BrowserModule,

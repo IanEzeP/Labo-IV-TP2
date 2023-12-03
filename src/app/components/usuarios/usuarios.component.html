@@ -1,0 +1,23 @@
+<div style="display: flex; justify-content: center;">
+    <div class="col-md-4">
+    <button class="btn-success" (click)="onConsultarClick()">
+        <p>Consultar información de usuarios</p>
+    </button>
+    </div>
+    <div class="col-md-4">
+    <button class=" btn-warning" (click)="onHabilitarClick()">
+        <p>Habilitar o Inhabilitar acceso a Especialistas</p>
+    </button>
+    </div>
+    <div class="col-md-4" (click)="onRegistrarClick()">
+    <button class="btn-primary">
+        <p>Alta de nuevos Admin</p>
+    </button>
+    </div>
+    
+</div>
+<div class="container">
+    <app-listado *ngIf="showListado"></app-listado>
+    <app-manejar-acceso *ngIf="showAcceso"></app-manejar-acceso>
+    <app-registrar *ngIf="showRegistro"></app-registrar>
+</div>

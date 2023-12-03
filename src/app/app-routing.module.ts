@@ -4,12 +4,14 @@ import { BienvenidaComponent } from './components/bienvenida/bienvenida.componen
 import { LoginComponent } from './components/login/login.component';
 import { RegistroComponent } from './components/registro/registro.component';
 import { ErrorComponent } from './components/error/error.component';
+import { UsuariosComponent } from './components/usuarios/usuarios.component';
 
 const routes: Routes = [
   { path: 'home', component: BienvenidaComponent},
   { path: '', redirectTo: 'home', pathMatch: 'full'},
   { path: 'login', component: LoginComponent},
   { path: 'registro', component: RegistroComponent},
+  { path: 'usuarios', component: UsuariosComponent}, 
   { path: '**', component: ErrorComponent},
 ];
 

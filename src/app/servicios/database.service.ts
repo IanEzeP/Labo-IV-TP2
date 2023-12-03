@@ -1,13 +1,20 @@
-import { Injectable } from '@angular/core';
+import { Injectable, OnInit } from '@angular/core';
 import { AngularFirestore } from '@angular/fire/compat/firestore';
 import { AngularFireStorage } from '@angular/fire/compat/storage';
+import { Usuario } from '../classes/usuario';
+import { Pacientes } from '../classes/pacientes';
+import { Especialistas } from '../classes/especialistas';
 
 @Injectable({
   providedIn: 'root'
 })
-export class DatabaseService {
+export class DatabaseService implements OnInit{
 
   constructor(private firestore: AngularFirestore, private firestorage: AngularFireStorage) { }
+  
+  ngOnInit(): void 
+  {
+  }
 
   validarDatoGuardado(id : string, coleccion : string)
   {
@@ -38,9 +45,68 @@ export class DatabaseService {
           break;
         }
       }*/
-  traerUnDato(coleccion: string, id: string)
+  traerUnDocumento(coleccion: string, id: string)
   {
     const documento = this.firestore.doc(coleccion + '/' + id);
     return documento.get();
   }
+
+  getCollectionObservable(coleccion : string)
+  {
+    return this.firestore.collection(coleccion).valueChanges();
+  }
+
+  async traerRol(email : string)
+  {
+    let rol : string = 'NF';
+
+    const col = this.firestore.collection('Administradores');
+    col.valueChanges().subscribe((docs : any) => {
+      let arrayAdmin : Array<any> = docs;
+      arrayAdmin.forEach(element => {
+        if(email == element.Mail)
+        {
+          console.log("Coincidencia en Administradores");
+          rol = 'administrador';
+        }
+      });
+    });
+    if(rol == 'NF')
+    {
+      const col = this.firestore.collection('Pacientes');
+      col.valueChanges().subscribe((docs : any) => {
+        let arrayAdmin : Array<any> = docs;
+        arrayAdmin.forEach(element => {
+          if(email == element.Mail)
+          {
+          console.log("Coincidencia en Pacientes");
+
+            rol = 'paciente';
+          }
+        });
+      });
+    }
+    if(rol == 'NF')
+    {
+        const col = this.firestore.collection('Especialistas');
+        col.valueChanges().subscribe((docs : any) => {
+        let arrayAdmin : Array<any> = docs;
+        arrayAdmin.forEach(element => {
+          if(email == element.Mail)
+          {
+            rol = 'especialista';
+          console.log(rol);
+          }
+        });
+      });
+    }
+    console.log(rol);
+
+    return rol;
+  }
+  /**
+   * Bueno Ian, esto no funciona porque subscribe se ejecuta asincronicamente pero no hace caso al 'await'
+   * Tenemos que encontrar la vuelta para sacar el rol de quien se esta intentando loguear.
+   * Añadir el rol a cada documento no le veo el sentido hoy.
+   */
 }
