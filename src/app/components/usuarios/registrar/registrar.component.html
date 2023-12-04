@@ -1,1 +1,126 @@
-<p>registrar works!</p>
+<h2>REGISTRAR USUARIO ADMINISTRADOR</h2>
+
+<div class="row g-5">
+<div class="col-md-12 col-lg-8">
+    <form class="needs-validation" [formGroup]="formRegistro">
+        <div class="row g-3">
+            <div class="col-sm-6">
+                <label for="nombre" class="form-label">Nombre</label>
+                <input type="text" class="form-control" id="nombre" formControlName="nombre">
+                <ul class="list-group" *ngIf="this.formRegistro.controls['nombre'].errors != null && this.formRegistro.controls['nombre'].touched">
+                    <li *ngIf="this.formRegistro.controls['nombre'].errors!['required']">
+                        Este campo no puede estar vacío.
+                    </li>
+                    <li *ngIf="this.formRegistro.controls['nombre'].errors!['minlength']">
+                        El nombre debe tener al menos 3 letras.
+                    </li>
+                    <li *ngIf="this.formRegistro.controls['nombre'].errors!['pattern']">
+                        El nombre debe tener solo letras y espacios. 
+                    </li>
+                    <li *ngIf="this.formRegistro.controls['nombre'].errors!['maxlength']">
+                        El nombre no puede tener más de 20 letras.
+                    </li>
+                </ul>
+            </div>
+            <div class="col-sm-6">
+                <label for="apellido" class="form-label">Apellido</label>
+                <input type="text" class="form-control" id="apellido" formControlName="apellido">
+                <ul class="list-group" *ngIf="this.formRegistro.controls['apellido'].errors != null && this.formRegistro.controls['apellido'].touched">
+                    <li *ngIf="this.formRegistro.controls['apellido'].errors!['required']">
+                        Este campo no puede estar vacío.
+                    </li>
+                    <li *ngIf="this.formRegistro.controls['apellido'].errors!['minlength']">
+                        El apellido debe tener al menos 3 letras.
+                    </li>
+                    <li *ngIf="this.formRegistro.controls['apellido'].errors!['pattern']">
+                        El apellido debe tener solo letras y espacios.
+                    </li>
+                    <li *ngIf="this.formRegistro.controls['apellido'].errors!['maxlength']">
+                        El apellido no puede tener más de 20 letras.
+                    </li>
+                </ul>
+            </div>
+            <div class="col-sm-6">
+                <label for="edad" class="form-label">Edad</label>
+                <input type="number" class="form-control" id="edad" formControlName="edad">
+                <ul class="list-group" *ngIf="this.formRegistro.controls['edad'].errors != null && this.formRegistro.controls['edad'].touched">
+                    <li *ngIf="this.formRegistro.controls['edad'].errors!['required']">
+                        Este campo no puede estar vacío.
+                    </li>
+                    <li *ngIf="this.formRegistro.controls['edad'].errors!['min']">
+                        Debes ser mayor de 9 años para registrarte.
+                    </li>
+                    <li *ngIf="this.formRegistro.controls['edad'].errors!['max']">
+                        Debes ser menor de 100 años para registrarte.
+                    </li>
+                    <li *ngIf="this.formRegistro.controls['edad'].errors!['noDecimalValidator']">
+                        La edad no puede llevar puntos '.' ni comas ','.
+                    </li>
+                </ul>
+            </div>
+            <div class="col-sm-6">
+                <label for="DNI" class="form-label">DNI</label>
+                <input type="number" class="form-control" id="DNI" formControlName="dni">
+                <ul class="list-group" *ngIf="this.formRegistro.controls['dni'].errors != null && this.formRegistro.controls['dni'].touched">
+                    <li *ngIf="this.formRegistro.controls['dni'].errors!['required']">
+                        Este campo no puede estar vacío.
+                    </li>
+                    <li *ngIf="this.formRegistro.controls['dni'].errors!['min']">
+                        El DNI debe estar entre 10.000.000 y 99.999.999
+                    </li>
+                    <li *ngIf="this.formRegistro.controls['dni'].errors!['max']">
+                        El DNI debe estar entre 10.000.000 y 99.999.999
+                    </li>
+                    <li *ngIf="this.formRegistro.controls['dni'].errors!['noDecimalValidator']">
+                        Introduzca el DNI sin puntos '.' ni comas ','.
+                    </li>
+                </ul>
+            </div>
+            <div class="col-sm-6">
+                <label for="correo" class="form-label">Correo</label>
+                <input type="text" class="form-control" id="correo" formControlName="email">
+                <ul class="list-group" *ngIf="this.formRegistro.controls['email'].errors != null && this.formRegistro.controls['email'].touched">
+                    <li *ngIf="this.formRegistro.controls['email'].errors!['required']">
+                        Este campo no puede estar vacío.
+                    </li>
+                    <li *ngIf="this.formRegistro.controls['email'].errors!['minlength']">
+                        El correo electrónico debe tener al menos 6 letras.
+                    </li>
+                    <li *ngIf="this.formRegistro.controls['email'].errors!['maxlength']">
+                        El correo electrónico no puede tener más de 30 letras.
+                    </li>
+                    <li *ngIf="this.formRegistro.controls['email'].errors!['emailValidator']">
+                        Formato de correo electrónico incorrecto.
+                    </li>
+                    <li *ngIf="this.formRegistro.controls['email'].errors!['spaceValidator']">
+                        El correo electrónico no puede tener espacios.
+                    </li>
+                </ul>
+            </div>
+            <div class="col-sm-6">
+                <label for="password" class="form-label">Contraseña</label>
+                <input type="password" class="form-control" id="password" formControlName="password">
+                <ul class="list-group" *ngIf="this.formRegistro.controls['password'].errors != null && this.formRegistro.controls['password'].touched">
+                    <li *ngIf="this.formRegistro.controls['password'].errors!['required']">
+                        Este campo no puede estar vacío.
+                    </li>
+                    <li *ngIf="this.formRegistro.controls['password'].errors!['minlength']">
+                        La contraseña debe tener al menos 6 letras.
+                    </li>
+                    <li *ngIf="this.formRegistro.controls['password'].errors!['maxlength']">
+                        La contraseña no puede tener más de 25 letras.
+                    </li>
+                    <li *ngIf="this.formRegistro.controls['password'].errors!['spaceValidator']">
+                        La contraseña no puede tener espacios.
+                    </li>
+                </ul>
+            </div>
+            <div class="col-sm-6">
+                <label for="imgPerfil" class="form-label">Imagen de perfil</label>
+                <input type="file" class="form-control" id="imgPerfil" (change)="onFileChange($event)" accept="image/png, image/jpg, image/jfif, image/jpeg" required>
+            </div>
+        </div>
+        <button class="btn btn-primary btn-lg" (click)="registrar()">REGISTRAR</button>
+    </form>
+</div>
+</div>

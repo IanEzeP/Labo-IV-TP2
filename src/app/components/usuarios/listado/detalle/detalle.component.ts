@@ -8,7 +8,7 @@ import { Pacientes } from 'src/app/classes/pacientes';
 })
 export class DetalleComponent 
 {
-  @Input() paciente : Pacientes = new Pacientes();
+  @Input() paciente : Pacientes = Pacientes.inicializar();
   @Input() condition : boolean = false;
 
 }

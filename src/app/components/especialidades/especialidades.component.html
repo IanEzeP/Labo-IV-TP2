@@ -1,21 +1,37 @@
-<ol>
-    <li *ngFor="let especialidad of listaEspecialidades; index as i" >
-      <button class="" (click)="seleccionarEspecialidad(especialidad)">
-        <span>{{ especialidad }}</span>
-        <img src="../../../assets/traumatologo.png" style="width: 40px; height: 40px;">
-      </button>
-    </li>
-    <li>
-      <button class="" (click)="agregarEspecialidad()">
-        <span>Agregar nueva especialidad</span>
-      </button>
-    </li>
-</ol>
-<div *ngIf="addEspecialidad == true, then conditionTrue else conditionFalse"></div>
-<ng-template #conditionTrue>
-<input type="text" class="form-control" name="Especialidad" [(ngModel)]="especialidad" required>
-<input type="button" value="Agregar" (click)="registrarEspecialidad(especialidad)">
-</ng-template>
-<ng-template #conditionFalse>
-<input type="text" class="form-control" name="Especialidad" [(ngModel)]="especialidad" required disabled>
-</ng-template>
+<form class="needs-validation" [formGroup]="formEspecialidad">
+  <ol>
+      <li *ngFor="let especialidad of listaEspecialidades; index as i" >
+        <button class="" (click)="seleccionarEspecialidad(especialidad)">
+          <span>{{ especialidad }}</span>
+          <img src="../../../assets/traumatologo.png" style="width: 40px; height: 40px;">
+        </button>
+      </li>
+      <li>
+        <button class="" (click)="agregarEspecialidad()">
+          <span>Agregar nueva especialidad</span>
+        </button>
+      </li>
+  </ol>
+  <div *ngIf="addEspecialidad == true, then conditionTrue else conditionFalse"></div>
+  <ng-template #conditionTrue>
+    <input type="text" class="form-control" name="Especialidad" formControlName="especialidad">
+    <ul class="list-group" *ngIf="this.formEspecialidad.controls['especialidad'].errors != null && this.formEspecialidad.controls['especialidad'].touched">
+      <li *ngIf="this.formEspecialidad.controls['especialidad'].errors!['required']">
+          Este campo no puede estar vacío.
+      </li>
+      <li *ngIf="this.formEspecialidad.controls['especialidad'].errors!['minlength']">
+          La especialidad debe tener al menos 5 letras.
+      </li>
+      <li *ngIf="this.formEspecialidad.controls['especialidad'].errors!['pattern']">
+          La especialidad debe tener solo letras y espacios. 
+      </li>
+      <li *ngIf="this.formEspecialidad.controls['especialidad'].errors!['maxlength']">
+          La especialidad no puede tener más de 30 letras.
+      </li>
+    </ul>
+    <input type="button" value="Agregar" (click)="registrarEspecialidad(this.formEspecialidad.controls['especialidad'].value)">
+  </ng-template>
+  <ng-template #conditionFalse>
+    <input type="text" class="form-control" name="Especialidad" value="{{ especialidad }}" disabled>
+  </ng-template>
+</form>

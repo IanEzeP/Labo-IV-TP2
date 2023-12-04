@@ -11,7 +11,7 @@
     <tr *ngFor="let paciente of listaPacientes;" >
         <td> {{ paciente.id }} </td>
         <td> {{ paciente.nombre }} {{ paciente.apellido }} </td>
-        <td> {{ paciente.mail }} </td>
+        <td> {{ paciente.email }} </td>
         <td>
             <button class="btn btn-primary" (click)="seleccionarPaciente(paciente)">VER DETALLE</button>
         </td>

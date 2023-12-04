@@ -1,30 +1,28 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Pacientes } from 'src/app/classes/pacientes';
 import { Especialistas } from 'src/app/classes/especialistas';
 import { AngularFirestore } from '@angular/fire/compat/firestore';
 import { AngularFireStorage } from '@angular/fire/compat/storage';
 import { AlertasService } from 'src/app/servicios/alerta.service';
 import { AuthService } from 'src/app/servicios/auth.service';
+import { DatabaseService } from 'src/app/servicios/database.service';
+import { FormBuilder, FormGroup, Validators, AbstractControl } from '@angular/forms';
+import { Subscription } from 'rxjs';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-registro',
   templateUrl: './registro.component.html',
   styleUrls: ['./registro.component.css']
 })
-export class RegistroComponent implements OnInit{
+export class RegistroComponent implements OnInit, OnDestroy{
 
+  paciente : Pacientes = Pacientes.inicializar();
+  especialista : Especialistas = Especialistas.inicializar();
 
+  observableEspecialidades = Subscription.EMPTY;
+  
   condition = true;
-
-  paciente = new Pacientes();
-  especialista = new Especialistas();
-
-  nombre = '';
-  apellido = '';
-  edad = 0;
-  dni = 0;
-  mail = '';
-  password = '';
   imgPerfil1 = '';
 
   //Para especialista
@@ -33,27 +31,92 @@ export class RegistroComponent implements OnInit{
 
   //Para paciente
   imgPerfil2 = '';
-  obraSocial = '';
 
   //Image files
   imgFile1 : any;
   imgFile2 : any;
 
-  constructor(private firestore: AngularFirestore, private firestorage: AngularFireStorage, 
-    private alertas: AlertasService, private auth: AuthService)
-  {
+  public formRegistro : FormGroup;
 
+  constructor(private firestore: AngularFirestore, private firestorage: AngularFireStorage, private data: DatabaseService,
+    private alertas: AlertasService, private auth: AuthService, public formBuilder : FormBuilder, private router: Router)
+  {
+    this.formRegistro = this.formBuilder.group(
+    {
+      nombre: ['', [Validators.minLength(3), Validators.maxLength(20), Validators.required, Validators.pattern("[a-zA-Zá-úÁ-Ú ]*")]],
+      apellido: ['', [Validators.minLength(3), Validators.maxLength(20), Validators.required, Validators.pattern("[a-zA-Zá-úÁ-Ú ]*")]],
+      edad: [0, [Validators.min(9), Validators.max(99), Validators.required, this.noDecimalValidator]],
+      dni: [0, [Validators.min(10000000), Validators.max(99999999), Validators.required, this.noDecimalValidator]],
+      email: ['', [Validators.minLength(6), Validators.maxLength(30), Validators.required, this.emailValidator, this.spaceValidator]],
+      password: ['', [Validators.minLength(6), Validators.maxLength(25), Validators.required, this.spaceValidator]],
+      obraSocial: ['', [Validators.minLength(4), Validators.maxLength(20), Validators.pattern("[a-zA-Z ]*")]]
+    });
   }
+
+  //#region custom validators
+  private noDecimalValidator(control: AbstractControl) : null | object
+  {
+    const valor : string = control.value != null? control.value.toString() : '';
+
+    let retorno : object | null;
+
+    if(valor.includes(',') || valor.includes('.'))
+    {
+      retorno = {noDecimalValidator : true};
+    }
+    else
+    {
+      retorno = null
+    }
+
+    return retorno;
+  }
+
+  private emailValidator(control : AbstractControl) : null | object
+  { 
+    const value = <string>control.value;
+    const arroba = value.includes('@');
+    //Si el registrar de auth rechaza formato, intentar validar formato '.com' o '.es'
+    if(!arroba)
+    {
+      return { formatoInvalido: true };
+    }
+    else
+    {
+      return null;
+    }
+  }
+
+  private spaceValidator(control : AbstractControl) : null | object
+  { 
+    const value = <string>control.value;
+    const espacios = value.includes(' ');
+    //Si el registrar de auth rechaza formato, intentar validar formato '.com' o '.es'
+    if(espacios)
+    {
+      return { contieneEspacios: true };
+    }
+    else
+    {
+      return null;
+    }
+  }
+  //#endregion
 
   ngOnInit(): void 
   {
     this.traerEspecialidades();
   }
 
+  ngOnDestroy(): void 
+  {
+    console.log("Me desubscribo");
+    this.observableEspecialidades.unsubscribe();
+  }
+
   traerEspecialidades()
   {
-    const col = this.firestore.collection('Especialidades');
-    col.valueChanges().subscribe((next : any) =>
+    this.observableEspecialidades = this.data.getCollectionObservable('Especialidades').subscribe((next : any) =>
     {
       this.storageEspecialidades = [];
       let result : Array<any> = next;
@@ -63,46 +126,53 @@ export class RegistroComponent implements OnInit{
         this.storageEspecialidades.push(especialidad.nombreEspecialidad);
       }
       );
-    })
+    });
   }
 
   registrar()
   {
-    if(this.condition && this.especialidad != '')
+    if(this.formRegistro.valid)
     {
-      this.registrarEspecialista();
+      if(this.condition && this.especialidad != '' && this.imgFile1)
+      {
+        this.registrarEspecialista();
+      }
+      else
+      {
+        if(this.condition == false && this.imgFile1 && this.imgFile2 && this.formRegistro.controls['obraSocial'].valid)
+        {
+          this.registrarPaciente();
+        }
+        else
+        {
+          this.alertas.failureAlert("ERROR - Hay campos vacíos o incorrectos");
+        }
+      }
     }
     else
     {
-      if(this.condition == false && this.imgFile2 && this.obraSocial != '')
-      {
-        this.registrarPaciente();
-      }
+      this.alertas.failureAlert("ERROR - Hay campos vacíos o incorrectos");
     }
   }
 
   registrarEspecialista()
   {
-    this.especialista.nombre = this.nombre;
-    this.especialista.apellido = this.apellido;
-    this.especialista.edad = this.edad;
-    this.especialista.dni = this.dni;
-    this.especialista.mail = this.mail;
-    this.especialista.password = this.password;
-    this.especialista.especialidades.push(this.especialidad);
+    let formValues = this.formRegistro.value;
+
+    this.especialista = new Especialistas('', formValues.nombre, formValues.apellido, formValues.edad,
+      formValues.dni, formValues.email, formValues.password, 'empty', [], false);
+    
+    this.especialista.cargarEspecialidad(this.especialidad);
 
     this.guardarEspecialista();
   }
 
   registrarPaciente()
   {
-    this.paciente.nombre = this.nombre;
-    this.paciente.apellido = this.apellido;
-    this.paciente.edad = this.edad!;
-    this.paciente.dni = this.dni;
-    this.paciente.mail = this.mail;
-    this.paciente.password = this.password;
-    this.paciente.obraSocial = this.obraSocial;
+    let formValues = this.formRegistro.value;
+
+    this.paciente = new Pacientes('', formValues.nombre, formValues.apellido, formValues.edad,
+      formValues.dni, formValues.email, formValues.password, 'empty', 'empty', formValues.obraSocial);
 
     this.guardarPaciente();
   }
@@ -121,15 +191,15 @@ export class RegistroComponent implements OnInit{
       Apellido : this.especialista.apellido,
       Edad : this.especialista.edad,
       DNI : this.especialista.dni,
-      Mail : this.especialista.mail,
+      Mail : this.especialista.email,
       Password : this.especialista.password,
-      ImagenPerfil : 'empty',
+      ImagenPerfil : this.especialista.imagenPerfil,
       Especialidades : this.especialista.especialidades,
       autorizado: false,
     });
 
-    this.auth.register(this.especialista.mail, this.especialista.password).catch(error => console.log(error));
-    this.validarDatoGuardado(documento.ref.id, 'Especialistas');
+    this.auth.register(this.especialista.email, this.especialista.password).catch(error => console.log(error));
+    this.validarDatoGuardado(documento.ref.id, coleccion);
   }
 
   guardarPaciente()
@@ -148,15 +218,15 @@ export class RegistroComponent implements OnInit{
       Apellido : this.paciente.apellido,
       Edad : this.paciente.edad,
       DNI : this.paciente.dni,
-      Mail : this.paciente.mail,
+      Mail : this.paciente.email,
       Password : this.paciente.password,
-      ImagenPerfil : 'empty',
-      ImagenAdicional : 'empty',
+      ImagenPerfil : this.paciente.imagenPerfil,
+      ImagenAdicional : this.paciente.imagenAdicional,
       ObraSocial : this.paciente.obraSocial,
     });
 
-    this.auth.register(this.paciente.mail, this.paciente.password).catch(error => console.log(error));
-    this.validarDatoGuardado(documento.ref.id, 'Pacientes');
+    this.auth.register(this.paciente.email, this.paciente.password).catch(error => this.alertas.failureAlert("ERROR - registro de auth service fail"));
+    this.validarDatoGuardado(documento.ref.id, coleccion);
   }
 
   validarDatoGuardado(id : string, coleccion : string)
@@ -174,8 +244,8 @@ export class RegistroComponent implements OnInit{
         {
           exito = true;
           this.alertas.sweetAlert("Registro exitoso",
-           "Hemos enviado un mail de verificación a tu correo electrónico. Es necesario verificarlo antes de que puedas iniciar sesión",
-           'success');
+           "Hemos enviado un mail de verificación a tu correo electrónico. Es necesario verificarlo antes de que puedas iniciar sesión.",
+           'success').then(res => this.router.navigateByUrl('login'));
           this.reestablecerDatos();
         }
       });
@@ -208,30 +278,33 @@ export class RegistroComponent implements OnInit{
     {
       let extension : string = file.name.slice(file.name.indexOf('.'));
 
-      if(file === this.imgFile1)
+      if(extension == '.jpg' || extension == '.jpeg' || extension == '.png' || extension == '.jfif')
       {
-        const path = directorio + '/' + id + '/' + this.nombre + extension; //Este es el path de Firebase Storage.
-        const uploadTask = await this.firestorage.upload(path, file);
-        const url = await uploadTask.ref.getDownloadURL();                  //Esta URL es un link directo a la imágen.
+        if(file === this.imgFile1)
+        {
+          const path = directorio + '/' + id + '/' + this.formRegistro.controls['nombre'].value + extension; //Este es el path de Firebase Storage.
+          const uploadTask = await this.firestorage.upload(path, file);
+          const url = await uploadTask.ref.getDownloadURL();  //Esta URL es un link directo a la imágen.
 
-        const documento = this.firestore.doc(directorio + '/' + id);
-        documento.update({
-          ImagenPerfil : url
-        });
+          const documento = this.firestore.doc(directorio + '/' + id);
+          documento.update({ ImagenPerfil : url });
+        }
+        else
+        {
+          if(file === this.imgFile2)
+          {
+            const path = directorio + '/' + id + '/' + this.formRegistro.controls['nombre'].value + '_2' + extension; 
+            const uploadTask = await this.firestorage.upload(path, file);
+            const url = await uploadTask.ref.getDownloadURL(); 
+
+            const documento = this.firestore.doc(directorio + '/' + id);
+            documento.update({ ImagenAdicional : url });
+          }
+        }
       }
       else
       {
-        if(file === this.imgFile2)
-        {
-          const path = directorio + '/' + id + '/' + this.nombre + '_2' + extension; 
-          const uploadTask = await this.firestorage.upload(path, file);
-          const url = await uploadTask.ref.getDownloadURL(); 
-
-          const documento = this.firestore.doc(directorio + '/' + id);
-          documento.update({
-            ImagenAdicional : url
-          });
-        }
+        this.alertas.infoToast("El formato del archivo seleccionado no es compatible.");
       }
     }
   }
@@ -242,20 +315,14 @@ export class RegistroComponent implements OnInit{
     this.reestablecerDatos();
   }
 
-  reestablecerDatos() //Cambia con los form control
+  reestablecerDatos()
   {
-    this.nombre = '';
-    this.apellido = '';
-    this.edad = 0;
-    this.dni = 0;
-    this.mail = '';
-    this.password = '';
     this.imgPerfil1 = '';
     this.especialidad = '';
     this.imgPerfil2 = '';
-    this.obraSocial = '';
     this.imgFile1 = null;
     this.imgFile2 = null;
+    this.formRegistro.reset({ nombre: '', apellido: '', edad: 0, dni: 0, email: '', password: '', obraSocial: ''});
   }
 
   //#region getImages()

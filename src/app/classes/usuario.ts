@@ -5,20 +5,20 @@ export class Usuario
     apellido : string = '';
     edad : number = 0;
     dni : number = 0;
-    mail : string = '';
+    email : string = '';
     password : string = '';
     imagenPerfil : string = '';
 
-    constructor () {}
-/* Vamos a usar esto cuando hagamos el form validator
-    constructor(id: string, nombre: string, apellido: string, edad: number, dni: number, mail: string, password: string, imagenPerfil: string) 
+/* Vamos a usar esto cuando hagamos el form validator X
+constructor () {}*/
+    constructor(id: string, nombre: string, apellido: string, edad: number, dni: number, email: string, password: string, imagenPerfil: string) 
     {
         this.id = id;
         this.nombre = nombre;
         this.apellido = apellido;
         this.edad = edad;
         this.dni = dni;
-        this.mail = mail;
+        this.email = email;
         this.password = password;
         this.imagenPerfil = imagenPerfil;
     }
@@ -28,10 +28,15 @@ export class Usuario
         this.id= '';
         this.nombre = '';
         this.apellido = '';
-        this.mail = '';
+        this.email = '';
         this.password = '';
         this.imagenPerfil = '';
         this.edad = 0;
         this.dni = 0;
-    }*/
+    }
+    
+    static inicializar() : Usuario
+    {
+        return new Usuario('', '', '', 0, 0, '', '', 'empty');
+    }
 }

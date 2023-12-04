@@ -1,15 +1,24 @@
 <div>
     <div>
-        <form action="">
+        <form class="needs-validation" [formGroup]="formLog">
             <h3>Inicio de sesión</h3>
             <label for="mail">Correo electrónico</label>
             <br>
-            <input name="mail" type="email" [(ngModel)]="email">
-            <br>
-            <br>
+            <input name="mail" type="email" formControlName="email">
+            <ul class="list-group" *ngIf="this.formLog.controls['email'].errors != null && this.formLog.controls['email'].touched">
+                <li *ngIf="this.formLog.controls['email'].errors!['required']">
+                    Debe escribir el correo electrónico de su perfil.
+                </li>
+            </ul>
+            <br><br>
             <label for="password">Contraseña</label>
             <br>
-            <input name="password" type="password" [(ngModel)]="password">
+            <input name="password" type="password" formControlName="password">
+            <ul class="list-group" *ngIf="this.formLog.controls['password'].errors != null && this.formLog.controls['password'].touched">
+                <li *ngIf="this.formLog.controls['password'].errors!['required']">
+                    Debe escribir la contraseña de su perfil.
+                </li>
+            </ul>
             <br><br>
             <button (click)="validarSesion()">Iniciar Sesión</button>
         </form>

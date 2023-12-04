@@ -11,7 +11,7 @@
     <tr *ngFor="let admin of listaAdministradores;" >
         <td> {{ admin.id }} </td>
         <td> {{ admin.nombre }} {{ admin.apellido }} </td>
-        <td> {{ admin.mail }} </td>
+        <td> {{ admin.email }} </td>
         <td>
             <button class="btn btn-primary" (click)="seleccionarAdministrador(admin)">VER DETALLE</button>
         </td>

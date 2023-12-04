@@ -20,9 +20,9 @@
     <tr *ngFor="let especialista of especialistas;" >
         <td> {{ especialista.id }} </td>
         <td> {{ especialista.nombre }} {{ especialista.apellido }} </td>
-        <td> {{ especialista.mail }} </td>
+        <td> {{ especialista.email }} </td>
         <td> {{ especialista.especialidades }} </td>
-        <td> {{ especialista.autorizado }} </td>
+        <section *ngIf="especialista.autorizado == true; then estaAutorizado else noEstaAutorizado"></section>
         <td>
         <div *ngIf="especialista.autorizado == true; then showDeshabilitar else showHabilitar"></div>
         <ng-template #showHabilitar>
@@ -35,3 +35,9 @@
     </tr>
     
 </table>
+<ng-template #estaAutorizado>
+    <td> Autorizado </td>
+</ng-template>
+<ng-template #noEstaAutorizado>
+    <td> Denegado </td>
+</ng-template>
