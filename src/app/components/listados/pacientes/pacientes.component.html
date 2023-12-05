@@ -1,13 +1,18 @@
 <table [cellPadding]="12">
-    <th>
-        ID
-    </th>
-    <th>
-        NOMBRE
-    </th>
-    <th>
-        CORREO
-    </th>
+    <tr>
+        <h2>Pacientes</h2>
+    </tr>
+    <tr>
+        <th>
+            ID
+        </th>
+        <th>
+            NOMBRE
+        </th>
+        <th>
+            CORREO
+        </th>
+    </tr>
     <tr *ngFor="let paciente of listaPacientes;" >
         <td> {{ paciente.id }} </td>
         <td> {{ paciente.nombre }} {{ paciente.apellido }} </td>

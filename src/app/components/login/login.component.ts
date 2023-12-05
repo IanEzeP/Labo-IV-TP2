@@ -1,7 +1,6 @@
 import { Component, OnInit, OnDestroy} from '@angular/core';
 import { Usuario } from 'src/app/classes/usuario';
 import { Router } from '@angular/router';
-import { AngularFirestore } from '@angular/fire/compat/firestore';
 import { AuthService } from '../../servicios/auth.service';
 import { AlertasService } from 'src/app/servicios/alerta.service';
 import { DatabaseService } from 'src/app/servicios/database.service';
@@ -14,20 +13,14 @@ import { Subscription } from 'rxjs';
   styleUrls: ['./login.component.css']
 })
 export class LoginComponent implements OnInit, OnDestroy {
-/*
-  Temporary quick login:
-  Especialista: groproyebaucri-9657@yopmail.com ,, Ceres0k12 
-  Paciente: jitroujozoudou-4558@yopmail.com ,, wick2222
-  Administrador: rasabruqueido-6421@yopmail.com ,, allselec738
-  */
   
-  arrayUsuario : Array<Usuario> = [];
+  arrayTodosUsuarios : Array<Usuario> = [];
 
   formLog : FormGroup;
 
   observableControl : Subscription = Subscription.EMPTY;
 
-  constructor(private firestore : AngularFirestore, private router: Router, private auth: AuthService, private alertas: AlertasService, 
+  constructor(private router: Router, private auth: AuthService, private alertas: AlertasService, 
     private data: DatabaseService, public formBuilder : FormBuilder)
   { 
     this.formLog = this.formBuilder.group({ email: ['', Validators.required], password: ['', Validators.required] });
@@ -35,21 +28,32 @@ export class LoginComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void 
   {
-    this.traerUsuarios();
+    //this.traerUsuarios();
+    this.cargarArrayUsuario();
   }
 
   ngOnDestroy(): void 
   {
-    console.log("Me desubscribo");
-
     this.observableControl.unsubscribe();
   }
 
+  cargarArrayUsuario() //Revisitar... para el login no lo veo necesario, pero puede ayudar para el inicio rápido
+  {
+    this.arrayTodosUsuarios = this.arrayTodosUsuarios.concat(this.data.adminsDB, this.data.pacDB, this.data.especDB);
+    console.log(this.arrayTodosUsuarios);
+  }
+
+  inicioRapido(usuario : any)
+  {
+    this.formLog.controls['email'] = usuario.email;
+    this.formLog.controls['password'] = usuario.password;
+  }
+/*
   traerUsuarios()
   {
     this.observableControl = this.data.getCollectionObservable('Administradores').subscribe((next : any) => {
       this.cargarArrayUsuario(next);
-    })
+    });
   }
 
   cargarArrayUsuario(array : Array<any>) //Revisitar... para el login no lo veo necesario, pero puede ayudar para el inicio rápido
@@ -59,7 +63,7 @@ export class LoginComponent implements OnInit, OnDestroy {
       let usuario : Usuario = new Usuario(obj.id, obj.Nombre, obj.Apellido, obj.Edad, obj.DNI, obj.Mail, obj.Password, obj.ImagenPerfil);
       this.arrayUsuario.push(usuario);
     });
-  }
+  }*/
 
   async validarSesion()
   {

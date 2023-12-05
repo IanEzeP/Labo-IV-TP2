@@ -1,19 +1,38 @@
 <div style="display: flex; justify-content: center;">
 
 <div class="col-md-6">
-    <div class="overflow-auto" style="max-height: 550px;">
-    <app-pacientes
-    [listaPacientes]="arrayPac"
-    (PacienteSeleccionadoEvent)="detallarPaciente($event)"
-    ></app-pacientes>
+    <div class="overflow-auto" style="max-height: 750px;">
+        <div *ngIf="switchListado == 1">
+            <app-pacientes
+            [listaPacientes]="arrayPac"
+            (PacienteSeleccionadoEvent)="detallarPaciente($event)"
+            ></app-pacientes>
+        </div>
+        <div *ngIf="switchListado == 2">
+            <app-administradores
+            [listaAdministradores]="arrayAdmin"
+            (AdministradorSeleccionadoEvent)="detallarAdmin($event)"
+            ></app-administradores>
+        </div>
+        <div *ngIf="switchListado == 3">
+            <app-especialistas
+            [listaEspecialistas]="arrayEspec"
+            (EspecialistaSeleccionadoEvent)="detallarEspecialista($event)"
+            ></app-especialistas>
+        </div>
     </div>
+    <button class="btn btn-secondary" (click)="cambiarListado(1)">Lista Pacientes</button>
+    <button class="btn btn-secondary" (click)="cambiarListado(2)">Lista Administradores</button>
+    <button class="btn btn-secondary" (click)="cambiarListado(3)">Lista Especialistas</button>
 </div>
 <div class="col-md-6">
-<!-- Esto vamos a hacerlo a mano, cuando pueda discriminar roles por codigo lo pasamos a un componente nuevo-->
     <div>
         <app-detalle
         [paciente]="paciente"
+        [admin]="administrador"
+        [especialista]="especialista"
         [condition]="datoObtenido"
+        [detalle]="switchListado"
         ></app-detalle>
     </div>
 </div>

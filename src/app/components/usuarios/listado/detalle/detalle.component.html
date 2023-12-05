@@ -1,15 +1,42 @@
 <div style="display: flex; justify-content: center;">
-    <div *ngIf="condition"><!-- Hacer que cambie lo que muestra según el rol -->
-        <p> Información: </p>
-        <p> Id: {{ paciente.id }} </p>
-        <p> Nombre: {{ paciente.nombre }} </p>
-        <p> Apellido: {{ paciente.apellido }} </p>
-        <p> Edad: {{ paciente.edad }} </p>
-        <p> DNI: {{ paciente.dni }} </p>
-        <p> Obra Social: {{ paciente.obraSocial }} </p>
-        <p> Email: {{ paciente.email }} </p>
-        <p> Fotos: </p>
-        <img src="{{ paciente.imagenPerfil }}" width="320" height="320">
-        <img src="{{ paciente.imagenAdicional }}" width="320" height="320">
+    <div *ngIf="condition">
+        <div [ngSwitch]="detalle">
+        <div *ngSwitchCase="datosPaciente">
+            <p> Información: </p>
+            <p> Id: {{ paciente.id }} </p>
+            <p> Nombre: {{ paciente.nombre }} </p>
+            <p> Apellido: {{ paciente.apellido }} </p>
+            <p> Edad: {{ paciente.edad }} </p>
+            <p> DNI: {{ paciente.dni }} </p>
+            <p> Obra Social: {{ paciente.obraSocial }} </p>
+            <p> Email: {{ paciente.email }} </p>
+            <p> Fotos: </p>
+            <img src="{{ paciente.imagenPerfil }}" width="320" height="320">
+            <img src="{{ paciente.imagenAdicional }}" width="320" height="320">
+        </div>
+        <div *ngSwitchCase="datosAdmin">
+            <p> Información: </p>
+            <p> Id: {{ admin.id }} </p>
+            <p> Nombre: {{ admin.nombre }} </p>
+            <p> Apellido: {{ admin.apellido }} </p>
+            <p> Edad: {{ admin.edad }} </p>
+            <p> DNI: {{ admin.dni }} </p>
+            <p> Email: {{ admin.email }} </p>
+            <p> Fotos: </p>
+            <img src="{{ admin.imagenPerfil }}" width="320" height="320">
+        </div>
+        <div *ngSwitchCase="datosEspecialista">
+            <p> Información: </p>
+            <p> Id: {{ especialista.id }} </p>
+            <p> Nombre: {{ especialista.nombre }} </p>
+            <p> Apellido: {{ especialista.apellido }} </p>
+            <p> Edad: {{ especialista.edad }} </p>
+            <p> DNI: {{ especialista.dni }} </p>
+            <p> Especialidades: {{ especialista.especialidades }} </p>
+            <p> Email: {{ especialista.email }} </p>
+            <p> Fotos: </p>
+            <img src="{{ especialista.imagenPerfil }}" width="320" height="320">
+        </div>
+        </div>
     </div>
 </div>

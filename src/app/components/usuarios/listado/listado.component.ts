@@ -20,14 +20,17 @@ export class ListadoComponent implements OnInit, OnDestroy{
   arrayEspec : Array<Especialistas> = [];
   arrayPac : Array<Pacientes> = [];
 
+  switchListado = 1;
   datoObtenido : boolean = false;
-  observableControl : Subscription = Subscription.EMPTY;
+  observableAdmin : Subscription = Subscription.EMPTY;
+  observableEspec : Subscription = Subscription.EMPTY;
+  observablePac : Subscription = Subscription.EMPTY;
 
-  constructor(private data: DatabaseService) {}
+  constructor(private data: DatabaseService) { }
 
   ngOnInit(): void
   {
-    this.observableControl = this.data.getCollectionObservable('Pacientes').subscribe((next : any) =>
+    this.observablePac = this.data.getCollectionObservable('Pacientes').subscribe((next : any) =>
     {
       this.arrayPac = [];
       let result : Array<any> = next;
@@ -37,13 +40,34 @@ export class ListadoComponent implements OnInit, OnDestroy{
         this.arrayPac.push(paciente);
       });
     });
-    //Agregar admin y especialistas cuando tengamos forma de diferenciar roles.
+    this.observableAdmin = this.data.getCollectionObservable('Administradores').subscribe((next : any) =>
+    {
+      this.arrayAdmin = [];
+      let result : Array<any> = next;
+      result.forEach(element => {
+        let usuario = new Usuario(element.id,  element.Nombre, element.Apellido, element.Edad, element.DNI, element.Mail, element.Password,
+          element.ImagenPerfil);
+        this.arrayAdmin.push(usuario);
+      });
+    });
+    this.observableEspec = this.data.getCollectionObservable('Especialistas').subscribe((next : any) =>
+    {
+      this.arrayEspec = [];
+      let result : Array<any> = next;
+      result.forEach(element => {
+        let especialista = new Especialistas(element.id,  element.Nombre, element.Apellido, element.Edad, element.DNI, element.Mail, element.Password,
+          element.ImagenPerfil, element.Especialidades, element.autorizado);
+        this.arrayEspec.push(especialista);
+      });
+    });
   }
 
   ngOnDestroy(): void 
   {
     console.log("Me desubscribo");
-    this.observableControl.unsubscribe();
+    this.observablePac.unsubscribe();
+    this.observableAdmin.unsubscribe();
+    this.observableEspec.unsubscribe();
   }
 
   detallarAdmin(admin : Usuario)
@@ -60,5 +84,10 @@ export class ListadoComponent implements OnInit, OnDestroy{
   {
     this.especialista = especialista;
     this.datoObtenido = true;
+  }
+  cambiarListado(accion : number)
+  {
+    this.switchListado = accion;
+    this.datoObtenido = false;
   }
 }

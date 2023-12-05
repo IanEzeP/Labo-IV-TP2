@@ -110,7 +110,6 @@ export class RegistroComponent implements OnInit, OnDestroy{
 
   ngOnDestroy(): void 
   {
-    console.log("Me desubscribo");
     this.observableEspecialidades.unsubscribe();
   }
 
@@ -181,52 +180,73 @@ export class RegistroComponent implements OnInit, OnDestroy{
   {
     let coleccion = 'Especialistas';
 
-    const documento = this.firestore.doc(coleccion + '/' + this.firestore.createId());
-    this.subirFotoPerfil(documento.ref.id, coleccion, this.imgFile1);
-    
-    documento.set(
+    this.auth.register(this.especialista.email, this.especialista.password).then(result =>
     {
-      id: documento.ref.id,
-      Nombre : this.especialista.nombre,
-      Apellido : this.especialista.apellido,
-      Edad : this.especialista.edad,
-      DNI : this.especialista.dni,
-      Mail : this.especialista.email,
-      Password : this.especialista.password,
-      ImagenPerfil : this.especialista.imagenPerfil,
-      Especialidades : this.especialista.especialidades,
-      autorizado: false,
-    });
+      const documento = this.firestore.doc(coleccion + '/' + this.firestore.createId());
+      this.subirFotoPerfil(documento.ref.id, coleccion, this.imgFile1);
+      
+      documento.set(
+      {
+        id: documento.ref.id,
+        Nombre : this.especialista.nombre,
+        Apellido : this.especialista.apellido,
+        Edad : this.especialista.edad,
+        DNI : this.especialista.dni,
+        Mail : this.especialista.email,
+        Password : this.especialista.password,
+        ImagenPerfil : this.especialista.imagenPerfil,
+        Especialidades : this.especialista.especialidades,
+        autorizado: false,
+      });
 
-    this.auth.register(this.especialista.email, this.especialista.password).catch(error => console.log(error));
-    this.validarDatoGuardado(documento.ref.id, coleccion);
+      this.validarDatoGuardado(documento.ref.id, coleccion);
+    }).catch(error => 
+    {
+      console.log(error);
+      let excepcion : string = error.toString();
+      if(excepcion.includes("(auth/email-already-in-use)"))
+      {
+        this.alertas.failureAlert("ERROR - El correo electónico ya se encuentra en uso.");
+      }
+    });
+    
   }
 
   guardarPaciente()
   {
     let coleccion = 'Pacientes';
 
-    const documento = this.firestore.doc(coleccion + '/' + this.firestore.createId());
-
-    this.subirFotoPerfil(documento.ref.id, coleccion, this.imgFile1);
-    this.subirFotoPerfil(documento.ref.id, coleccion, this.imgFile2);
-    
-    documento.set(
+    this.auth.register(this.paciente.email, this.paciente.password).then(result => 
     {
-      id: documento.ref.id,
-      Nombre : this.paciente.nombre,
-      Apellido : this.paciente.apellido,
-      Edad : this.paciente.edad,
-      DNI : this.paciente.dni,
-      Mail : this.paciente.email,
-      Password : this.paciente.password,
-      ImagenPerfil : this.paciente.imagenPerfil,
-      ImagenAdicional : this.paciente.imagenAdicional,
-      ObraSocial : this.paciente.obraSocial,
-    });
+      const documento = this.firestore.doc(coleccion + '/' + this.firestore.createId());
+      this.subirFotoPerfil(documento.ref.id, coleccion, this.imgFile1);
+      this.subirFotoPerfil(documento.ref.id, coleccion, this.imgFile2);
+      
+      documento.set(
+      {
+        id: documento.ref.id,
+        Nombre : this.paciente.nombre,
+        Apellido : this.paciente.apellido,
+        Edad : this.paciente.edad,
+        DNI : this.paciente.dni,
+        Mail : this.paciente.email,
+        Password : this.paciente.password,
+        ImagenPerfil : this.paciente.imagenPerfil,
+        ImagenAdicional : this.paciente.imagenAdicional,
+        ObraSocial : this.paciente.obraSocial,
+      });
 
-    this.auth.register(this.paciente.email, this.paciente.password).catch(error => this.alertas.failureAlert("ERROR - registro de auth service fail"));
-    this.validarDatoGuardado(documento.ref.id, coleccion);
+      this.validarDatoGuardado(documento.ref.id, coleccion);
+    }).catch(error => 
+    {
+      console.log(error);
+      let excepcion : string = error.toString();
+      if(excepcion.includes("(auth/email-already-in-use)"))
+      {
+        this.alertas.failureAlert("ERROR - El correo electónico ya se encuentra en uso.");
+      }
+    });
+    
   }
 
   validarDatoGuardado(id : string, coleccion : string)
@@ -254,7 +274,7 @@ export class RegistroComponent implements OnInit, OnDestroy{
       {
         this.alertas.failureAlert("ERROR - No se pudo registrar su perfil");
       }
-    });
+    }).catch(error => { this.alertas.failureAlert("ERROR en Promise de firestore collection"); console.log(error);});
   }
 
   atraparEspecialidades(especialidad : string)

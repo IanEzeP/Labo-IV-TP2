@@ -1,4 +1,4 @@
-import { Injectable, OnInit } from '@angular/core';
+import { Injectable } from '@angular/core';
 import { AngularFirestore } from '@angular/fire/compat/firestore';
 import { AngularFireStorage } from '@angular/fire/compat/storage';
 import { Usuario } from '../classes/usuario';
@@ -8,13 +8,43 @@ import { Especialistas } from '../classes/especialistas';
 @Injectable({
   providedIn: 'root'
 })
-export class DatabaseService implements OnInit{
+export class DatabaseService{
 
-  constructor(private firestore: AngularFirestore, private firestorage: AngularFireStorage) { }
-  
-  ngOnInit(): void 
-  {
+  adminsDB : Array<Usuario> = []; 
+  especDB : Array<Especialistas> = []; 
+  pacDB : Array<Pacientes> = []; 
+
+  constructor(private firestore: AngularFirestore, private firestorage: AngularFireStorage) 
+  { 
+    console.log("Utilizo servicio DatabaseService");
+    this.getCollectionObservable("Administradores").subscribe((next : any) => 
+    {
+      let result : Array<any>  = next;
+      this.adminsDB = [];
+      result.forEach(obj => {
+        this.adminsDB.push(new Usuario(obj.id, obj.Nombre, obj.Apellido, obj.Edad, obj.DNI, obj.Mail, obj.Password, obj.ImagenPerfil));
+      });
+    });
+
+    this.getCollectionObservable("Pacientes").subscribe((next : any) => 
+    {
+      let result : Array<any>  = next;
+      this.pacDB = [];
+      result.forEach(obj => {
+        this.pacDB.push(new Pacientes(obj.id, obj.Nombre, obj.Apellido, obj.Edad, obj.DNI, obj.Mail, obj.Password, obj.ImagenPerfil, obj.ImagenAdicional, obj.ObraSocial));
+      });
+    });
+
+    this.getCollectionObservable("Especialistas").subscribe((next : any) => 
+    {
+      let result : Array<any>  = next;
+      this.especDB = [];
+      result.forEach(obj => {
+        this.especDB.push(new Especialistas(obj.id, obj.Nombre, obj.Apellido, obj.Edad, obj.DNI, obj.Mail, obj.Password, obj.ImagenPerfil, obj.Especialidades, obj.autorizado));
+      });
+    });
   }
+  
 
   validarDatoGuardado(id : string, coleccion : string)
   {
@@ -47,8 +77,7 @@ export class DatabaseService implements OnInit{
       }*/
   traerUnDocumento(coleccion: string, id: string)
   {
-    const documento = this.firestore.doc(coleccion + '/' + id);
-    return documento.get();
+    return this.firestore.firestore.doc(coleccion + '/' + id).get();
   }
 
   getCollectionObservable(coleccion : string)
@@ -56,6 +85,46 @@ export class DatabaseService implements OnInit{
     return this.firestore.collection(coleccion).valueChanges();
   }
 
+  getCollectionPromise(coleccion : string)
+  {
+    return this.firestore.firestore.collection(coleccion).get();
+  }
+  
+  traerRol(email : string) : string
+  {
+    let rol = 'NF';
+
+    this.adminsDB.forEach(admin => {
+      if(admin.email == email)
+      {
+        rol = 'ADMINISTRADOR';
+      }
+    });
+
+    if(rol == 'NF')
+    {
+      this.pacDB.forEach(paciente => {
+        if(paciente.email == email)
+        {
+          rol = 'PACIENTE';
+        }
+      });
+
+      if(rol == 'NF')
+      {
+        this.especDB.forEach(especialista => {
+          if(especialista.email == email)
+          {
+            rol = 'ESPECIALISTA';
+          }
+        });
+      }
+    }
+    console.log(rol);
+
+    return rol;
+  }
+/**
   async traerRol(email : string)
   {
     let rol : string = 'NF';
@@ -104,9 +173,69 @@ export class DatabaseService implements OnInit{
 
     return rol;
   }
-  /**
+
    * Bueno Ian, esto no funciona porque subscribe se ejecuta asincronicamente pero no hace caso al 'await'
    * Tenemos que encontrar la vuelta para sacar el rol de quien se esta intentando loguear.
-   * Añadir el rol a cada documento no le veo el sentido hoy.
+   * Añadir el rol a cada documento no le veo el sentido hoy. Hoy 5/12 tampoco le veo el sentido
    */
+  /**
+  async traerRol2(email : string)
+  {
+    let rol : string = 'NF';
+    let i : number = 0;
+    let coleccion : string = 'Administradores';
+    let rolEsperado : string = 'Administrador';
+
+    while(i < 3)
+    {
+      if(i == 1)
+      {
+        coleccion = 'Pacientes';
+        rolEsperado = 'Paciente';
+      }
+      else if(i == 2)
+      {
+        coleccion = 'Especialistas';
+        rolEsperado = 'Especialista';
+      }
+      console.log("Antes del await");
+      await this.getCollectionPromise(coleccion).then((next : any) =>
+      {
+        console.log("Dentro del await");
+
+        let result : Array<any> = next;
+
+        result.forEach(qSnapshot => {
+          console.log("Iteracion");
+          //Intentando usar un array con todos los admins cargados se me ocurrio otra forma de hacer esto.
+
+          this.traerUnDocumento(coleccion, qSnapshot.id).then((next : any) =>
+          {
+            console.log("Comparacion");
+
+            if(email == next.data().Mail)
+            {
+              console.log("Coincidencia");
+              rol = rolEsperado;
+            }
+          });
+        });
+      });
+      console.log("Fuera del await");
+
+      if(rol != 'NF') {
+        break;
+      }
+      
+      i++;
+    }
+    console.log(rol);
+
+    return rol;
+  }
+
+   * Esto tampoco funciona porque el flujo del while continua a pesar del 'await'
+   */
+
+  
 }

@@ -105,24 +105,33 @@ export class RegistrarComponent {
   {
     let coleccion = 'Administradores';
 
-    const documento = this.firestore.doc(coleccion + '/' + this.firestore.createId());
-
-    this.subirFotoPerfil(documento.ref.id, coleccion, this.imgFile);
-    
-    documento.set(
+    this.auth.register(this.administrador.email, this.administrador.password).then(result =>
     {
-      id: documento.ref.id,
-      Nombre : this.administrador.nombre,
-      Apellido : this.administrador.apellido,
-      Edad : this.administrador.edad,
-      DNI : this.administrador.dni,
-      Mail : this.administrador.email,
-      Password : this.administrador.password,
-      ImagenPerfil : this.administrador.imagenPerfil,
-    });
+      const documento = this.firestore.doc(coleccion + '/' + this.firestore.createId());
+      this.subirFotoPerfil(documento.ref.id, coleccion, this.imgFile);
+      
+      documento.set(
+      {
+        id: documento.ref.id,
+        Nombre : this.administrador.nombre,
+        Apellido : this.administrador.apellido,
+        Edad : this.administrador.edad,
+        DNI : this.administrador.dni,
+        Mail : this.administrador.email,
+        Password : this.administrador.password,
+        ImagenPerfil : this.administrador.imagenPerfil,
+      });
 
-    this.auth.register(this.administrador.email, this.administrador.password).catch(error => this.alertas.failureAlert("ERROR - registro de auth service falló"));
-    this.validarDatoGuardado(documento.ref.id, coleccion);
+      this.validarDatoGuardado(documento.ref.id, coleccion);
+    }).catch(error => 
+    {
+      console.log(error);
+      let excepcion : string = error.toString();
+      if(excepcion.includes("(auth/email-already-in-use)"))
+      {
+        this.alertas.failureAlert("ERROR - El correo electónico ya se encuentra en uso.");
+      }
+    });
   }
 
   validarDatoGuardado(id : string, coleccion : string)
@@ -150,7 +159,7 @@ export class RegistrarComponent {
       {
         this.alertas.failureAlert("ERROR - No se pudo registrar el nuevo usuario");
       }
-    });
+    }).catch(error => { this.alertas.failureAlert("ERROR en Promise de firestore collection"); console.log(error);});
   }
 
   onFileChange($event : any)

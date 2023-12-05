@@ -9,16 +9,25 @@
           <li class="nav-item">
             <a class="nav-link active" routerLink="home">Home</a>
           </li>
+          <div *ngIf="auth.logueado == false; then conditionTrue else conditionFalse"></div>
+          <ng-template #conditionTrue>
+            <li class="nav-item">
+              <a class="nav-link" routerLink="login">Log in</a>
+            </li>
+          </ng-template>
+          <ng-template #conditionFalse>
           <li class="nav-item">
-            <a class="nav-link" routerLink="login">Log in</a>
+            <a class="nav-link" (click)="auth.logOut()">Cerrar Sesión</a>
           </li>
+          </ng-template>
           <li class="nav-item">
             <a class="nav-link" routerLink="registro">Registro</a>
           </li>
+          <div *ngIf="auth.rol=='ADMINISTRADOR'">
           <li class="nav-item">
-            <a class="nav-link" routerLink="usuarios">Usuarios</a><!--SOLO ADMINISTRADORES-->
+            <a class="nav-link" routerLink="usuarios">Usuarios</a>
           </li>
-          
+          </div>
           <!--
           <li class="nav-item dropdown">
             <a class="nav-link dropdown-toggle" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
