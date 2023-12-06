@@ -1,3 +1,12 @@
 <div>
+    <ol>
+        <li *ngFor="let user of arrayUsuarios; index as i">
+        <button (click)="seleccionarUsuario(user)">
+            <img style="width: 30px; height: 30px;" src="{{ user.imagenPerfil }}"><!-- Cambiar por imágen ilustrativa-->
+            <span>{{ user.nombre }}</span><!-- Cambiar por nombre del rol-->
+        </button>
+        
+        </li>
+    </ol>
     <!--ngfor, boton con nombre o rol e imagen-->
 </div>

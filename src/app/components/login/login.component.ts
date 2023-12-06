@@ -6,6 +6,7 @@ import { AlertasService } from 'src/app/servicios/alerta.service';
 import { DatabaseService } from 'src/app/servicios/database.service';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Subscription } from 'rxjs';
+import { sendEmailVerification } from '@angular/fire/auth';
 
 @Component({
   selector: 'app-login',
@@ -15,10 +16,10 @@ import { Subscription } from 'rxjs';
 export class LoginComponent implements OnInit, OnDestroy {
   
   arrayTodosUsuarios : Array<Usuario> = [];
+  observableControl : Subscription = Subscription.EMPTY;
+  
 
   formLog : FormGroup;
-
-  observableControl : Subscription = Subscription.EMPTY;
 
   constructor(private router: Router, private auth: AuthService, private alertas: AlertasService, 
     private data: DatabaseService, public formBuilder : FormBuilder)
@@ -39,14 +40,21 @@ export class LoginComponent implements OnInit, OnDestroy {
 
   cargarArrayUsuario() //Revisitar... para el login no lo veo necesario, pero puede ayudar para el inicio rápido
   {
-    this.arrayTodosUsuarios = this.arrayTodosUsuarios.concat(this.data.adminsDB, this.data.pacDB, this.data.especDB);
+    let arrayUsuarios = this.arrayTodosUsuarios.concat(this.data.adminsDB, this.data.pacDB, this.data.especDB);
+    arrayUsuarios.forEach(usuario => {
+      if(usuario.id == "yjgmXjNiKczD6FQm9EAS" || usuario.id == "ZyBUdgjqPvQxiKeOZ1Ku" || 
+        usuario.id == "mwh0vqwlYJGGWqxio7un" || usuario.id == "7Lbf58mlBOKfqsooNnRG" || usuario.id == "OKMsZX5dTkqWFQ6lG7KT")
+        {
+          this.arrayTodosUsuarios.push(usuario);
+        }
+    });
     console.log(this.arrayTodosUsuarios);
   }
 
-  inicioRapido(usuario : any)
+  inicioRapido(usuario : Usuario)
   {
-    this.formLog.controls['email'] = usuario.email;
-    this.formLog.controls['password'] = usuario.password;
+    this.formLog.controls['email'].setValue(usuario.email);
+    this.formLog.controls['password'].setValue(usuario.password);
   }
 /*
   traerUsuarios()
@@ -70,51 +78,39 @@ export class LoginComponent implements OnInit, OnDestroy {
     if(this.formLog.valid)
     {
       let formValues = this.formLog.value;
-      await this.auth.logIn(formValues.email, formValues.password).then(res => {
-      
-        if(res!.user.emailVerified)
+      await this.auth.logIn(formValues.email, formValues.password).then(res =>
+      {
+        if(res!.user.emailVerified == true)
         {
-          this.alertas.successToast("Sesion iniciada correctamente!");
-          this.router.navigateByUrl('/home');
+          let rol = this.data.traerRol(res!.user.email || '');
+          if(rol != 'NF' && rol != '')
+          {
+            this.auth.rol = rol;
+            this.auth.userName = res!.user.displayName || '';
+
+            if(rol == 'ESPECIALISTA')
+            {
+              //Lo mandamos a esperar.
+              console.log("redirigiendo a componente de espera");
+            }
+            this.alertas.successToast("Sesion iniciada correctamente!");
+            this.router.navigateByUrl('/home');
+          }
+          else
+          {
+            this.auth.logOut();
+            this.alertas.failureAlert("No se encontró el Rol del usuario, INVESTIGAR.");
+          }
         }
         else
         {
           this.alertas.failureAlert("Debe verificar su email para iniciar sesión.");
+          sendEmailVerification(res!.user);
+          this.auth.logOut();
         }  
-        
-        /*
-        const result = this.data.traerRol(res!.user.email || '');
-  
-        result.then(rol => {
-          if(rol != 'NF' && rol != '')
-          {
-            if(res!.user.emailVerified)
-            {
-              this.auth.rol = rol; 
-              if(rol == 'especialista')
-              {
-                //Espera permiso de ingreso.
-                this.alertas.successToast("Acceso concedido. Sesion iniciada correctamente!");
-                this.router.navigateByUrl('/home');
-              }
-              else
-              {
-                this.alertas.successToast("Sesion iniciada correctamente!");
-                this.router.navigateByUrl('/home');
-              }
-            }
-            else
-            {
-              this.alertas.failureAlert("Debe verificar su email para iniciar sesión.");
-            }
-          }
-          else
-          {
-            this.alertas.failureAlert("Traer Rol devolvió NF o nada... chequear");
-          }
-        })*/
       })
-      .catch(error => {
+      .catch(() => {
+        this.auth.logOut();
         this.alertas.failureAlert("Datos de inicio de sesion incorrectos.");
       });
     }
