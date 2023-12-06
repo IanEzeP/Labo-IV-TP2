@@ -1,0 +1,13 @@
+<div style="display: flex; align-items: center;">
+    <div>
+        <h1>Verificando acceso...</h1>
+        <div *ngIf="tieneAcceso==false; else esperando">
+            <hr>
+            <h2>Su usuario no tiene permitido el acceso. Aguarde unos minutos mientras un Administrador evalúa su solicitud.</h2>
+        </div>
+        <ng-template #esperando>
+            <span>Favor de esperar</span>
+        <!-- Loading -->
+        </ng-template>
+    </div>
+</div>

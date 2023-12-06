@@ -9,6 +9,12 @@ de consulta o de tratamiento, la duracion es de 30 minutos mínimo (los profesio
 la duracion segun su especialidad).
 * Hay un sector dentro de la clinica que se encarga de la organizacion y administracion de la misma.
 
+Sprint 2: solicitar turnos, visualizar turno(paciente->especialista->admin), turnos, mi perfil(✔?), captcha, readme
+
+Sprint 3: charts, historias-clinicas, excel y pdf
+
+
+
 Objetivos:
 Tener la posibilidad de registrarse, ingresar al sistema y administrar los usuarios
 que van a poder utilizar nuestra plataforma.
@@ -42,9 +48,9 @@ que van a poder utilizar nuestra plataforma.
     ○ Debemos validar los campos según corresponda (✔)
 ● Login
     ○ Desde esta sección vamos a ingresar al sistema.
-    ○ Debe contar con los botones de acceso rápido ()
+    ○ Debe contar con los botones de acceso rápido (✔)
     ○ Los usuarios con perfil Especialista solo pueden ingresar si un usuario administrador
-    aprobó su cuenta y verificó el mail al momento de registrarse. (✔X)
+    aprobó su cuenta y verificó el mail al momento de registrarse. (✔)
     ○ Los usuarios con perfil Paciente solo pueden ingresar si verificaron su mail al
     momento de registrarse. (✔)
 
@@ -71,19 +77,5 @@ Web ✔
 elementRef.nativeElement.textContent
 elementRef.nativeElement.innerText
 
-
-Tips para el login de usuario rapido
-Utilizar componente con Input
-Dentro de ese componente traerme los usuarios (con foto) desde firestore
-Realizar ngFor para generar botones
-Por Output devolver al componente Login el nombre y contraseña,
-para que el usuario haga click a login (Utilizar el evento del boton).
-
 * Cada especialidad debe tener una foto
 * La "nueva especialidad" tiene que tener foto por defecto.
-
-
-Posibilidades:
-
--Lo que sea del sprint 2 y sprint 3 de la Clínica para la proxima semana,
-cosa que vean que trabajé y que en ese día me den las correciones necesarias y entregar para la otra semana el sprint 4.

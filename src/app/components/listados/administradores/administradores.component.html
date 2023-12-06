@@ -1,13 +1,18 @@
 <table [cellPadding]="12">
-    <th>
-        ID
-    </th>
-    <th>
-        NOMBRE
-    </th>
-    <th>
-        CORREO
-    </th>
+    <tr>
+        <h2>Administradores</h2>
+    </tr>
+    <tr>
+        <th>
+            ID
+        </th>
+        <th>
+            NOMBRE
+        </th>
+        <th>
+            CORREO
+        </th>
+    </tr>
     <tr *ngFor="let admin of listaAdministradores;" >
         <td> {{ admin.id }} </td>
         <td> {{ admin.nombre }} {{ admin.apellido }} </td>

@@ -29,7 +29,6 @@ export class LoginComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void 
   {
-    //this.traerUsuarios();
     this.cargarArrayUsuario();
   }
 
@@ -38,7 +37,7 @@ export class LoginComponent implements OnInit, OnDestroy {
     this.observableControl.unsubscribe();
   }
 
-  cargarArrayUsuario() //Revisitar... para el login no lo veo necesario, pero puede ayudar para el inicio rápido
+  cargarArrayUsuario()
   {
     let arrayUsuarios = this.arrayTodosUsuarios.concat(this.data.adminsDB, this.data.pacDB, this.data.especDB);
     arrayUsuarios.forEach(usuario => {
@@ -56,22 +55,6 @@ export class LoginComponent implements OnInit, OnDestroy {
     this.formLog.controls['email'].setValue(usuario.email);
     this.formLog.controls['password'].setValue(usuario.password);
   }
-/*
-  traerUsuarios()
-  {
-    this.observableControl = this.data.getCollectionObservable('Administradores').subscribe((next : any) => {
-      this.cargarArrayUsuario(next);
-    });
-  }
-
-  cargarArrayUsuario(array : Array<any>) //Revisitar... para el login no lo veo necesario, pero puede ayudar para el inicio rápido
-  {
-    this.arrayUsuario = [];
-    array.forEach(obj => {
-      let usuario : Usuario = new Usuario(obj.id, obj.Nombre, obj.Apellido, obj.Edad, obj.DNI, obj.Mail, obj.Password, obj.ImagenPerfil);
-      this.arrayUsuario.push(usuario);
-    });
-  }*/
 
   async validarSesion()
   {
@@ -86,15 +69,18 @@ export class LoginComponent implements OnInit, OnDestroy {
           if(rol != 'NF' && rol != '')
           {
             this.auth.rol = rol;
-            this.auth.userName = res!.user.displayName || '';
+            this.auth.email = res!.user.email || '';
 
             if(rol == 'ESPECIALISTA')
             {
-              //Lo mandamos a esperar.
-              console.log("redirigiendo a componente de espera");
+              this.auth.logueado = false;
+              this.router.navigateByUrl("/verificando-acceso");
             }
-            this.alertas.successToast("Sesion iniciada correctamente!");
-            this.router.navigateByUrl('/home');
+            else
+            {
+              this.alertas.successToast("Sesion iniciada correctamente!");
+              this.router.navigateByUrl('/home');
+            }
           }
           else
           {
@@ -119,10 +105,4 @@ export class LoginComponent implements OnInit, OnDestroy {
       this.alertas.failureAlert("Debe llenar los campos para iniciar sesión");
     }
   }
-/*
-  login(usuario : Usuario) //Por el momento es innecesaria
-  {
-    return this.auth.logIn(usuario.email, usuario.password);
-  }
-*/
 }

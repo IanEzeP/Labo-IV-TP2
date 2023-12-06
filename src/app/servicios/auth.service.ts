@@ -1,11 +1,11 @@
 import { Injectable } from '@angular/core';
+import { LoadingService } from './loading.service';
 import { Auth,
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
   signOut,
   User,
-  sendEmailVerification, 
-  authState,
+  sendEmailVerification
   } from '@angular/fire/auth';
 
 @Injectable({
@@ -14,20 +14,17 @@ import { Auth,
 export class AuthService {
 
   public logueado : boolean = false;
-  public userName : string = "";
+  public email : string = "";
   public rol : string = "";
-  public validationState : boolean | null = null;
+  public especAutorizado : boolean = false;
+  public idUser : string = "";
 
-  constructor(private auth: Auth) { }
+  constructor(private auth: Auth, private loading: LoadingService) { }
 
   public async logIn(email: string, password: string) 
   {
     try {
       const credential = signInWithEmailAndPassword(this.auth, email, password);
-      //const uid = await this.getUserUid() || '';
-      //this.userName = await this.data.getUserNameByUID(uid);
-      //this.validationState = await this.data.getValidationStateByUID(uid);
-      //this.rol = await this.data.getUserRolByEmailOrUserName(emailOrUsername);
       //console.log(credential);
       this.logueado = true;
 
@@ -39,30 +36,28 @@ export class AuthService {
 
   public async logOut()
   {
+    this.loading.load();
     this.logueado = false;
-    //this.userName = '';
+    this.email = '';
     this.rol = "";
-    this.validationState = false;
+    this.especAutorizado = false;
+    setTimeout(() => {
+      this.loading.stop();
+    }, 1000);
+    
     return await signOut(this.auth);
   }
 
   public async register(email : string, password : string)
   {
-    //const userExist = await this.data.userExist(userData['UserName']);
-    //if(!userExist)
-    //{
-      const userCredential = await createUserWithEmailAndPassword(this.auth, email, password); //Devuelve "algo" con Resolve() y Reject().
+      const userCredential = await createUserWithEmailAndPassword(this.auth, email, password);
       await this.logIn(email, password);
       const user = userCredential.user;
-      //const userUID = await this.getUserUid() || '';
+
       if(user != null)
       {
         await sendEmailVerification(user);
       }
-      //await this.data.SaveUser(userUID, userData);
-      /*return true;
-    //}
-    return false;*/
   }
   
   public get usuarioActual() : User | null
@@ -74,27 +69,4 @@ export class AuthService {
   {
     return this.auth.updateCurrentUser(usuario)
   }
-/*
-  public async getUserUid()
-  {
-    return new Promise<string | null>((resolve, reject) => 
-    {
-      this.ngFireAuth.authState.subscribe(user => {
-        if (user) {
-          resolve(user.uid);
-        } else {
-          resolve(null); 
-        }
-      });
-    });
-  }
-*//*
-  public async reLogin() 
-  {
-    const uid = await this.getUserUid() || '';
-    this.userName = await this.data.getUserNameByUID(uid);
-    this.logueado = true;
-    this.validationState = await this.data.getValidationStateByUID(uid);
-    this.rol = await this.data.getUserRolByEmailOrUserName(this.userName);
-  }*/
 }

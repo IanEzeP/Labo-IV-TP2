@@ -9,7 +9,7 @@ body {
     display: flex;
     justify-content: center;
     align-items: center;
-    background: #665b5b3c;
+    background: rgba(0, 0, 0, 0.5);
   }
   
   .wave {

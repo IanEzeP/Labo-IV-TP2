@@ -44,11 +44,9 @@ export class DatabaseService{
       });
     });
   }
-  
 
   validarDatoGuardado(id : string, coleccion : string)
   {
-    //let retorno : boolean = false;
     const col = this.firestore.firestore.collection(coleccion);
     console.log(id);
     let retorno = col.get().then((next : any) =>
@@ -66,18 +64,15 @@ export class DatabaseService{
     });
     return retorno;
   }
-/*
-      for (let i = 0; i < result.length; i++)
-      {
-        if(result[i].id == id)
-        {
-          retorno = true;
-          break;
-        }
-      }*/
+
   traerUnDocumento(coleccion: string, id: string)
   {
     return this.firestore.firestore.doc(coleccion + '/' + id).get();
+  }
+
+  traerDocumentoObservable(coleccion: string, id: string)
+  {
+    return this.firestore.doc(coleccion + '/' + id).get();
   }
 
   getCollectionObservable(coleccion : string)
@@ -88,6 +83,25 @@ export class DatabaseService{
   getCollectionPromise(coleccion : string)
   {
     return this.firestore.firestore.collection(coleccion).get();
+  }
+
+  getCollectionByRol(rol : string)
+  {
+    let coleccion : string = '';
+    switch (rol)
+    {
+      case "ADMINISTRADOR":
+        coleccion = "Administradores";
+        break;
+      case "ESPECIALISTA":
+        coleccion = "Especialistas";
+        break;
+      case "PACIENTE":
+        coleccion = "Pacientes";
+        break;
+    }
+
+    return coleccion;
   }
   
   traerRol(email : string) : string
@@ -124,6 +138,75 @@ export class DatabaseService{
 
     return rol;
   }
+
+  getIdByEmail(email : string, coleccion : string)
+  {
+    let id : string = '';
+
+    switch(coleccion)
+    {
+      case "Administradores":
+        this.adminsDB.forEach(admin => {
+          if(admin.email == email)
+          {
+            id = admin.id;
+          }
+        });
+        break;
+      case "Pacientes":
+        this.pacDB.forEach(pac => {
+          if(pac.email == email)
+          {
+            id = pac.id;
+          }
+        });
+        break;
+      case "Especialistas":
+        this.especDB.forEach(espec => {
+          if(espec.email == email)
+          {
+            id = espec.id;
+          }
+        });
+        break;
+    }
+
+    return id;
+  }
+
+  actualizarHorarios(id : string, horario : any)
+  {
+    const espec = this.firestore.doc('Especialistas/' + id);
+    espec.update({
+      TurnoMañana : horario.TurnoMañana,
+      TurnoTarde: horario.TurnoTarde
+    }).catch(error => 
+    {
+      console.log(error);
+      //this.asignarHorarios(id, horario);
+    });
+  }
+
+  asignarHorarios(id : string, horario : any)
+  {
+    const espec = this.firestore.doc('Especialistas/' + id);
+    espec.set({
+      TurnoMañana : horario.TurnoMañana,
+      TurnoTarde: horario.TurnoTarde
+    });
+  }
+/*
+  getIdByMail(email : string, coleccion : string)
+  {
+    return this.getCollectionObservable(coleccion).subscribe((next : any) =>
+    {
+      let result : Array<any> = next;
+      result.forEach(documento => {
+        if(documento.Mail == email)
+      });
+    })
+  }*/
+
 /**
   async traerRol(email : string)
   {

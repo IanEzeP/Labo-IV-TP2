@@ -13,16 +13,17 @@ import { getAuth, provideAuth } from '@angular/fire/auth';
 import { AngularFireModule } from '@angular/fire/compat';
 import { AngularFireStorageModule } from "@angular/fire/compat/storage";
 
+import { AlertasService } from './servicios/alerta.service';
+import { DatabaseService } from './servicios/database.service';
+import { AuthService } from './servicios/auth.service';
+import { LoadingService } from './servicios/loading.service';
+
 import { BienvenidaComponent } from './components/bienvenida/bienvenida.component';
 import { RegistroComponent } from './components/registro/registro.component';
 import { LoginComponent } from './components/login/login.component';
 import { ErrorComponent } from './components/error/error.component';
 import { EspecialidadesComponent } from './components/especialidades/especialidades.component';
 import { NavigatorComponent } from './components/navigator/navigator.component';
-
-import { AlertasService } from './servicios/alerta.service';
-import { DatabaseService } from './servicios/database.service';
-import { AuthService } from './servicios/auth.service';
 import { AccessUsersComponent } from './components/login/access-users/access-users.component';
 import { LoadingComponent } from './components/loading/loading.component';
 import { VerificarComponent } from './components/registro/verificar/verificar.component';
@@ -34,6 +35,9 @@ import { AdministradoresComponent } from './components/listados/administradores/
 import { EspecialistasComponent } from './components/listados/especialistas/especialistas.component';
 import { PacientesComponent } from './components/listados/pacientes/pacientes.component';
 import { DetalleComponent } from './components/usuarios/listado/detalle/detalle.component';
+import { VerificacionAccesoComponent } from './components/login/verificacion-acceso/verificacion-acceso.component';
+import { MiPerfilComponent } from './components/mi-perfil/mi-perfil.component';
+import { PedirTurnoComponent } from './components/pedir-turno/pedir-turno.component';
 
 @NgModule({
   declarations: [
@@ -54,7 +58,10 @@ import { DetalleComponent } from './components/usuarios/listado/detalle/detalle.
     AdministradoresComponent,
     EspecialistasComponent,
     PacientesComponent,
-    DetalleComponent
+    DetalleComponent,
+    VerificacionAccesoComponent,
+    MiPerfilComponent,
+    PedirTurnoComponent
   ],
   imports: [
     BrowserModule,
@@ -67,11 +74,12 @@ import { DetalleComponent } from './components/usuarios/listado/detalle/detalle.
     provideFirebaseApp(() => initializeApp(environment.firebase)),
     provideFirestore(() => getFirestore()),
     provideAuth(() => getAuth()),
-  ],//"locationId":"us-central"
+  ],
   providers: [{ provide: FIREBASE_OPTIONS, useValue: environment.firebase },
     AlertasService,
     DatabaseService,
-    AuthService,],
+    AuthService,
+    LoadingService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

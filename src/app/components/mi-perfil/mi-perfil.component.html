@@ -1,0 +1,56 @@
+<div *ngIf="this.usuario != null">
+    <div class="col-md-3" >
+        <div class="col-md-12 item">
+            <span>¡Hola {{ this.usuario.Nombre }}!</span>
+        </div>
+        <div class="col-md-12">
+            <img src="{{ this.usuario.ImagenPerfil }}">
+        </div>
+        <div class="col-md-12 item" *ngIf="this.auth.rol == 'PACIENTE'">
+            <img src="{{ this.usuario.ImagenAdicional }}">
+        </div>
+    </div>
+    <div class="col-md-9">
+        <div class="col-md-12">
+            <div>
+                <span>{{this.usuario.Apellido}}, </span>
+                <span><b>{{this.usuario.Nombre}}</b></span>
+            </div>
+        </div>
+        <div class="col-md-12">
+            <span>Correo electronico:</span>
+            <span> {{this.usuario.Mail}}</span>
+        </div>
+        <div class="col-md-12">
+            <span>DNI:</span>
+            <span> {{this.usuario.DNI}}</span>
+        </div>
+        <div class="col-md-12" *ngIf="this.auth.rol == 'PACIENTE'">
+            <span>Obra social: </span>
+            <span> {{this.usuario.ObraSocial}}</span>
+        </div>
+        <!--
+        <div *ngIf="this.auth.rol == 'PACIENTE'">
+            <h1>Descargar historias clinicas</h1>
+            <div>
+                <div *ngFor="let especialidad of this.especialidades" class="col-md-3 col-sm-4">
+                    <div>
+                        <span>{{especialidad}}</span>
+                        <button type="button" class="btn" (click)="onDownloadHistoriaClick(especialidad)"></button>
+                    </div>
+                </div>
+            </div>
+        </div>-->
+        <div *ngIf="this.auth.rol == 'ESPECIALISTA'">
+            <div class="col-md-12">
+                <div>
+                    <span>Mis horarios</span>
+                </div>
+            </div>
+            <div class="col-md-12">
+                <label [class.selected]="this.atencionManiana" (click)="cambiarAtencion('mañana')">MAÑANA</label><!-- Class selected?? Chequear... -->
+                <label [class.selected]="this.atencionTarde" (click)="cambiarAtencion('tarde')">TARDE</label>
+            </div>
+        </div>
+    </div>
+</div>
