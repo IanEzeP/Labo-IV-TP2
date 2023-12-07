@@ -1,0 +1,78 @@
+<div class="row body">
+    <div class="col-md-12 d-flex justify-content-end">
+        <button class="button-close" (click)="onDismiss()">
+            <i class="bi bi-x-lg"></i>
+        </button>
+    </div>
+    <div class="col-md-12">
+        <h1>Historia clinica del día {{turno.Dia}} / {{turno.Mes}} / {{turno['Año']}} para el paciente {{turno.Paciente}}</h1>
+    </div>
+    <div class="col-md-12">
+        <p>Complete la historia clinica del paciente</p>
+    </div>
+
+    <div class="col-md-6" style="text-align: left;">
+        <span>Altura</span>
+    </div>
+    <div class="col-md-6" style="text-align: center;">
+        <input class="input-form" type="number" min="120" max="220" [(ngModel)]="this.altura" placeholder="Indique la altura...">
+    </div>
+
+    <div class="col-md-6" style="text-align: left;">
+        <span>Peso</span>
+    </div>
+    <div class="col-md-6" style="text-align: center;">
+        <input class="input-form" type="number" min="30" max="220" [(ngModel)]="this.peso" placeholder="Indique el peso">
+    </div>
+
+    <div class="col-md-6" style="text-align: left;">
+        <span>Temperatura</span>
+    </div>
+    <div class="col-md-6" style="text-align: center;">
+        <input class="input-form" type="number" min="30" max="45" [(ngModel)]="this.temperatura" placeholder="Indique la temperatura...">
+    </div>
+
+    <div class="col-md-6" style="text-align: left;">
+        <span>Presión</span>
+    </div>
+    <div class="col-md-6" style="text-align: center;">
+        <input class="input-form" type="number" min="100" max="250" [(ngModel)]="this.presion" placeholder="Indique la presión...">
+    </div>
+
+    
+    <div class="row" style="margin: 0; padding: 0;" *ngFor="let campo of campos; let i = index"> 
+        <div class="row">
+            <div class="col-md-11">
+                <div class="row">
+                    <div class="col-md-6" style="text-align: left;">
+                        <span>Clave {{i + 1}}</span>
+                    </div>
+                    <div class="col-md-6" style="text-align: center;">
+                        <input [id]="'clave' + i" class="input-form" type="text">
+                    </div>
+                    <div class="col-md-6" style="text-align: left;">
+                        <span>Valor {{i + 1}}</span>
+                    </div>
+                    <div class="col-md-6" style="text-align: center;">
+                        <input [id]="'valor' + i" class="input-form" type="text">
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-1 d-flex justify-content-center align-items-center" > 
+                <button class="button-sacar" (click)="eliminarCampo(i)">
+                    <i class="bi bi-trash"></i>
+                </button>
+            </div>
+        </div>
+    </div> 
+
+    <div class="col-md-12">
+        <button class="button-agregar" (click)="agregarCampo()">Agregar Campo</button>
+    </div>
+
+    <div class="col-md-12">
+        <button class="button-cancel" (click)="onSubirHistoriaClinica()">
+            <span>ENVIAR</span>
+        </button>
+    </div>
+</div>

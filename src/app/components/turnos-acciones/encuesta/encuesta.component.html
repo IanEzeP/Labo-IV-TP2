@@ -1,0 +1,55 @@
+<div class="row body">
+    <div class="col-md-12 d-flex justify-content-end">
+        <button class="button-close" (click)="onDismiss()">
+            <i class="bi bi-x-lg"></i>
+        </button>
+    </div>
+    <div class="col-md-12">
+        <h1>Encuesta para el turno del {{turno.Dia}} / {{turno.Mes}} / {{turno['Año']}}</h1>
+    </div>
+    <div class="col-md-12">
+        <p>Por favor, complete la encuesta de su atencion</p>
+    </div>
+
+    <div class="col-md-6" style="text-align: left;">
+        <span>¿El especialista soluciono su consulta?</span>
+    </div>
+    <div class="col-md-6" style="text-align: center;">
+        <div class="radio-button">
+            <input type="radio" id="solucion-si" name="solucion" value="SI" [(ngModel)]="this.solucionRespuesta">
+            <label for="solucion-si">SI</label>
+            <input type="radio" id="solucion-no" name="solucion" value="NO" [(ngModel)]="this.solucionRespuesta">
+            <label for="solucion-no">NO</label>
+        </div>
+    </div>
+
+    <div class="col-md-6" style="text-align: left;">
+        <span>¿Recomendarias al especialista?</span>
+    </div>
+    <div class="col-md-6" style="text-align: center;">
+        <div class="radio-button">
+            <input type="radio" id="recomendacion-si" name="recomendacion" value="SI" [(ngModel)]="this.recomendacionRespuesta">
+            <label for="recomendacion-si">SI</label>
+            <input type="radio" id="recomendacion-no" name="recomendacion" value="NO" [(ngModel)]="this.recomendacionRespuesta">
+            <label for="recomendacion-no">NO</label>
+        </div>
+    </div>
+
+    <div class="col-md-6" style="text-align: left;">
+        <span>¿El lugar estaba limpio?</span>
+    </div>
+    <div class="col-md-6" style="text-align: center;">
+        <div class="radio-button">
+            <input type="radio" id="limpieza-si" name="limpieza" value="SI" [(ngModel)]="this.limpiezaRespuesta">
+            <label for="limpieza-si">SI</label>
+            <input type="radio" id="limpieza-no" name="limpieza" value="NO" [(ngModel)]="this.limpiezaRespuesta">
+            <label for="limpieza-no">NO</label>
+        </div>
+    </div>
+
+    <div class="col-md-12">
+        <button class="button-cancel" (click)="onEnviarEncuestaClick()">
+            <span>ENVIAR</span>
+        </button>
+    </div>
+</div>

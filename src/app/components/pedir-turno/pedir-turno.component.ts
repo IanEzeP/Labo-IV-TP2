@@ -26,7 +26,7 @@ export class PedirTurnoComponent implements OnInit, OnDestroy{
   diaSeleccionado : any | null;
   horaSeleccionada : any | null;
   
-  
+  horaOcupada : boolean = false;
   observableEspecialidades = Subscription.EMPTY;
   observableEspecialistas = Subscription.EMPTY;
 
@@ -75,8 +75,9 @@ export class PedirTurnoComponent implements OnInit, OnDestroy{
     });
   }
 
-  actualizarEspecialistas() //Especialidad seleccionada
+  actualizarEspecialistas()
   {
+    console.log(this.especialidadSeleccionada);
     this.especDisplay = [];
     if(this.especialidadSeleccionada != '')
     {
@@ -89,8 +90,9 @@ export class PedirTurnoComponent implements OnInit, OnDestroy{
     }
   }
 
-  public async onEspecialistaChange(especialista : any) //Especialista seleccionado
+  public async onEspecialistaChange(especialista : any) 
   {
+    console.log(this.especialistaSeleccionado);
     this.diasTurnos = [];
     let diasProximos = 15;
     for (let i = 0; i < diasProximos; i++) 
@@ -115,7 +117,7 @@ export class PedirTurnoComponent implements OnInit, OnDestroy{
     }
   }
 
-  public async getDayInfo(date : Date) //No lo veo necesario para mi codigo como está ahora...
+  public async getDayInfo(date : Date) 
   {
     const day = date.getDate();
     const month = date.getMonth() + 1; //rari
@@ -148,13 +150,11 @@ export class PedirTurnoComponent implements OnInit, OnDestroy{
 
   public async generateTimeArray(especialidad : string, especialista : any, date : any) //generar horas disponibles
   {
-    const horarios = [];
-    
     for (let hour = 8; hour <= 19; hour++) //11 iteraciones
     { 
-      for (let minute = 0; minute < 60; minute += 30) //2Iteraciones
+      for (let minute = 0; minute < 60; minute += 30) //2 Iteraciones
       { 
-        const time = `${hour.toString().padStart(2, '0')}:${minute.toString().padStart(2, '0')}`; //Funcion para escribir "08:00", tal vez me sirva
+        const time = `${hour.toString().padStart(2, '0')}:${minute.toString().padStart(2, '0')}`; //Funcion para escribir "08:00"
 
         let isAvailable : any;
 
@@ -169,33 +169,30 @@ export class PedirTurnoComponent implements OnInit, OnDestroy{
             (especialista.HorarioTarde && ((hour > 13 && hour < 19) || (hour === 18 && minute <= 30)));
         }
   
-        if (isAvailable) {
-          const isOccupied = await this.IsHourOcuppied(especialidad, especialista.Nombre, date.day, date.monthText, date.year, time);//Funcion que no tengo
-          const timeObject = {
-            time: time,
-            checked: isOccupied,
-          };
-          horarios.push(timeObject);
+        if (isAvailable) 
+        {
+          let fecha = new Date(date.year, date.month, date.day);
+          console.log(fecha);
+          this.horaOcupada = false;
+          this.data.getCollectionObservable('Turnos').subscribe((next : any) => 
+          {
+            let result : Array<any> = next;
+            result.forEach(turno => {
+            if(turno.idEspecialista == especialista.id && turno.Especialidad == especialidad && turno.Fecha == fecha.toDateString())
+            {
+              this.horaOcupada = true;
+            }
+            });
+            const timeObject = 
+            {
+              time: time,
+              checked: this.horaOcupada,
+            };
+            this.horarios.push(timeObject);
+          });
         }
       }
     }
-    return horarios;
-  }
-
-  public async IsHourOcuppied(especialidad : string, especialista : string, day : any, month : any, year : any, hour : any)
-  {/* Cambiar de Firestore a AngularFire
-    const userCollection = collection(this.firestore, 'Turno');
-    const q = query(userCollection, where('Especialidad', '==', especialidad), where('Especialista', '==', especialista), where('Dia', '==', day), where('Mes', '==', month), where('Año', '==', year), where('Horario', '==', hour));
-    const querySnapshot = await getDocs(q);
-  
-    if (querySnapshot.empty) 
-    {
-      return false;
-    }
-    else
-    {
-      return true;
-    }*/
   }
 
   public onSolicitarTurnoClick() //pedir turno.

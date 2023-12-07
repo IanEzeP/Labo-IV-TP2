@@ -26,25 +26,23 @@
             <li class="nav-item">
               <a class="nav-link" routerLink="home" (click)="auth.logOut()">Cerrar Sesión</a>
             </li>
+            <li class="nav-item">
+              <a class="nav-link" (click)="onTurnosClick()">Mis turnos</a>
+            </li>
           </ng-template>
-          
           <div *ngIf="auth.rol=='ADMINISTRADOR'">
             <li class="nav-item">
               <a class="nav-link" routerLink="usuarios">Usuarios</a>
             </li>
           </div>
-
-          <!--
-            <li class="nav-item" *ngIf="this.auth.rol == 'Usuario'">
-              <a class="nav-link" href="solicitar-turno">Solicitar turnos</a>
+          <div *ngIf="auth.rol=='ADMINISTRADOR' || auth.rol=='PACIENTE'">
+            <li class="nav-item">
+              <a class="nav-link" routerLink="pedir-turno">Solicitar turnos</a>
             </li>
-            <li class="nav-item" *ngIf="this.auth.userName.length > 1" style="cursor: pointer;">
-              <a class="nav-link" (click)="onTurnosClick()">Turnos</a>
-            </li>
-            <li class="nav-item" *ngIf="this.auth.userName.length > 1 && this.auth.rol != 'Usuario'" >
-              <a class="nav-link" href="historias-usuarios">Pacientes</a>
-            </li>
-          -->
+          </div>
+          <div *ngIf="auth.rol=='ESPECIALISTA'">
+            <a class="nav-link" routerLink="">Pacientes</a>
+          </div>
         </ul>
       </div>
     </div>

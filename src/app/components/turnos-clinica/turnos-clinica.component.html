@@ -1,0 +1,73 @@
+<div class="row background">
+    <div class="col-md-7">
+        <div class="row">
+            <div class="col-md-12">
+                <h1>TURNOS</h1>
+            </div>
+        </div>
+
+        <div class="info-container">
+            <div class="row">
+                <div class="col-md-12 text">
+                    <span><b>Especialidad</b></span>
+                </div>
+            </div>
+            <div class="row especialidad">
+                <div *ngFor="let especialidad of this.especialidades" class="radio-button col-md-3 col-sm-4">
+                    <input type="radio" [id]="especialidad.Nombre" name="radios" [value]="especialidad.Nombre" [(ngModel)]="this.especialidadSeleccionada"  (change)="onEspecialidadChange(especialidad.Nombre)" checked>
+                    <label [for]="especialidad.Nombre">{{especialidad.Nombre}}</label>
+                </div>
+            </div>
+        </div>
+
+        <div class="info-container">
+            <div class="row">
+                <div class="col-md-12 text">
+                    <span><b>Especialista</b></span>
+                </div>
+            </div>
+            <div class="row especialidad">
+                <div *ngFor="let especialidad of this.especialistas" class="radio-button col-md-2 col-sm-4">
+                    <input type="radio" [id]="especialidad.Nombre" name="radio" [value]="especialidad" [(ngModel)]="this.especialistaSeleccionado"  (change)="onEspecialistaChange(especialidad.Nombre)"  checked>
+                    <label [for]="especialidad.Nombre">{{especialidad.Nombre}}</label>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-12">
+                <button class="clean-btn" (click)="onLimpiarFiltrosClick()">
+                    <span>LIMPIAR FILTROS</span>
+                </button>
+            </div>
+        </div>
+
+        <div class="turnos-container">
+            <div class="row">
+                <div class="col-md-12 turno" *ngFor="let turno of this.turnosFiltrados">
+                    <div class="info">
+                        <span>{{turno.Especialidad}}</span>
+                        <div>
+                            <button class="button-cancel" (click)="onCancelClick(turno)" *ngIf="turno.Estad == 'pendiente'">
+                                <i class="bi bi-x-lg"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="info">
+                        <span>{{turno.Especialista}}</span>
+                        <div>
+                            <span>{{turno.Dia}} / {{turno.Mes}} / {{turno['Año']}}</span>
+                        </div>
+                        <span>{{turno.Horario}}</span>
+                        <span [ngClass]="{'esp': turno.Estad == 'esperando', 'can': turno.Estad == 'cancelado', 'fin': turno.Estad == 'finalizado', 'pen': turno.Estad == 'pendiente'}">{{turno.Estad.toUpperCase()}}</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-5"> 
+        <app-cancelar
+        [turno]="fechaTurno" (close)="onCancelTurnoDismiss($event)" *ngIf="this.viewCancel"
+        ></app-cancelar>
+    </div>
+</div>

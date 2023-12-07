@@ -1,4 +1,3 @@
-- 2/11/23 - Comienzo Sprint 1
 
 La clinica cuenta con 6 consultorios, 2 laboratorios y una sala de espera
 Horario: lunes a viernes, de 08:00 a 19:00. sabados de 08:00 a 14:00
@@ -9,7 +8,7 @@ de consulta o de tratamiento, la duracion es de 30 minutos mínimo (los profesio
 la duracion segun su especialidad).
 * Hay un sector dentro de la clinica que se encarga de la organizacion y administracion de la misma.
 
-Sprint 2: solicitar turnos, visualizar turno(paciente->especialista->admin), turnos, mi perfil(✔?), captcha, readme
+Sprint 2: solicitar turnos, visualizar turno(paciente->especialista->admin), turnos, mi perfil, captcha, readme
 
 Sprint 3: charts, historias-clinicas, excel y pdf
 
@@ -79,3 +78,5 @@ elementRef.nativeElement.innerText
 
 * Cada especialidad debe tener una foto
 * La "nueva especialidad" tiene que tener foto por defecto.
+
+A lo mejor cada especialidad deberia tener en la DB una direccion a su imagen.

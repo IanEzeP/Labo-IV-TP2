@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { DatabaseService } from 'src/app/servicios/database.service';
+import { Router } from '@angular/router';
 import { AuthService } from 'src/app/servicios/auth.service';
 import { LoadingService } from 'src/app/servicios/loading.service';
 @Component({
@@ -8,5 +8,21 @@ import { LoadingService } from 'src/app/servicios/loading.service';
   styleUrls: ['./navigator.component.css']
 })
 export class NavigatorComponent {
-  constructor(private data: DatabaseService, public auth: AuthService, public loading: LoadingService) {}
+  constructor(private router: Router, public auth: AuthService, public loading: LoadingService) {}
+
+  public onTurnosClick()
+  {
+    switch(this.auth.rol)
+    {
+      case 'ESPECIALISTA':
+        this.router.navigateByUrl('turnos-especialista');
+        break;
+      case 'ADMINISTRADOR':
+        this.router.navigateByUrl('turnos-admins');
+        break;
+      default:
+        this.router.navigateByUrl('turnos-pacientes');
+        break;
+    }
+  }
 }

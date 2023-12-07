@@ -1,0 +1,24 @@
+<div class="row body">
+    <div class="col-md-12 d-flex justify-content-end">
+        <button class="button-close" (click)="onDismiss()">
+            <i class="bi bi-x-lg"></i>
+        </button>
+    </div>
+    <div class="col-md-12">
+        <h1>Turno del {{turno.Dia}} / {{turno.Mes}} / {{turno['Año']}}</h1>
+    </div>
+    <div class="col-md-12">
+        <p>Por favor, deje una puntuacion y un comentario de su turno</p>
+    </div>
+    <div class="col-md-12" style="text-align: center;">
+        <ngb-rating style="font-size: 60px;" [(rate)]="this.rating"></ngb-rating>
+    </div>
+    <div class="col-md-12">
+        <textarea class="textarea" placeholder="Deje su opinion aquí" [(ngModel)]="this.text" ></textarea>
+    </div>
+    <div class="col-md-12">
+        <button class="button-cancel" (click)="onEnviarRateClick()">
+            <span>ENVIAR</span>
+        </button>
+    </div>
+</div>

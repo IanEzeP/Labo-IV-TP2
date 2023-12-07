@@ -1,0 +1,21 @@
+<div class="row body">
+    <div class="col-md-12 d-flex justify-content-end">
+        <button class="button-close" (click)="onDismiss()">
+            <i class="bi bi-x-lg"></i>
+        </button>
+    </div>
+    <div class="col-md-12">
+        <h1>Usted está apunto de rechazar el turno del {{turno.Dia}} / {{turno.Mes}} / {{turno['Año']}}</h1>
+    </div>
+    <div class="col-md-12">
+        <p>Por favor, deje una justificacion de porque refhaza el turno</p>
+    </div>
+    <div class="col-md-12">
+        <textarea class="textarea" placeholder="Rechazo el turno debido a que..." [(ngModel)]="this.text" ></textarea>
+    </div>
+    <div class="col-md-12">
+        <button class="button-cancel" (click)="onCancelClick()">
+            <span>RECHAZAR TURNO</span>
+        </button>
+    </div>
+</div>

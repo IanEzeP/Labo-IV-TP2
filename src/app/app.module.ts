@@ -38,6 +38,17 @@ import { DetalleComponent } from './components/usuarios/listado/detalle/detalle.
 import { VerificacionAccesoComponent } from './components/login/verificacion-acceso/verificacion-acceso.component';
 import { MiPerfilComponent } from './components/mi-perfil/mi-perfil.component';
 import { PedirTurnoComponent } from './components/pedir-turno/pedir-turno.component';
+import { TurnosPacientesComponent } from './components/turnos-pacientes/turnos-pacientes.component';
+import { TurnosEspecialistasComponent } from './components/turnos-especialistas/turnos-especialistas.component';
+import { TurnosClinicaComponent } from './components/turnos-clinica/turnos-clinica.component';
+import { HistorialComponent } from './components/historial/historial.component';
+import { CancelarComponent } from './components/turnos-acciones/cancelar/cancelar.component';
+import { EncuestaComponent } from './components/turnos-acciones/encuesta/encuesta.component';
+import { FinalizarComponent } from './components/turnos-acciones/finalizar/finalizar.component';
+import { ValorarComponent } from './components/turnos-acciones/valorar/valorar.component';
+import { RechazarComponent } from './components/turnos-acciones/rechazar/rechazar.component';
+import { VerValoracionComponent } from './components/turnos-acciones/ver-valoracion/ver-valoracion.component';
+import { VerHistorialComponent } from './components/turnos-acciones/ver-historial/ver-historial.component';
 
 @NgModule({
   declarations: [
@@ -61,7 +72,18 @@ import { PedirTurnoComponent } from './components/pedir-turno/pedir-turno.compon
     DetalleComponent,
     VerificacionAccesoComponent,
     MiPerfilComponent,
-    PedirTurnoComponent
+    PedirTurnoComponent,
+    TurnosPacientesComponent,
+    TurnosEspecialistasComponent,
+    TurnosClinicaComponent,
+    HistorialComponent,
+    CancelarComponent,
+    EncuestaComponent,
+    FinalizarComponent,
+    ValorarComponent,
+    RechazarComponent,
+    VerValoracionComponent,
+    VerHistorialComponent
   ],
   imports: [
     BrowserModule,

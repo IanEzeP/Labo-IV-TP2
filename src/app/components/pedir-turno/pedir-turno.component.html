@@ -1,1 +1,53 @@
-<p>pedir-turno works!</p>
+<div>
+    <div class="row">
+        <div class="col-md-12">
+            <span><b>Especialidad</b></span>
+        </div>
+    </div>
+    <div class="row">
+        <div *ngFor="let especialidad of this.especialidades" class="col-md-2 col-sm-4">
+            <input type="radio" id="{{especialidad}}" value="{{especialidad}}" [(ngModel)]="this.especialidadSeleccionada" (change)="actualizarEspecialistas()" checked>
+            <label for="{{especialidad}}"><img style="width: 50px; height: 50px; border-radius: 50%; object-fit: cover;" src="../../../assets/traumatologo.png"> {{especialidad}}</label>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            <span><b>Especialista</b></span>
+        </div>
+    </div>
+    <div class="row">
+        <div *ngFor="let especialista of this.especDisplay" class="col-md-2 col-sm-4">
+            <input type="radio" id="{{especialista.Nombre}}" value="{{especialista}}" [(ngModel)]="this.especialistaSeleccionado" (change)="onEspecialistaChange(especialista)" checked>
+            <label for="{{especialista}}"><img style="width: 50px; height: 50px; border-radius: 50%;" src="{{especialista.ImagenPerfil}}"> {{especialista.Nombre}}</label>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            <span><b>Días</b></span>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-3 col-sm-4" [ngClass]="{'ocupado': dia.ocupado}" *ngFor="let dia of this.diasTurnos">
+            <input type="radio" id="{{dia.day}}" name="radio-dia" [disabled]="dia.ocupado" value="{{dia}}" [(ngModel)]="this.diaSeleccionado" (change)="onDayChange(dia)" checked>
+            <label for="{{dia.day}}">{{dia.year}} {{dia.monthText}} {{dia.day}}</label>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            <span><b>Horarios</b></span>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-1 col-sm-2" [ngClass]="{'ocupado': hora.checked}" *ngFor="let hora of this.horarios">
+            <input type="radio" id="{{hora.time}}" name="radio-hour" value="{{hora.time}}" [disabled]="hora.checked" [(ngModel)]="this.horaSeleccionada" checked>
+            <label for="{{hora.time}}">{{hora.time}}</label>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            <button [disabled]="!(this.especialidadSeleccionada != null && this.especialistaSeleccionado != null && this.horaSeleccionada != null && this.diaSeleccionado != null)" >
+                <span>Solicitar turno</span>
+            </button>
+        </div>
+    </div>
+</div><!--(click)="onSolicitarTurnoClick()"-->

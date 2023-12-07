@@ -1,0 +1,68 @@
+<div class="row background">
+    <div class="col-md-7">
+        <div class="row">
+            <div class="col-md-12">
+                <h1>TURNOS</h1>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-12">
+                <input class="input-filtro" type="text" [(ngModel)]="inputFiltro" (input)="filtrarTurnos()" placeholder="Buscar...">
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-12">
+                <button class="clean-btn" (click)="onLimpiarFiltrosClick()">
+                    <span>LIMPIAR FILTROS</span>
+                </button>
+            </div>
+        </div>
+
+        <div class="turnos-container">
+            <div class="row">
+                <div class="col-md-12 turno" *ngFor="let turno of this.turnosFiltrados">
+                    <div class="info">
+                        <span>{{turno.Especialidad}}</span>
+                        <div>
+                            <button class="button-cancel" (click)="onRechazarTurnoClick(turno)" *ngIf="turno.Estad == 'pendiente' ">
+                                <i class="bi bi-x-lg"></i>
+                            </button>
+                            <button class="button-cancel" (click)="onCancelClick(turno)" *ngIf="turno.Estad == 'esperando'">
+                                <i class="bi bi-x-lg"></i>
+                            </button>
+                            <button class="button" (click)="onAcceptTurnoClick(turno)" *ngIf="turno.Estad == 'pendiente' ">
+                                <i class="bi bi-check"></i>
+                            </button>
+                            <button class="button" (click)="onFinishTurnoClick(turno)" *ngIf="turno.Estad == 'esperando'">
+                                <i class="bi bi-file-earmark-person"></i>
+                            </button>
+                            <button class="button" (click)="onViewMessageClick(turno)" *ngIf="turno.Estad == 'finalizado' && turno.Mensaje.length > 0 ">
+                                <i class="bi bi-file-earmark-person"></i>
+                            </button>
+                            <button class="button" (click)="onHistoraClick(turno)" *ngIf="turno.Estad == 'finalizado' && turno.Mensaje.length > 0 && turno.HistoriaClinica == null">
+                                <i class="bi bi-plus"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="info">
+                        <span>{{turno.Paciente}}</span>
+                        <div>
+                            <span>{{turno.Dia}} / {{turno.Mes}} / {{turno['Año']}}</span>
+                        </div>
+                        <span>{{turno.Horario}}</span>
+                        <span [ngClass]="{'esp': turno.Estad == 'esperando', 'can': turno.Estad == 'cancelado', 'fin': turno.Estad == 'finalizado', 'pen': turno.Estad == 'pendiente'}">{{turno.Estad.toUpperCase()}}</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-5"> 
+        <app-cancelar [turno]="turnoSeleccionado" (close)="onCancelTurnoDismiss()" *ngIf="this.viewCancel"></app-cancelar>
+        <app-rechazar [turno]="turnoSeleccionado" (close)="onRechazarTurnoDismiss()" *ngIf="this.viewRechazar"></app-rechazar>
+        <app-finalizar [turno]="turnoSeleccionado" (close)="onFinishTurnosDismiss()" *ngIf="this.viewFinish"></app-finalizar>
+        <app-ver-valoracion [turno]="turnoSeleccionado" (close)="onReseniaTurnoDismiss()" *ngIf="this.viewMessage"></app-ver-valoracion>
+        <app-ver-historial [turno]="turnoSeleccionado" (close)="onHsitoriaClinicaDismiss()" *ngIf="this.viewHistoria"></app-ver-historial>
+    </div>
+</div>
