@@ -19,6 +19,8 @@ export class RegistrarComponent {
   administrador : Usuario = Usuario.inicializar();
 
   public formRegistro : FormGroup;
+  
+  siteKey : string = "6LeIxAcTAAAAAJcZVRqyHh71UMIEGNQ_MXjiZKhI";
 
   constructor(private firestore: AngularFirestore, private firestorage: AngularFireStorage,
     private alertas: AlertasService, private auth: AuthService, public formBuilder : FormBuilder)
@@ -31,6 +33,7 @@ export class RegistrarComponent {
       dni: [0, [Validators.min(10000000), Validators.max(99999999), Validators.required, this.noDecimalValidator]],
       email: ['', [Validators.minLength(6), Validators.maxLength(30), Validators.required, this.emailValidator, this.spaceValidator]],
       password: ['', [Validators.minLength(6), Validators.maxLength(25), Validators.required, this.spaceValidator]],
+      recaptcha: ['', Validators.required]
     });
   }
 

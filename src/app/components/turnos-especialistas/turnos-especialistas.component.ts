@@ -2,6 +2,7 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { DatabaseService } from 'src/app/servicios/database.service';
 import { AuthService } from 'src/app/servicios/auth.service';
 import { Subscription } from 'rxjs';
+import { AngularFirestore } from '@angular/fire/compat/firestore';
 
 @Component({
   selector: 'app-turnos-especialistas',
@@ -29,7 +30,7 @@ export class TurnosEspecialistasComponent implements OnInit, OnDestroy{
   observableEspecialidades = Subscription.EMPTY;
   observableTurnos = Subscription.EMPTY;
 
-  constructor(private data : DatabaseService, private auth : AuthService) { }
+  constructor(private data : DatabaseService, private auth : AuthService, private firestore: AngularFirestore) { }
 
   async ngOnInit()
   {
@@ -139,7 +140,7 @@ export class TurnosEspecialistasComponent implements OnInit, OnDestroy{
     this.viewMessage = false;
     this.viewFinish = false;
   }
-/*
+
   public async onAcceptTurnoClick(turno : any)
   {
     let turnoFecha = 
@@ -148,13 +149,15 @@ export class TurnosEspecialistasComponent implements OnInit, OnDestroy{
       monthText: turno.Mes,
       year: turno['Año']
     }
-    let idTurno = await this.data.getTurnoIdByDateTime(turnoFecha, turno.Horario) || '';
-    console.log(idTurno);
+    //let idTurno = await this.data.getTurnoIdByDateTime(turnoFecha, turno.Horario) || '';
+    //console.log(idTurno);
     console.log(turnoFecha, turno.Horario);
 
-
-    this.data.updateEstadoTurno(idTurno, "", 'esperando');
-  }*/
+    const documento = this.firestore.doc('Turnos/' + turno.id);
+    documento.update({
+      Estado: 'Esperando'
+    })
+  }
 
   async onRechazarTurnoClick(turno : any)
   {

@@ -183,18 +183,9 @@ export class DatabaseService{
     }).catch(error => 
     {
       console.log(error);
-      //this.asignarHorarios(id, horario);
     });
   }
 
-  asignarHorarios(id : string, horario : any)
-  {
-    const espec = this.firestore.doc('Especialistas/' + id);
-    espec.set({
-      TurnoMañana : horario.TurnoMañana,
-      TurnoTarde: horario.TurnoTarde
-    });
-  }
 /*
   getIdByMail(email : string, coleccion : string)
   {

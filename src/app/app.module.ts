@@ -12,6 +12,7 @@ import { environment } from 'src/environments/environment.development';
 import { getAuth, provideAuth } from '@angular/fire/auth';
 import { AngularFireModule } from '@angular/fire/compat';
 import { AngularFireStorageModule } from "@angular/fire/compat/storage";
+import { NgxCaptchaModule } from 'ngx-captcha';
 
 import { AlertasService } from './servicios/alerta.service';
 import { DatabaseService } from './servicios/database.service';
@@ -96,6 +97,7 @@ import { VerHistorialComponent } from './components/turnos-acciones/ver-historia
     provideFirebaseApp(() => initializeApp(environment.firebase)),
     provideFirestore(() => getFirestore()),
     provideAuth(() => getAuth()),
+    NgxCaptchaModule,
   ],
   providers: [{ provide: FIREBASE_OPTIONS, useValue: environment.firebase },
     AlertasService,

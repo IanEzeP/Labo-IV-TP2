@@ -48,33 +48,5 @@ export class MiPerfilComponent implements OnInit {
     
     this.data.actualizarHorarios(this.usuario.id, horario);
   }
-  /*
-  public onDownloadHistoriaClick(especialidad : string)
-    {
-      let turnos;
-      this.data.getTurnosByUserUserName(this.auth.userName).subscribe((x) =>
-        {
-          turnos = x;
-          turnos = turnos.filter((turno : {HistoriaClinica : any, Especialidad : any}) => turno.HistoriaClinica != null && turno.Especialidad == especialidad);
-          let historiasArray = turnos.map((turno : any) =>
-          {
-            let datosHistoriaClinica: { [clave: string]: any } = {};
-            for (let clave in turno.HistoriaClinica) {
-              datosHistoriaClinica[clave] = turno.HistoriaClinica[clave];
-            }
-
-            return {
-              Paciente: turno.Paciente,
-              Especialista: turno.Especialista,
-              Especialidad: turno.Especialidad,
-              Dia: turno.Dia,
-              Mes: turno.Mes,
-              ['Año']: turno.Año,
-              ...datosHistoriaClinica,
-            }
-          });
-          this.file.downloadPDF(historiasArray);
-        });
-    }
-  */
+  
 }

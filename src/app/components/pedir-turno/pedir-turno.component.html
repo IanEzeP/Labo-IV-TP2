@@ -1,5 +1,5 @@
 <div>
-    <div class="row">
+    <div class="row p-5 mb-4 text-white bg-dark rounded-3">
         <div class="col-md-12">
             <span><b>Especialidad</b></span>
         </div>
@@ -10,7 +10,7 @@
             <label for="{{especialidad}}"><img style="width: 50px; height: 50px; border-radius: 50%; object-fit: cover;" src="../../../assets/traumatologo.png"> {{especialidad}}</label>
         </div>
     </div>
-    <div class="row">
+    <div class="row p-5 mb-4 text-white bg-dark rounded-3">
         <div class="col-md-12">
             <span><b>Especialista</b></span>
         </div>
@@ -21,7 +21,7 @@
             <label for="{{especialista}}"><img style="width: 50px; height: 50px; border-radius: 50%;" src="{{especialista.ImagenPerfil}}"> {{especialista.Nombre}}</label>
         </div>
     </div>
-    <div class="row">
+    <div class="row p-5 mb-4 text-white bg-dark rounded-3">
         <div class="col-md-12">
             <span><b>Días</b></span>
         </div>
@@ -33,7 +33,7 @@
         </div>
     </div>
     <div class="row">
-        <div class="col-md-12">
+        <div class="col-md-12 p-5 mb-4 text-white bg-dark rounded-3">
             <span><b>Horarios</b></span>
         </div>
     </div>
@@ -45,7 +45,7 @@
     </div>
     <div class="row">
         <div class="col-md-12">
-            <button [disabled]="!(this.especialidadSeleccionada != null && this.especialistaSeleccionado != null && this.horaSeleccionada != null && this.diaSeleccionado != null)" >
+            <button class="btn btn-secondary" [disabled]="!(this.especialidadSeleccionada != null && this.especialistaSeleccionado != null && this.horaSeleccionada != null && this.diaSeleccionado != null)" >
                 <span>Solicitar turno</span>
             </button>
         </div>

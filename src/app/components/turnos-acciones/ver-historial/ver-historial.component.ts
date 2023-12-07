@@ -52,8 +52,8 @@ export class VerHistorialComponent {
       year: this.turno.Año,
     }
 
-    let turnoId = await this.data.getTurnoIdByDateTime(date, this.turno.Horario);
-    await this.data.saveHistoriaClinicaByTurnoId(turnoId, historiaClinica);
+    //let turnoId = await this.data.getTurnoIdByDateTime(date, this.turno.Horario);
+    //await this.data.saveHistoriaClinicaByTurnoId(turnoId, historiaClinica);
     
     this.close.emit();
   }

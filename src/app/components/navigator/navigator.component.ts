@@ -15,7 +15,7 @@ export class NavigatorComponent {
     switch(this.auth.rol)
     {
       case 'ESPECIALISTA':
-        this.router.navigateByUrl('turnos-especialista');
+        this.router.navigateByUrl('turnos-especialistas');
         break;
       case 'ADMINISTRADOR':
         this.router.navigateByUrl('turnos-admins');

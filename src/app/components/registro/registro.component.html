@@ -160,7 +160,12 @@
                 </ul>
             </div>
             </ng-template>
-
+            <div class="col-md-6">
+                <ngx-recaptcha2 #captchaElem
+                [siteKey]="siteKey" formControlName="recaptcha">
+        
+                </ngx-recaptcha2>
+            </div>
         </div>
         <button class="btn btn-primary btn-lg" (click)="registrar()">REGISTRAR</button>
     </form>

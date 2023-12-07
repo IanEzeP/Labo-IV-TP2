@@ -1,27 +1,40 @@
-# TP2
+# CLÍNICA ON LINE 
+## TP 2
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 16.2.1.
+Buenas, soy Ian Pereyra y este es mi proyecto de página web para una clínica, de libre uso para pacientes y doctores.
 
-## Development server
+## Especificaciones
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The application will automatically reload if you change any of the source files.
+- Lenguajes: Typescript y HTML principalmente
+- Framework: Angular 16.2.9
+- Web Hosting: Firebase
+- Link: https://hostingclinicatp.firebaseapp.com
 
-## Code scaffolding
+## Pantallas
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+- Home: Es la pantalla por default que ve cualquier usuario al entrar a la página. Desde aquí se podrá Iniciar Sesión o Registrarse. En el caso de haber iniciado sesión tendrá a su disposición el resto opciones.
 
-## Build
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory.
 
-## Running unit tests
 
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
+- Mi perfil: Aquí se encuentra la informacón de tu usuario registrado. En el caso de acceder como Especialista, podrá visualizar y elegir los turnos en los que atiende.
 
-## Running end-to-end tests
 
-Run `ng e2e` to execute the end-to-end tests via a platform of your choice. To use this command, you need to first add a package that implements end-to-end testing capabilities.
 
-## Further help
+- Solicitar turno: Desde aquí los usuarios Pacientes o Administradores podrán solicitar turnos en la especialidad que deseen, eligiendo también al Especialista, la fecha y el horario.
 
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.io/cli) page.
+
+
+- Turnos: Desde aquí  se puede consultar detalladamente:
+  - Administradores: Todos los turnos solicitados por los usuarios de la clínica y su estado.
+  - Especialistas: Los turnos que cada especialista tiene asignado.
+  - Pacientes: Los turnos que solicitó el usuario Paciente.
+
+
+- Usuarios: Esta sección se encuentra a disposición de forma exclusiva al Administrador. Desde aquí podrá acceder a la lista completa de usuarios registrados en el sistema (Pacientes, Especialistas y Administradores) y también tendrá la capacidad de aprobar a los especialistas que se han registrado.
+
+
+
+## LOGO
+
+![image](https://github.com/IanEzeP/Labo-IV-TP2/blob/main/src/favicon.ico)

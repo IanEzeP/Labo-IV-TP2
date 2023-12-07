@@ -36,7 +36,8 @@ export class RegistroComponent implements OnInit, OnDestroy{
   imgFile1 : any;
   imgFile2 : any;
 
-  public formRegistro : FormGroup;
+  siteKey : string = "6LeIxAcTAAAAAJcZVRqyHh71UMIEGNQ_MXjiZKhI";
+  formRegistro : FormGroup;
 
   constructor(private firestore: AngularFirestore, private firestorage: AngularFireStorage, private data: DatabaseService,
     private alertas: AlertasService, private auth: AuthService, public formBuilder : FormBuilder, private router: Router)
@@ -49,7 +50,8 @@ export class RegistroComponent implements OnInit, OnDestroy{
       dni: [0, [Validators.min(10000000), Validators.max(99999999), Validators.required, this.noDecimalValidator]],
       email: ['', [Validators.minLength(6), Validators.maxLength(30), Validators.required, this.emailValidator, this.spaceValidator]],
       password: ['', [Validators.minLength(6), Validators.maxLength(25), Validators.required, this.spaceValidator]],
-      obraSocial: ['', [Validators.minLength(4), Validators.maxLength(20), Validators.pattern("[a-zA-Z ]*")]]
+      obraSocial: ['', [Validators.minLength(4), Validators.maxLength(20), Validators.pattern("[a-zA-Z ]*")]],
+      recaptcha: ['', Validators.required]
     });
   }
 

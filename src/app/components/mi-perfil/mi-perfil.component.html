@@ -1,19 +1,19 @@
-<div *ngIf="this.usuario != null">
-    <div class="col-md-3" >
-        <div class="col-md-12 item">
+<div style="display: flex; justify-content: center;" *ngIf="this.usuario != null">
+    <div class="col-md-3">
+        <div class="col-md-12">
             <span>¡Hola {{ this.usuario.Nombre }}!</span>
         </div>
         <div class="col-md-12">
-            <img src="{{ this.usuario.ImagenPerfil }}">
+            <img width="300" height="300" src="{{ this.usuario.ImagenPerfil }}">
         </div>
-        <div class="col-md-12 item" *ngIf="this.auth.rol == 'PACIENTE'">
-            <img src="{{ this.usuario.ImagenAdicional }}">
+        <div class="col-md-12" *ngIf="this.auth.rol == 'PACIENTE'">
+            <img width="300" height="300" src="{{ this.usuario.ImagenAdicional }}">
         </div>
     </div>
     <div class="col-md-9">
         <div class="col-md-12">
             <div>
-                <span>{{this.usuario.Apellido}}, </span>
+                <span><b>{{this.usuario.Apellido}}, </b></span>
                 <span><b>{{this.usuario.Nombre}}</b></span>
             </div>
         </div>
@@ -44,12 +44,12 @@
         <div *ngIf="this.auth.rol == 'ESPECIALISTA'">
             <div class="col-md-12">
                 <div>
-                    <span>Mis horarios</span>
+                    <span>Mis horarios:</span>
                 </div>
             </div>
             <div class="col-md-12">
-                <label [class.selected]="this.atencionManiana" (click)="cambiarAtencion('mañana')">MAÑANA</label><!-- Class selected?? Chequear... -->
-                <label [class.selected]="this.atencionTarde" (click)="cambiarAtencion('tarde')">TARDE</label>
+                <input id="tarde" type="checkbox" [(ngModel)]="this.atencionTarde" (click)="cambiarAtencion('tarde')"><label for="tarde">TARDE</label>
+                <input id="maniana" type="checkbox" [(ngModel)]="this.atencionManiana" (click)="cambiarAtencion('mañana')"><label for="maniana">MAÑANA</label>
             </div>
         </div>
     </div>

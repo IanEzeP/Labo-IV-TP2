@@ -1,6 +1,6 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { DatabaseService } from 'src/app/servicios/database.service';
-
+import { AngularFirestore } from '@angular/fire/compat/firestore';
 @Component({
   selector: 'app-cancelar',
   templateUrl: './cancelar.component.html',
@@ -11,7 +11,7 @@ export class CancelarComponent {
   @Output() close = new EventEmitter<boolean>();
   public text! : string;
 
-  constructor(private data : DatabaseService) {}
+  constructor(private data : DatabaseService, private firestore: AngularFirestore) {}
 
   public async onCancelClick()
   {
@@ -21,9 +21,15 @@ export class CancelarComponent {
       monthText: this.turno.Mes,
       year: this.turno['Año']
     }
-    let idTurno = await this.data.getTurnoIdByDateTime(turnoFecha, this.turno.Horario) || '';
-    this.data.updateEstadoTurno(idTurno, this.text, 'cancelado');
-    this.close.emit(true);
+  
+    //let idTurno = await this.data.getTurnoIdByDateTime(turnoFecha, this.turno.Horario) || '';
+
+    const documento = this.firestore.doc('Turnos/' + this.turno.id);
+    documento.update({
+      Estado: 'Cancelado',
+      Mensaje: this.text
+    }).then(() => this.close.emit(true));
+
   }
 
   public onDismiss()

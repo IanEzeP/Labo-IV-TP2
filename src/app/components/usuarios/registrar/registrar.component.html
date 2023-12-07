@@ -119,6 +119,12 @@
                 <label for="imgPerfil" class="form-label">Imagen de perfil</label>
                 <input type="file" class="form-control" id="imgPerfil" (change)="onFileChange($event)" accept="image/png, image/jpg, image/jfif, image/jpeg" required>
             </div>
+            <div class="col-md-6">
+            <ngx-recaptcha2 #captchaElem
+                [siteKey]="siteKey" formControlName="recaptcha">
+        
+                </ngx-recaptcha2>
+            </div>
         </div>
         <button class="btn btn-primary btn-lg" (click)="registrar()">REGISTRAR</button>
     </form>

@@ -1,5 +1,6 @@
 import { Component, Input, Output, EventEmitter } from '@angular/core';
 import { DatabaseService } from 'src/app/servicios/database.service';
+import { AngularFirestore } from '@angular/fire/compat/firestore';
 
 @Component({
   selector: 'app-encuesta',
@@ -15,7 +16,7 @@ export class EncuestaComponent {
   public recomendacionRespuesta : any;
   public limpiezaRespuesta : any;
 
-  constructor(private data : DatabaseService) {}
+  constructor(private data : DatabaseService, private firestore: AngularFirestore) {}
   
   public onDismiss()
   {
@@ -30,7 +31,7 @@ export class EncuestaComponent {
       RECOMENDACION: this.recomendacionRespuesta,
       LIMPIEZA: this.limpiezaRespuesta,
     }
-
+/*
     let date = 
     {
       day: this.turno.Dia,
@@ -39,7 +40,11 @@ export class EncuestaComponent {
     }
 
     let turnoId = await this.data.getTurnoIdByDateTime(date, this.turno.Horario);
-    await this.data.updateEncuestaByTurnoId(turnoId, encuesta);
-    this.close.emit();
+    await this.data.updateEncuestaByTurnoId(turnoId, encuesta);*/
+
+    const documento = this.firestore.doc('Turnos/' + this.turno.id);
+    documento.update({
+      Encuesta: encuesta,
+    }).then(() => this.close.emit(true));
   }
 }

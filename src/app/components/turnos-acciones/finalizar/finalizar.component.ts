@@ -1,6 +1,6 @@
 import { Component, Input, Output, EventEmitter } from '@angular/core';
 import { DatabaseService } from 'src/app/servicios/database.service';
-import { AlertasService } from 'src/app/servicios/alerta.service';
+import { AngularFirestore } from '@angular/fire/compat/firestore';
 
 @Component({
   selector: 'app-finalizar',
@@ -13,7 +13,7 @@ export class FinalizarComponent {
   @Output() close = new EventEmitter<boolean>();
   public text! : string;
 
-  constructor(private data : DatabaseService) {}
+  constructor(private data : DatabaseService, private firestore: AngularFirestore) {}
 
   public async onFinishClick()
   {    
@@ -23,9 +23,12 @@ export class FinalizarComponent {
       monthText: this.turno.Mes,
       year: this.turno['Año']
     }
-    let idTurno = await this.data.getTurnoIdByDateTime(turnoFecha, this.turno.Horario) || '';
-    this.data.updateEstadoTurno(idTurno, this.text, 'finalizado');
-    this.close.emit();
+
+    const documento = this.firestore.doc('Turnos/' + this.turno.id);
+    documento.update({
+      Estado: 'Finalizado',
+      Mensaje: this.text
+    }).then(() => this.close.emit(true));
   }
 
   public onDismiss()

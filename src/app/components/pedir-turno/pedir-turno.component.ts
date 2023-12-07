@@ -19,7 +19,7 @@ export class PedirTurnoComponent implements OnInit, OnDestroy{
   especialistasBD : Array<any> = [];
   //Tambien necesito a los Pacientes. Ya que los administradores pueden sacarle turno a un paciente.
   especDisplay : Array<any> = [];
-  especialidadSeleccionada : string = '';
+  public especialidadSeleccionada : string = '';
   especialistaSeleccionado : Especialistas = Especialistas.inicializar();
   diasTurnos : Array<any> = [];
   horarios : any;
@@ -200,16 +200,16 @@ export class PedirTurnoComponent implements OnInit, OnDestroy{
     const documento = this.firestore.doc('Turnos/' + this.firestore.createId());
 
     documento.set({
-      idPaciente: '', //Id del paciente en caso de estar logueado, Id del paciente seleccionado en caso de ser Admin
+      id: documento.ref.id,
+      idPaciente: this.auth.idUser, 
       Especialidad: this.especialidadSeleccionada,
       idEspecialista: this.especialistaSeleccionado.id, 
       Horario: this.horaSeleccionada,
-      Dia: this.diaSeleccionado, //.toString(dd/MM/yy)?
+      Dia: this.diaSeleccionado,
       Estado: 'Pendiente',
       Fecha: new Date(this.diaSeleccionado.year, this.diaSeleccionado.month - 1, this.diaSeleccionado.day)
     }).then(() => 
     {
-      //Normalmente llamo a Validar dato guardado, que se asegura que lo que hice se cargo en la BD.
       this.alerta.successAlert("Turno solicitado correctamente. Puede revisar en Mis Turnos el estado de su solicitud.");
       //this.router.navigateByUrl('home');
     }).catch(error => 

@@ -1,5 +1,6 @@
 import { Component, Input, Output, EventEmitter } from '@angular/core';
 import { DatabaseService } from 'src/app/servicios/database.service';
+import { AngularFirestore } from '@angular/fire/compat/firestore';
 
 @Component({
   selector: 'app-rechazar',
@@ -12,7 +13,7 @@ export class RechazarComponent {
   @Output() close = new EventEmitter<boolean>();
   public text! : string;
 
-  constructor(private data : DatabaseService) {}
+  constructor(private data : DatabaseService, private firestore: AngularFirestore) {}
 
   public async onCancelClick()
   {
@@ -22,9 +23,13 @@ export class RechazarComponent {
       monthText: this.turno.Mes,
       year: this.turno['Año']
     }
-    let idTurno = await this.data.getTurnoIdByDateTime(turnoFecha, this.turno.Horario) || '';
-    this.data.updateEstadoTurno(idTurno, this.text, 'rechazado');
-    this.close.emit();
+    
+    const documento = this.firestore.doc('Turnos/' + this.turno.id);
+    documento.update({
+      Estado: 'Rechazado',
+      Mensaje: this.text
+    }).then(() => this.close.emit(true));
+    
   }
 
   public onDismiss()
