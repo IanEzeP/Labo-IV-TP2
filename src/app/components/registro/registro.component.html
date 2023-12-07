@@ -8,7 +8,7 @@
     <h2>REGISTRAR PACIENTE</h2>
 </ng-template>
 
-<div class="row g-5">
+<div class="row g-5" style="display: flex; align-items: center;justify-content: center;">
 <div class="col-md-12 col-lg-8">
     <form class="needs-validation" [formGroup]="formRegistro">
         <div class="row g-3">
@@ -95,7 +95,7 @@
                         El correo electrónico debe tener al menos 6 letras.
                     </li>
                     <li *ngIf="this.formRegistro.controls['email'].errors!['maxlength']">
-                        El correo electrónico no puede tener más de 30 letras.
+                        El correo electrónico no puede tener más de 42 letras.
                     </li>
                     <li *ngIf="this.formRegistro.controls['email'].errors!['emailValidator']">
                         Formato de correo electrónico incorrecto.
@@ -160,14 +160,13 @@
                 </ul>
             </div>
             </ng-template>
-            <div class="col-md-6">
+            <div class="col-sm-6">
                 <ngx-recaptcha2 #captchaElem
                 [siteKey]="siteKey" formControlName="recaptcha">
-        
                 </ngx-recaptcha2>
             </div>
         </div>
-        <button class="btn btn-primary btn-lg" (click)="registrar()">REGISTRAR</button>
+        <button class="col-md-12 btn btn-primary btn-lg" (click)="registrar()">REGISTRAR</button>
     </form>
 </div>
 </div>

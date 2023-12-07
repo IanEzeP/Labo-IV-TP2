@@ -26,7 +26,7 @@ export class RegistroComponent implements OnInit, OnDestroy{
   imgPerfil1 = '';
 
   //Para especialista
-  storageEspecialidades : Array<string> = [];
+  storageEspecialidades : Array<any> = [];
   especialidad : string = '';
 
   //Para paciente
@@ -48,7 +48,7 @@ export class RegistroComponent implements OnInit, OnDestroy{
       apellido: ['', [Validators.minLength(3), Validators.maxLength(20), Validators.required, Validators.pattern("[a-zA-Zá-úÁ-Ú ]*")]],
       edad: [0, [Validators.min(9), Validators.max(99), Validators.required, this.noDecimalValidator]],
       dni: [0, [Validators.min(10000000), Validators.max(99999999), Validators.required, this.noDecimalValidator]],
-      email: ['', [Validators.minLength(6), Validators.maxLength(30), Validators.required, this.emailValidator, this.spaceValidator]],
+      email: ['', [Validators.minLength(6), Validators.maxLength(42), Validators.required, this.emailValidator, this.spaceValidator]],
       password: ['', [Validators.minLength(6), Validators.maxLength(25), Validators.required, this.spaceValidator]],
       obraSocial: ['', [Validators.minLength(4), Validators.maxLength(20), Validators.pattern("[a-zA-Z ]*")]],
       recaptcha: ['', Validators.required]
@@ -124,7 +124,7 @@ export class RegistroComponent implements OnInit, OnDestroy{
 
       result.forEach(especialidad =>
       {
-        this.storageEspecialidades.push(especialidad.nombreEspecialidad);
+        this.storageEspecialidades.push(especialidad);
       }
       );
     });

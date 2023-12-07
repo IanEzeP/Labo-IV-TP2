@@ -11,3 +11,14 @@ main {
 	background: url(../../../assets/clinica_1.jpg) no-repeat center center;
     background-size: cover;
 }
+.div_home {
+    width: 800px;
+    padding: 40px;
+    border-radius: 8px;
+    background-color: rgb(255,255,255,0.7);
+    font-family: 'system-ui';
+    box-shadow: 5px 5px 10px rgb(0,0,0,0.3);
+}
+.div_home > span {
+    font-size: 1.5rem;
+}

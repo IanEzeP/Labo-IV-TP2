@@ -1,0 +1,178 @@
+- 6/12/23 - Finalizo Sprint 1
+
+Posibilidades:
+
+-Lo que sea del sprint 2 y sprint 3 de la Clínica para la proxima semana,
+cosa que vean que trabajé y que en ese día me den las correciones necesarias y entregar para la otra semana el sprint 4.
+
+
+/*
+  public onDownloadHistoriaClick(especialidad : string)
+    {
+      let turnos;
+      this.data.getTurnosByUserUserName(this.auth.userName).subscribe((x) =>
+        {
+          turnos = x;
+          turnos = turnos.filter((turno : {HistoriaClinica : any, Especialidad : any}) => turno.HistoriaClinica != null && turno.Especialidad == especialidad);
+          let historiasArray = turnos.map((turno : any) =>
+          {
+            let datosHistoriaClinica: { [clave: string]: any } = {};
+            for (let clave in turno.HistoriaClinica) {
+              datosHistoriaClinica[clave] = turno.HistoriaClinica[clave];
+            }
+
+            return {
+              Paciente: turno.Paciente,
+              Especialista: turno.Especialista,
+              Especialidad: turno.Especialidad,
+              Dia: turno.Dia,
+              Mes: turno.Mes,
+              ['Año']: turno.Año,
+              ...datosHistoriaClinica,
+            }
+          });
+          this.file.downloadPDF(historiasArray);
+        });
+    }
+  */
+
+import { Component, OnInit } from '@angular/core';
+import { AuthService } from 'src/app/servicios/auth.service';
+import { DatabaseService } from 'src/app/servicios/database.service';
+import { MdbModalRef, MdbModalService } from 'mdb-angular-ui-kit/modal';
+import { UserHistoriaClinicaComponent } from '../modals/user-historia-clinica/user-historia-clinica.component';
+import { FilesService } from 'src/app/services/files.service';
+@Component({
+  selector: 'app-historial',
+  templateUrl: './historial.component.html',
+  styleUrls: ['./historial.component.css']
+})
+export class HistorialComponent {
+
+  public pacientes : any;
+
+  public pacienteSeleccionado : any;
+
+  modalRef: MdbModalRef<UserHistoriaClinicaComponent> | null = null;
+
+  constructor(private data : DataService, private auth : AuthService, private modalService: MdbModalService, private file : FilesService) {}
+
+  async ngOnInit() {
+    await this.auth.reLogin();
+    if(this.auth.rol == "Especialista")
+      this.pacientes = await this.data.GetPacientesByEspecialistaUserName(this.auth.userName);
+    else
+      this.pacientes = await this.data.GetUsuarios();
+    console.log(this.pacientes);
+  }
+
+  public onCardClick(pacienteInfo : any)
+  {
+    if(this.auth.rol == "Especialista")
+    {
+      this.modalRef = this.modalService.open(UserHistoriaClinicaComponent, {
+        data: { paciente: pacienteInfo },
+        modalClass: 'modal-xl'
+      });
+    }
+    else
+    {
+      let turnos : any;
+      this.data.getTurnosByUserUserName(pacienteInfo.UserName).subscribe((x) =>
+      {
+        turnos = x;
+        turnos = turnos.filter((turno : {HistoriaClinica : any}) => turno.HistoriaClinica != null);
+        let historiasArray = turnos.map((turno : any) =>
+        {
+          let datosHistoriaClinica: { [clave: string]: any } = {};
+          for (let clave in turno.HistoriaClinica) {
+            datosHistoriaClinica[clave] = turno.HistoriaClinica[clave];
+          }
+
+          return {
+            Paciente: turno.Paciente,
+            Especialista: turno.Especialista,
+            Especialidad: turno.Especialidad,
+            Dia: turno.Dia,
+            Mes: turno.Mes,
+            ['Año']: turno.Año,
+            ...datosHistoriaClinica,
+          }
+        })
+        this.file.downloadArrayToXLSX(historiasArray);
+      });
+    }
+  }
+}
+
+
+
+
+
+//Me sirve Sprint 4, mi-perfil component
+<div class="col-md-12">
+    <span>Fecha de creación de cuenta: </span>
+    <span> {{this.usuario.JoinDate.toDate() | date: 'dd/MM/yyyy HH:mm'}}</span>
+</div>
+
+//Login.ts component
+public async logIn(email: string, password: string) 
+{
+  try {
+    const credential = signInWithEmailAndPassword(this.auth, email, password);
+    //const uid = await this.getUserUid() || '';
+    //this.userName = await this.data.getUserNameByUID(uid);
+    //this.validationState = await this.data.getValidationStateByUID(uid);
+    //this.rol = await this.data.getUserRolByEmailOrUserName(emailOrUsername);
+    //console.log(credential);
+    this.logueado = true;
+
+    return credential;
+  } catch (error) {
+    return null;
+  }
+}
+
+public async register(email : string, password : string)
+{
+//const userExist = await this.data.userExist(userData['UserName']);
+//if(!userExist)
+//{
+    const userCredential = await createUserWithEmailAndPassword(this.auth, email, password); //Devuelve "algo" con Resolve() y Reject().
+    await this.logIn(email, password);
+    const user = userCredential.user;
+    //const userUID = await this.getUserUid() || '';
+    if(user != null)
+    {
+    await sendEmailVerification(user);
+    }
+    //await this.data.SaveUser(userUID, userData);
+    /*return true;
+//}
+return false;*/
+}
+
+/*************************** No usados:
+public async getUserUid()
+{
+return new Promise<string | null>((resolve, reject) => 
+{
+    this.ngFireAuth.authState.subscribe(user => {
+    if (user) {
+        resolve(user.uid);
+    } else {
+        resolve(null); 
+    }
+    });
+});
+}
+
+public async reLogin() 
+{
+const uid = await this.getUserUid() || '';
+this.userName = await this.data.getUserNameByUID(uid);
+this.logueado = true;
+this.validationState = await this.data.getValidationStateByUID(uid);
+this.rol = await this.data.getUserRolByEmailOrUserName(this.userName);
+}
+*/
