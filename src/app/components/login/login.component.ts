@@ -47,7 +47,6 @@ export class LoginComponent implements OnInit, OnDestroy {
           this.arrayTodosUsuarios.push(usuario);
         }
     });
-    console.log(this.arrayTodosUsuarios);
   }
 
   inicioRapido(usuario : Usuario)

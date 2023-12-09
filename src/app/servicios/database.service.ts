@@ -134,7 +134,6 @@ export class DatabaseService{
         });
       }
     }
-    console.log(rol);
 
     return rol;
   }

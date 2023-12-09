@@ -5,7 +5,6 @@ import { AuthService } from 'src/app/servicios/auth.service';
 import { DatabaseService } from 'src/app/servicios/database.service';
 import { LoadingService } from 'src/app/servicios/loading.service';
 import { AlertasService } from 'src/app/servicios/alerta.service';
-import { Especialistas } from 'src/app/classes/especialistas';
 import { Subscription } from 'rxjs';
 
 @Component({
@@ -15,20 +14,24 @@ import { Subscription } from 'rxjs';
 })
 export class PedirTurnoComponent implements OnInit, OnDestroy{
 
-  especialidades : Array<string> = [];
+  especialidades : Array<any> = [];
   especialistasBD : Array<any> = [];
-  //Tambien necesito a los Pacientes. Ya que los administradores pueden sacarle turno a un paciente.
+  TurnosBD : Array<any> = [];
+  //pacientesBD : Array<any> = []; Tambien necesito a los Pacientes. Ya que los administradores pueden sacarle turno a un paciente.
   especDisplay : Array<any> = [];
-  public especialidadSeleccionada : string = '';
-  especialistaSeleccionado : Especialistas = Especialistas.inicializar();
+  especialidadSeleccionada : string = '';
+  especialistaSeleccionado : any;
+
   diasTurnos : Array<any> = [];
   horarios : any;
   diaSeleccionado : any | null;
   horaSeleccionada : any | null;
   
   horaOcupada : boolean = false;
+
   observableEspecialidades = Subscription.EMPTY;
   observableEspecialistas = Subscription.EMPTY;
+  observableTurnos = Subscription.EMPTY;
 
   constructor(private auth: AuthService, private data: DatabaseService, private loading: LoadingService, private router: Router,
     private alerta: AlertasService, private firestore: AngularFirestore) { }
@@ -37,12 +40,14 @@ export class PedirTurnoComponent implements OnInit, OnDestroy{
   {
     this.cargarEspecialidades();
     this.cargarEspecialistas();
+    this.cargarTurnos();
   }
 
   ngOnDestroy(): void 
   {
     this.observableEspecialidades.unsubscribe();
     this.observableEspecialistas.unsubscribe();
+    this.observableTurnos.unsubscribe();
   }
 
   cargarEspecialidades()
@@ -54,7 +59,7 @@ export class PedirTurnoComponent implements OnInit, OnDestroy{
 
       result.forEach(especialidad =>
       {
-        this.especialidades.push(especialidad.nombreEspecialidad);
+        this.especialidades.push(especialidad);
       }
       );
     });
@@ -75,9 +80,25 @@ export class PedirTurnoComponent implements OnInit, OnDestroy{
     });
   }
 
-  actualizarEspecialistas()
+  cargarTurnos() 
   {
-    console.log(this.especialidadSeleccionada);
+    this.observableTurnos = this.data.getCollectionObservable('Turnos').subscribe((next : any) =>
+    {
+      this.TurnosBD = [];
+      let result : Array<any> = next;
+
+      result.forEach(turno =>
+      {
+        console.log(turno);
+
+        this.TurnosBD.push(turno);
+      }
+      );
+    });
+  }
+
+  actualizarEspecialistas() //Funciona
+  {
     this.especDisplay = [];
     if(this.especialidadSeleccionada != '')
     {
@@ -90,24 +111,20 @@ export class PedirTurnoComponent implements OnInit, OnDestroy{
     }
   }
 
-  public async onEspecialistaChange(especialista : any) 
+  async actualizarDias(especialista : any) //Parece que funciona, pero cuando se llama algo falla en el html
   {
-    console.log(this.especialistaSeleccionado);
     this.diasTurnos = [];
     let diasProximos = 15;
-    for (let i = 0; i < diasProximos; i++) 
+    for (let i = 0; i < diasProximos; i++)
     {
       const fechaActual = new Date();
       const fechaProx = new Date();
       fechaProx.setDate(fechaActual.getDate() + i);
 
-      console.log(fechaActual);
-      console.log(fechaProx);
-
-      console.log(!(especialista.TurnoTarde && especialista.TurnoMañana == false && fechaProx.getDay() == 6));
       if(fechaProx.getDay() != 0 && !(especialista.TurnoTarde && especialista.TurnoMañana == false && fechaProx.getDay() == 6))
       {
-        let dayInfo = await this.getDayInfo(fechaProx)
+        let dayInfo = await this.getDayInfo(fechaProx);
+        console.log(dayInfo);
         this.diasTurnos.push(dayInfo);
       }
       else
@@ -117,10 +134,10 @@ export class PedirTurnoComponent implements OnInit, OnDestroy{
     }
   }
 
-  public async getDayInfo(date : Date) 
+  public async getDayInfo(date : Date) //Funciona...
   {
     const day = date.getDate();
-    const month = date.getMonth() + 1; //rari
+    const month = date.getMonth() + 1;
     const year = date.getFullYear();
   
     const monthNames = [
@@ -188,14 +205,14 @@ export class PedirTurnoComponent implements OnInit, OnDestroy{
               time: time,
               checked: this.horaOcupada,
             };
-            this.horarios.push(timeObject);
+            this.horarios.push(timeObject); //ACÁ TIRO ERROR
           });
         }
       }
     }
   }
 
-  public onSolicitarTurnoClick() //pedir turno.
+  public onSolicitarTurnoClick()
   {
     const documento = this.firestore.doc('Turnos/' + this.firestore.createId());
 

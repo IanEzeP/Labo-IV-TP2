@@ -6,8 +6,8 @@
     </div>
     <div class="row">
         <div *ngFor="let especialidad of this.especialidades" class="col-md-2 col-sm-4">
-            <input type="radio" id="{{especialidad}}" value="{{especialidad}}" [(ngModel)]="this.especialidadSeleccionada" (change)="actualizarEspecialistas()" checked>
-            <label for="{{especialidad}}"><img style="width: 50px; height: 50px; border-radius: 50%; object-fit: cover;" src="../../../assets/traumatologo.png"> {{especialidad}}</label>
+            <input type="radio" id="{{especialidad.nombreEspecialidad}}" value="{{especialidad.nombreEspecialidad}}" [(ngModel)]="this.especialidadSeleccionada" (change)="actualizarEspecialistas()" checked>
+            <label for="{{especialidad.nombreEspecialidad}}"><img style="width: 50px; height: 50px; border-radius: 50%; object-fit: cover;" src="{{especialidad.imagen}}"> {{especialidad.nombreEspecialidad}}</label>
         </div>
     </div>
     <div class="row p-5 mb-4 text-white bg-dark rounded-3">
@@ -17,8 +17,8 @@
     </div>
     <div class="row">
         <div *ngFor="let especialista of this.especDisplay" class="col-md-2 col-sm-4">
-            <input type="radio" id="{{especialista.Nombre}}" value="{{especialista}}" [(ngModel)]="this.especialistaSeleccionado" (change)="onEspecialistaChange(especialista)" checked>
-            <label for="{{especialista}}"><img style="width: 50px; height: 50px; border-radius: 50%;" src="{{especialista.ImagenPerfil}}"> {{especialista.Nombre}}</label>
+            <input type="radio" id="{{especialista.Nombre}}" value="{{especialista}}" [(ngModel)]="this.especialistaSeleccionado" (change)="actualizarDias(especialista)" >
+            <label for="{{especialista.Nombre}}"><img style="width: 50px; height: 50px; border-radius: 50%;" src="{{especialista.ImagenPerfil}}"> {{especialista.Nombre}}</label>
         </div>
     </div>
     <div class="row p-5 mb-4 text-white bg-dark rounded-3">
