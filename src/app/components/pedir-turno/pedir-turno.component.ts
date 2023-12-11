@@ -5,7 +5,7 @@ import { AuthService } from 'src/app/servicios/auth.service';
 import { DatabaseService } from 'src/app/servicios/database.service';
 import { LoadingService } from 'src/app/servicios/loading.service';
 import { AlertasService } from 'src/app/servicios/alerta.service';
-import { Subscription } from 'rxjs';
+import { Subscription, min } from 'rxjs';
 
 @Component({
   selector: 'app-pedir-turno',
@@ -16,18 +16,16 @@ export class PedirTurnoComponent implements OnInit, OnDestroy{
 
   especialidades : Array<any> = [];
   especialistasBD : Array<any> = [];
-  TurnosBD : Array<any> = [];
+  turnosBD : Array<any> = [];
   //pacientesBD : Array<any> = []; Tambien necesito a los Pacientes. Ya que los administradores pueden sacarle turno a un paciente.
   especDisplay : Array<any> = [];
   especialidadSeleccionada : string = '';
   especialistaSeleccionado : any;
 
   diasTurnos : Array<any> = [];
-  horarios : any;
+  horarios : Array<any> = [];
   diaSeleccionado : any | null;
   horaSeleccionada : any | null;
-  
-  horaOcupada : boolean = false;
 
   observableEspecialidades = Subscription.EMPTY;
   observableEspecialistas = Subscription.EMPTY;
@@ -84,22 +82,28 @@ export class PedirTurnoComponent implements OnInit, OnDestroy{
   {
     this.observableTurnos = this.data.getCollectionObservable('Turnos').subscribe((next : any) =>
     {
-      this.TurnosBD = [];
+      this.turnosBD = [];
       let result : Array<any> = next;
 
       result.forEach(turno =>
       {
         console.log(turno);
-
-        this.TurnosBD.push(turno);
+        this.turnosBD.push(turno);
       }
       );
     });
   }
 
-  actualizarEspecialistas() //Funciona
+  actualizarEspecialistas(especialidad : string)
   {
+    this.especialidadSeleccionada = especialidad;
+    console.log(this.especialidadSeleccionada);
     this.especDisplay = [];
+    this.diasTurnos = [];
+    this.horarios = [];
+    this.horaSeleccionada = null;
+    this.diaSeleccionado = null;
+    this.especialistaSeleccionado = null;
     if(this.especialidadSeleccionada != '')
     {
       this.especialistasBD.forEach(espec => {
@@ -111,9 +115,14 @@ export class PedirTurnoComponent implements OnInit, OnDestroy{
     }
   }
 
-  async actualizarDias(especialista : any) //Parece que funciona, pero cuando se llama algo falla en el html
+  actualizarDias(especialista : any)
   {
+    this.especialistaSeleccionado = especialista;
+    console.log(this.especialistaSeleccionado);
     this.diasTurnos = [];
+    this.horarios = [];
+    this.horaSeleccionada = null;
+    this.diaSeleccionado = null;
     let diasProximos = 15;
     for (let i = 0; i < diasProximos; i++)
     {
@@ -123,8 +132,7 @@ export class PedirTurnoComponent implements OnInit, OnDestroy{
 
       if(fechaProx.getDay() != 0 && !(especialista.TurnoTarde && especialista.TurnoMañana == false && fechaProx.getDay() == 6))
       {
-        let dayInfo = await this.getDayInfo(fechaProx);
-        console.log(dayInfo);
+        let dayInfo = this.parseDate(fechaProx);
         this.diasTurnos.push(dayInfo);
       }
       else
@@ -132,99 +140,114 @@ export class PedirTurnoComponent implements OnInit, OnDestroy{
         diasProximos++;
       }
     }
+    console.log(this.diasTurnos);
   }
 
-  public async getDayInfo(date : Date) //Funciona...
+  public parseDate(date : Date)
   {
     const day = date.getDate();
     const month = date.getMonth() + 1;
     const year = date.getFullYear();
   
-    const monthNames = [
-      "Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio",
-      "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"
-    ];
-
-    const monthName = monthNames[date.getMonth()]; 
-  
+    const fechaString = `${day.toString().padStart(2, '0')}/${month.toString().padStart(2, '0')}`;
     return {
+      date: fechaString,
       day: day,
-      dayText: date.toDateString().split(' ')[0],
       month: month,
       year: year,
-      monthText: monthName,
+      dayText: date.toDateString().split(' ')[0],
       ocupado: false
     };
   }
 
-  public async onDayChange(day : any) //Dia seleccionado
+  public actualizarHorarios(dia : any)
   {
-    this.loading.load();
+    this.diaSeleccionado = dia;
+    console.log(this.diaSeleccionado);
+    this.horarios = [];
     this.horaSeleccionada = null;
-    this.horarios = await this.generateTimeArray(this.especialidadSeleccionada, this.especialistaSeleccionado, day);
-    this.loading.stop();
-  }
-
-  public async generateTimeArray(especialidad : string, especialista : any, date : any) //generar horas disponibles
-  {
-    for (let hour = 8; hour <= 19; hour++) //11 iteraciones
+    
+    for (let hora = 8; hora <= 19; hora++)
     { 
-      for (let minute = 0; minute < 60; minute += 30) //2 Iteraciones
+      for (let minutos = 0; minutos < 60; minutos += 30)
       { 
-        const time = `${hour.toString().padStart(2, '0')}:${minute.toString().padStart(2, '0')}`; //Funcion para escribir "08:00"
+        let horaFormateada : string;
+        let disponible : boolean;
 
-        let isAvailable : any;
-
-        if(date.dayText == 'Sat')
+        if(hora >= 12)
         {
-          isAvailable = (especialista.TurnoMañana && hour >= 8 && hour <= 13);
+          if(hora == 12)
+          {
+            horaFormateada = `${(hora).toString().padStart(2, '0')}:${minutos.toString().padStart(2, '0')}pm`;
+          }
+          else
+          {
+            horaFormateada = `${(hora - 12).toString().padStart(2, '0')}:${minutos.toString().padStart(2, '0')}pm`;
+          }
         }
         else
         {
-          isAvailable =
-            (especialista.HorarioMañana && hour >= 8 && hour <= 13) ||
-            (especialista.HorarioTarde && ((hour > 13 && hour < 19) || (hour === 18 && minute <= 30)));
+          horaFormateada = `${hora.toString().padStart(2, '0')}:${minutos.toString().padStart(2, '0')}am`;
+        }
+
+        if(dia.dayText == 'Sat')
+        {
+          disponible = (this.especialistaSeleccionado.TurnoMañana && hora >= 8 && hora <= 13);
+        }
+        else
+        {
+          disponible =
+            (this.especialistaSeleccionado.TurnoMañana && hora >= 8 && hora <= 13) ||
+            (this.especialistaSeleccionado.TurnoTarde && ((hora > 13 && hora < 19) || (hora === 18 && minutos <= 30)));
         }
   
-        if (isAvailable) 
+        if (disponible) 
         {
-          let fecha = new Date(date.year, date.month, date.day);
-          console.log(fecha);
-          this.horaOcupada = false;
-          this.data.getCollectionObservable('Turnos').subscribe((next : any) => 
+          let fecha = new Date(dia.year, dia.month, dia.day, hora, minutos);
+          let horaOcupada = false;
+          
+          this.turnosBD.forEach(turno => {
+          if(turno.idEspecialista == this.especialistaSeleccionado.id)
           {
-            let result : Array<any> = next;
-            result.forEach(turno => {
-            if(turno.idEspecialista == especialista.id && turno.Especialidad == especialidad && turno.Fecha == fecha.toDateString())
+            if(turno.Fecha.seconds == (fecha.valueOf() / 1000))//Puedo preguntar por string Dia == string Dia y string Hora == string Hora. O hacer esto (Para ver si identifica un horario ocupado).
             {
-              this.horaOcupada = true;
+              horaOcupada = true;
             }
-            });
-            const timeObject = 
-            {
-              time: time,
-              checked: this.horaOcupada,
-            };
-            this.horarios.push(timeObject); //ACÁ TIRO ERROR
+          }
           });
+          const horario = 
+          {
+            hour: hora,
+            minute: minutos,
+            time: horaFormateada,
+            checked: horaOcupada,
+          };
+          this.horarios.push(horario);
         }
       }
     }
   }
 
+  onHoraElegida(hora : any)
+  {
+    this.horaSeleccionada = hora;
+  }
+
   public onSolicitarTurnoClick()
   {
+    const fecha = new Date(this.diaSeleccionado.year, this.diaSeleccionado.month - 1, this.diaSeleccionado.day, this.horaSeleccionada.hour, this.horaSeleccionada.minutos).toLocaleString();
+
     const documento = this.firestore.doc('Turnos/' + this.firestore.createId());
 
     documento.set({
       id: documento.ref.id,
-      idPaciente: this.auth.idUser, 
+      idPaciente: this.auth.idUser,
+      idEspecialista: this.especialistaSeleccionado.id,
       Especialidad: this.especialidadSeleccionada,
-      idEspecialista: this.especialistaSeleccionado.id, 
-      Horario: this.horaSeleccionada,
-      Dia: this.diaSeleccionado,
+      Horario: this.horaSeleccionada.time,
+      Dia: this.diaSeleccionado.date + "/2023",
       Estado: 'Pendiente',
-      Fecha: new Date(this.diaSeleccionado.year, this.diaSeleccionado.month - 1, this.diaSeleccionado.day)
+      Fecha: fecha,
     }).then(() => 
     {
       this.alerta.successAlert("Turno solicitado correctamente. Puede revisar en Mis Turnos el estado de su solicitud.");

@@ -2,13 +2,14 @@ import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { AuthService } from 'src/app/servicios/auth.service';
 import { LoadingService } from 'src/app/servicios/loading.service';
+import { DatabaseService } from 'src/app/servicios/database.service';
 @Component({
   selector: 'app-navigator',
   templateUrl: './navigator.component.html',
   styleUrls: ['./navigator.component.css']
 })
 export class NavigatorComponent {
-  constructor(private router: Router, public auth: AuthService, public loading: LoadingService) {}
+  constructor(private router: Router, public auth: AuthService, public loading: LoadingService, private data: DatabaseService) {}
 
   public onTurnosClick()
   {

@@ -17,7 +17,6 @@ export class LoginComponent implements OnInit, OnDestroy {
   
   arrayTodosUsuarios : Array<Usuario> = [];
   observableControl : Subscription = Subscription.EMPTY;
-  
 
   formLog : FormGroup;
 
@@ -77,6 +76,15 @@ export class LoginComponent implements OnInit, OnDestroy {
             }
             else
             {
+              switch(rol)
+              {
+                case 'PACIENTE':
+                  this.auth.idUser = this.data.getIdByEmail(formValues.email, 'Pacientes');
+                  break;
+                case 'ADMINISTRADOR':
+                  this.auth.idUser = this.data.getIdByEmail(formValues.email, 'Administradores');
+                  break;
+              }
               this.alertas.successToast("Sesion iniciada correctamente!");
               this.router.navigateByUrl('/home');
             }

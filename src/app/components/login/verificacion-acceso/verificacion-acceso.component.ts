@@ -15,7 +15,7 @@ export class VerificacionAccesoComponent implements OnInit, OnDestroy {
   tieneAcceso : boolean = true;
   observableControl : Subscription = Subscription.EMPTY;
 
-  constructor(private auth: AuthService, private data: DatabaseService, private router: Router, private alerta: AlertasService)/* Tal vez alguno tenga que ser publico */ {}
+  constructor(private auth: AuthService, private data: DatabaseService, private router: Router, private alerta: AlertasService) {}
 
   ngOnInit(): void 
   {
@@ -34,6 +34,7 @@ export class VerificacionAccesoComponent implements OnInit, OnDestroy {
           {
             this.auth.logueado = true;
             this.auth.especAutorizado = true;
+            this.auth.idUser = this.data.getIdByEmail(document.Mail, 'Especialistas');
             this.alerta.successToast("Sesion iniciada correctamente!");
             this.router.navigateByUrl('/home');
           }
