@@ -81,13 +81,13 @@ export class TurnosPacientesComponent implements OnInit, OnDestroy{
     });
   }
 
-  async onEspecialidadChange(especialidad : string)
+  async onEspecialidadChange(especialidad : string) //No se llama nunca, debe ser exclusiva de Especialistas
   {
     this.especialistas = this.actualizarEspecialistas(especialidad);
     this.turnosFiltrados = this.turnos.filter((turno: { Especialidad: any; }) => turno.Especialidad == especialidad);
   }
 
-  actualizarEspecialistas(especialidad : string)
+  actualizarEspecialistas(especialidad : string) //No se llama nunca, debe ser exclusiva de Especialistas
   {
     let especialistas : Array<any> = [];
     this.data.especDB.forEach(espec => {
@@ -130,10 +130,21 @@ export class TurnosPacientesComponent implements OnInit, OnDestroy{
     );
   }
 
-  async onEspecialistaChange(especialista : any) //Unica preocupacion
+  async onEspecialistaChange(especialista : any)  //No se llama nunca, debe ser exclusiva de Especialistas
   {
     this.turnosFiltrados = this.turnos.filter((turno: { Especialista: any; Especialidad : any;}) => turno.Especialista == especialista && turno.Especialidad == this.especialidadSeleccionada);
   }
+
+  limpiarFiltros()
+  {
+    this.inputFiltro = '';
+    this.turnosFiltrados = this.turnos;
+    this.especialidadSeleccionada = null;
+    this.especialistaSeleccionado = null;
+    this.especialistas = null;
+  }
+
+  //#region Visualizadores de componentes hijos
 
   onCancelClick(turno : any)
   {
@@ -141,14 +152,6 @@ export class TurnosPacientesComponent implements OnInit, OnDestroy{
     this.viewRate = false;
     this.viewEncuesta = false;
     this.fechaTurno = turno;
-  }
-
-  onLimpiarFiltrosClick()
-  {
-    this.turnosFiltrados = this.turnos;
-    this.especialidadSeleccionada = null;
-    this.especialistaSeleccionado = null;
-    this.especialistas = null;
   }
 
   onRateTurnoClick(turno : any)
@@ -177,7 +180,9 @@ export class TurnosPacientesComponent implements OnInit, OnDestroy{
     this.viewRate = false;
     this.fechaTurno = turno;
   }
+  //#endregion
 
+  //#region Event listeners
   async onCancelTurnoDismiss()
   {
     this.viewCancel = false;
@@ -197,4 +202,5 @@ export class TurnosPacientesComponent implements OnInit, OnDestroy{
   {
     this.viewMessage = false;
   }
+  //#endregion
 }

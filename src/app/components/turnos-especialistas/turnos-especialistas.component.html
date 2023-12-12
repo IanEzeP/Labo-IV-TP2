@@ -26,33 +26,31 @@
                     <div class="info">
                         <span>{{turno.Especialidad}}</span>
                         <div>
-                            <button class="button-cancel" (click)="onRechazarTurnoClick(turno)" *ngIf="turno.Estad == 'pendiente' ">
-                                <i class="bi bi-x-lg"></i>
+                            <button class="btn btn-secondary" (click)="onRechazarTurnoClick(turno)" *ngIf="turno.Estado == 'Pendiente' ">
+                                <span>Rechazar</span>
                             </button>
-                            <button class="button-cancel" (click)="onCancelClick(turno)" *ngIf="turno.Estad == 'esperando'">
-                                <i class="bi bi-x-lg"></i>
+                            <button class="btn btn-danger" (click)="onCancelClick(turno)" *ngIf="turno.Estado == 'Esperando'">
+                                <span>Cancelar</span>
                             </button>
-                            <button class="button" (click)="onAcceptTurnoClick(turno)" *ngIf="turno.Estad == 'pendiente' ">
-                                <i class="bi bi-check"></i>
+                            <button class="btn btn-primary" (click)="onAcceptTurnoClick(turno)" *ngIf="turno.Estado == 'Pendiente' ">
+                                <span>Aceptar</span>
                             </button>
-                            <button class="button" (click)="onFinishTurnoClick(turno)" *ngIf="turno.Estad == 'esperando'">
-                                <i class="bi bi-file-earmark-person"></i>
+                            <button class="btn btn-success" (click)="onFinishTurnoClick(turno)" *ngIf="turno.Estado == 'Esperando'">
+                                <span>Finalizar</span>
                             </button>
-                            <button class="button" (click)="onViewMessageClick(turno)" *ngIf="turno.Estad == 'finalizado' && turno.Mensaje.length > 0 ">
-                                <i class="bi bi-file-earmark-person"></i>
+                            <button class="btn btn-warning" (click)="onViewMessageClick(turno)" *ngIf="turno.Estado == 'Finalizado' && turno.Mensaje.length > 0 ">
+                                <span>Ver mensaje</span>
                             </button>
-                            <button class="button" (click)="onHistoraClick(turno)" *ngIf="turno.Estad == 'finalizado' && turno.Mensaje.length > 0 && turno.HistoriaClinica == null">
-                                <i class="bi bi-plus"></i>
+                            <button class="btn" (click)="onHistoraClick(turno)" *ngIf="turno.Estado == 'Finalizado' && turno.Mensaje.length > 0 && turno.HistoriaClinica == null">
+                                <span>Redactar Historia Clínica</span>
                             </button>
                         </div>
                     </div>
                     <div class="info">
-                        <span>{{turno.Paciente}}</span>
-                        <div>
-                            <span>{{turno.Dia}} / {{turno.Mes}} / {{turno['Año']}}</span>
-                        </div>
-                        <span>{{turno.Horario}}</span>
-                        <span [ngClass]="{'esp': turno.Estad == 'esperando', 'can': turno.Estad == 'cancelado', 'fin': turno.Estad == 'finalizado', 'pen': turno.Estad == 'pendiente'}">{{turno.Estad.toUpperCase()}}</span>
+                        <span>{{turno.Paciente}}</span><!-- Mostrar nombre de Paciente -->
+                        <div><span>{{turno.Dia}}</span></div>
+                        <span>{{turno.Horario}}</span><br>
+                        <span>{{turno.Estado}}</span>
                     </div>
                 </div>
             </div>
@@ -63,6 +61,6 @@
         <app-rechazar [turno]="turnoSeleccionado" (close)="onRechazarTurnoDismiss()" *ngIf="this.viewRechazar"></app-rechazar>
         <app-finalizar [turno]="turnoSeleccionado" (close)="onFinishTurnosDismiss()" *ngIf="this.viewFinish"></app-finalizar>
         <app-ver-valoracion [turno]="turnoSeleccionado" (close)="onReseniaTurnoDismiss()" *ngIf="this.viewMessage"></app-ver-valoracion>
-        <app-ver-historial [turno]="turnoSeleccionado" (close)="onHsitoriaClinicaDismiss()" *ngIf="this.viewHistoria"></app-ver-historial>
+        <app-ver-historial [turno]="turnoSeleccionado" (close)="onHistoriaClinicaDismiss()" *ngIf="this.viewHistoria"></app-ver-historial>
     </div>
 </div>

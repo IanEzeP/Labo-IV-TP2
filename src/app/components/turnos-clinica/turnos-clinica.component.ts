@@ -45,7 +45,7 @@ export class TurnosClinicaComponent {
 
       result.forEach(especialidad =>
       {
-        this.especialidades.push(especialidad.nombreEspecialidad);
+        this.especialidades.push(especialidad);
       }
       );
     });
@@ -63,13 +63,12 @@ export class TurnosClinicaComponent {
       {
         this.turnos.push(turno);
         this.turnosFiltrados = this.turnos;
-        
       });
       if(this.especialidadSeleccionada != null)
       {
         this.turnosFiltrados = this.turnos.filter((turno: { Especialidad: any; }) => turno.Especialidad == this.especialidadSeleccionada);
   
-        if(this.especialidadSeleccionada != null)
+        if(this.especialidadSeleccionada != null) //Sera especialistaSeleccionado?
         {
           this.turnosFiltrados = this.turnos.filter((turno: { Especialista: any; Especialidad : any;}) => turno.Especialidad == this.especialidadSeleccionada && turno.Especialista == this.especialistaSeleccionado);
         }
@@ -97,7 +96,7 @@ export class TurnosClinicaComponent {
 
   public async onEspecialistaChange(especialista : any)
   {
-    this.turnosFiltrados = this.turnos.filter((turno: { Especialista: any; Especialidad : any;}) => turno.Especialista == especialista && turno.Especialidad == this.especialidadSeleccionada);
+    this.turnosFiltrados = this.turnos.filter((turno: { idEspecialista: any; Especialidad : any;}) => turno.idEspecialista == especialista.id && turno.Especialidad == this.especialidadSeleccionada);
   }
 
   public onLimpiarFiltrosClick()
@@ -108,7 +107,7 @@ export class TurnosClinicaComponent {
     this.especialistas = null;
   }
 
-  public onCancelClick(turno : any)
+  public onCancelClick(turno : any) //La unica usada
   {
     this.viewCancel = true;
     this.viewRate = false;
@@ -132,7 +131,7 @@ export class TurnosClinicaComponent {
     this.fechaTurno = turno;
   }
 
-  public async onCancelTurnoDismiss(cancel : boolean)
+  public async onCancelTurnoDismiss(cancel : boolean) //La unica usada
   {
     this.viewCancel = false;
   }

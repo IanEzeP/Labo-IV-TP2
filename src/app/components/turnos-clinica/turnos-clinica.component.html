@@ -14,8 +14,9 @@
             </div>
             <div class="row especialidad">
                 <div *ngFor="let especialidad of this.especialidades" class="radio-button col-md-3 col-sm-4">
-                    <input type="radio" [id]="especialidad.Nombre" name="radios" [value]="especialidad.Nombre" [(ngModel)]="this.especialidadSeleccionada"  (change)="onEspecialidadChange(especialidad.Nombre)" checked>
-                    <label [for]="especialidad.Nombre">{{especialidad.Nombre}}</label>
+                    <input type="radio" id="{{especialidad.nombreEspecialidad}}" name="especialidades" value="{{especialidad.nombreEspecialidad}}" 
+                    [(ngModel)]="this.especialidadSeleccionada"  (change)="onEspecialidadChange(especialidad.nombreEspecialidad)" checked>
+                    <label for="{{especialidad.nombreEspecialidad}}">{{especialidad.nombreEspecialidad}}</label>
                 </div>
             </div>
         </div>
@@ -27,9 +28,10 @@
                 </div>
             </div>
             <div class="row especialidad">
-                <div *ngFor="let especialidad of this.especialistas" class="radio-button col-md-2 col-sm-4">
-                    <input type="radio" [id]="especialidad.Nombre" name="radio" [value]="especialidad" [(ngModel)]="this.especialistaSeleccionado"  (change)="onEspecialistaChange(especialidad.Nombre)"  checked>
-                    <label [for]="especialidad.Nombre">{{especialidad.Nombre}}</label>
+                <div *ngFor="let especialista of this.especialistas" class="radio-button col-md-2 col-sm-4">
+                    <input type="radio" id="{{especialista.nombre}}" name="especialistas" value="{{especialista.id}}"
+                    [(ngModel)]="this.especialistaSeleccionado"  (change)="onEspecialistaChange(especialista)" checked>
+                    <label for="{{especialista.nombre}}">{{especialista.nombre}}</label>
                 </div>
             </div>
         </div>
@@ -48,18 +50,16 @@
                     <div class="info">
                         <span>{{turno.Especialidad}}</span>
                         <div>
-                            <button class="button-cancel" (click)="onCancelClick(turno)" *ngIf="turno.Estad == 'pendiente'">
-                                <i class="bi bi-x-lg"></i>
+                            <button class="btn btn-danger" (click)="onCancelClick(turno)" *ngIf="turno.Estado == 'Pendiente'">
+                                <span>Cancelar</span>
                             </button>
                         </div>
                     </div>
                     <div class="info">
-                        <span>{{turno.Especialista}}</span>
-                        <div>
-                            <span>{{turno.Dia}} / {{turno.Mes}} / {{turno['Año']}}</span>
-                        </div>
+                        <span>{{turno.Especialista}}</span><!-- Mostrar nombre Especialista (y Paciente tmb seria lo ideal)-->
+                        <div><span>{{turno.Dia}}</span></div>
                         <span>{{turno.Horario}}</span>
-                        <span [ngClass]="{'esp': turno.Estad == 'esperando', 'can': turno.Estad == 'cancelado', 'fin': turno.Estad == 'finalizado', 'pen': turno.Estad == 'pendiente'}">{{turno.Estad.toUpperCase()}}</span>
+                        <span>{{turno.Estado}}</span>
                     </div>
                 </div>
             </div>

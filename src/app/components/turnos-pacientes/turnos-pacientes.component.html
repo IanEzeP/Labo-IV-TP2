@@ -14,7 +14,7 @@
 
         <div class="row">
             <div class="col-md-12">
-                <button class="clean-btn" (click)="onLimpiarFiltrosClick()">
+                <button class="clean-btn" (click)="limpiarFiltros()">
                     <span>LIMPIAR FILTROS</span>
                 </button>
             </div>
@@ -26,27 +26,25 @@
                     <div class="info">
                         <span>{{turno.Especialidad}}</span>
                         <div>
-                            <button class="button-star" (click)="onEncuestaClick(turno)" *ngIf="turno.Estad == 'finalizado'  && turno.Encuesta == null">
-                                <i class="bi bi-chat-fill"></i>
+                            <button class="btn btn-success" (click)="onEncuestaClick(turno)" *ngIf="turno.Estado == 'Finalizado'  && turno.Encuesta == null">
+                                <span>Encuesta</span>
                             </button>
-                            <button class="button-star" (click)="onRateTurnoClick(turno)" *ngIf="turno.Estad == 'finalizado' && turno.Rating == null">
-                                <i class="bi bi-star"></i>
+                            <button class="btn btn-primary" (click)="onRateTurnoClick(turno)" *ngIf="turno.Estado == 'Finalizado' && turno.Rating == null">
+                                <span>Rating</span>
                             </button>
-                            <button class="button-cancel" (click)="onCancelClick(turno)" *ngIf="turno.Estad == 'pendiente' || turno.Estad == 'esperando' ">
-                                <i class="bi bi-x-lg"></i>
+                            <button class="btn btn-danger" (click)="onCancelClick(turno)" *ngIf="turno.Estado == 'Pendiente' || turno.Estado == 'Esperando' ">
+                                <span>Cancelar</span>
                             </button>
-                            <button class="button" (click)="onReseniaClick(turno)" *ngIf="turno.Estad == 'finalizado' && turno.Mensaje.length > 0">
-                                <i class="bi bi-file-text"></i>
+                            <button class="btn btn-secondary" (click)="onReseniaClick(turno)" *ngIf="turno.Estado == 'Finalizado' && turno.Mensaje.length > 0">
+                                <span>Ver reseña</span>
                             </button>
                         </div>
                     </div>
                     <div class="info">
-                        <span>{{turno.Especialista}}</span>
-                        <div>
-                            <span>{{turno.Dia}} / {{turno.Mes}} / {{turno['Año']}}</span>
-                        </div>
-                        <span>{{turno.Horario}}</span>
-                        <span [ngClass]="{'esp': turno.Estad == 'esperando', 'can': turno.Estad == 'cancelado', 'fin': turno.Estad == 'finalizado', 'pen': turno.Estad == 'pendiente'}">{{turno.Estad.toUpperCase()}}</span>
+                        <span>{{turno.Especialista}}</span><!-- Mostrar nombre de especialista -->
+                        <div><span>{{turno.Dia}}</span></div>
+                        <span>{{turno.Horario}}</span><br>
+                        <span>{{turno.Estado}}</span>
                     </div>
                 </div>
             </div>

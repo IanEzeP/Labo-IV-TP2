@@ -87,7 +87,7 @@ export class PedirTurnoComponent implements OnInit, OnDestroy{
 
       result.forEach(turno =>
       {
-        console.log(turno);
+        //console.log(turno);
         this.turnosBD.push(turno);
       }
       );
@@ -203,13 +203,13 @@ export class PedirTurnoComponent implements OnInit, OnDestroy{
   
         if (disponible) 
         {
-          let fecha = new Date(dia.year, dia.month, dia.day, hora, minutos);
+          let fecha = new Date(dia.year, dia.month-1, dia.day, hora, minutos);
           let horaOcupada = false;
           
           this.turnosBD.forEach(turno => {
           if(turno.idEspecialista == this.especialistaSeleccionado.id)
           {
-            if(turno.Fecha.seconds == (fecha.valueOf() / 1000))//Puedo preguntar por string Dia == string Dia y string Hora == string Hora. O hacer esto (Para ver si identifica un horario ocupado).
+            if(turno.Fecha.seconds == (fecha.valueOf() / 1000))
             {
               horaOcupada = true;
             }
@@ -231,11 +231,13 @@ export class PedirTurnoComponent implements OnInit, OnDestroy{
   onHoraElegida(hora : any)
   {
     this.horaSeleccionada = hora;
+    console.log(this.horaSeleccionada);
   }
 
-  public onSolicitarTurnoClick()
+  public solicitarTurno()
   {
-    const fecha = new Date(this.diaSeleccionado.year, this.diaSeleccionado.month - 1, this.diaSeleccionado.day, this.horaSeleccionada.hour, this.horaSeleccionada.minutos).toLocaleString();
+    const fecha = new Date(this.diaSeleccionado.year, this.diaSeleccionado.month - 1, this.diaSeleccionado.day,
+    this.horaSeleccionada.hour, this.horaSeleccionada.minute);
 
     const documento = this.firestore.doc('Turnos/' + this.firestore.createId());
 
@@ -247,7 +249,7 @@ export class PedirTurnoComponent implements OnInit, OnDestroy{
       Horario: this.horaSeleccionada.time,
       Dia: this.diaSeleccionado.date + "/2023",
       Estado: 'Pendiente',
-      Fecha: fecha,
+      Fecha: fecha
     }).then(() => 
     {
       this.alerta.successAlert("Turno solicitado correctamente. Puede revisar en Mis Turnos el estado de su solicitud.");
@@ -255,7 +257,7 @@ export class PedirTurnoComponent implements OnInit, OnDestroy{
     }).catch(error => 
     {
       console.log(error);
-      this.alerta.failureAlert("Algo salio mal, no se pudo crear el turno");
+      this.alerta.failureAlert("Algo salio mal, no se pudo solicitar el turno");
     });
   }
 }
