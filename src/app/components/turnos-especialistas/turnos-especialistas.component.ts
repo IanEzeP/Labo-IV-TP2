@@ -1,8 +1,9 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
+import { AngularFirestore } from '@angular/fire/compat/firestore';
 import { DatabaseService } from 'src/app/servicios/database.service';
 import { AuthService } from 'src/app/servicios/auth.service';
+import { AlertasService } from 'src/app/servicios/alerta.service';
 import { Subscription } from 'rxjs';
-import { AngularFirestore } from '@angular/fire/compat/firestore';
 
 @Component({
   selector: 'app-turnos-especialistas',
@@ -11,13 +12,12 @@ import { AngularFirestore } from '@angular/fire/compat/firestore';
 })
 export class TurnosEspecialistasComponent implements OnInit, OnDestroy{
 
-  especialidades : any;
-  pacientes : any;
+  pacientes : any;//
   turnos : any;
   turnosFiltrados : any;
 
-  especialidadSeleccionada : any;
-  pacienteSeleccionado : any;
+  especialidadSeleccionada : any;//
+  pacienteSeleccionado : any;//
   turnoSeleccionado : any;
 
   viewCancel : boolean = false;
@@ -27,24 +27,17 @@ export class TurnosEspecialistasComponent implements OnInit, OnDestroy{
   viewHistoria : boolean = false;
 
   inputFiltro : any;
-  observableEspecialidades = Subscription.EMPTY;
   observableTurnos = Subscription.EMPTY;
 
-  constructor(private data : DatabaseService, private auth : AuthService, private firestore: AngularFirestore) { }
+  constructor(public data : DatabaseService, private auth : AuthService, private firestore: AngularFirestore, private alerta: AlertasService) { }
 
   async ngOnInit()
   {
-    this.data.traerDocumentoObservable('Especialistas', this.auth.idUser).subscribe((next : any) =>
-    {
-      this.especialidades = next.data().Especialidades;
-      console.log(this.especialidades);
-    })
     this.cargarTurnos();
   }
   
   ngOnDestroy(): void 
   {
-    this.observableEspecialidades.unsubscribe();
     this.observableTurnos.unsubscribe();
   }
 
@@ -62,6 +55,7 @@ export class TurnosEspecialistasComponent implements OnInit, OnDestroy{
         {
           this.turnos.push(turno);
           this.turnosFiltrados = this.turnos;
+          
         }
       });
       if(this.especialidadSeleccionada != null)
@@ -109,28 +103,9 @@ export class TurnosEspecialistasComponent implements OnInit, OnDestroy{
             }
           }
         }
-        
         return false;
       })
     );
-  }
-
-  async onEspecialidadChange(especialidad : any) //No se llama nunca, debe ser exclusiva de Administradores
-  {
-    this.turnos.forEach((turno : any) => {
-      if(turno.Especialidad == especialidad)
-      {
-        //Me tengo que traer todos los pacientes que son atendidos por el medico logueado en la especialidad seleccionada.
-      }
-    });
-    //this.pacientes = await this.data.GetPacientes('JoseFE', especialidad);
-    console.log(this.pacientes);
-    this.turnosFiltrados = this.turnos.filter((turno: { Especialidad: any; }) => turno.Especialidad == especialidad);
-  }
-
-  async onPacienteChange(paciente : any) //No se llama nunca, debe ser exclusiva de Administradores
-  {
-    this.turnosFiltrados = this.turnos.filter((turno: { Paciente: any; }) => turno.Paciente == paciente);
   }
 
   //#region Visualizadores de componentes hijos
@@ -144,21 +119,11 @@ export class TurnosEspecialistasComponent implements OnInit, OnDestroy{
     this.viewFinish = false;
   }
 
-  public async onAcceptTurnoClick(turno : any) //Revisar
+  public async onAcceptTurnoClick(turno : any)
   {
-    let turnoFecha = 
-    {
-      day: turno.Dia,
-      monthText: turno.Mes,
-      year: turno['Año']
-    }
-    //let idTurno = await this.data.getTurnoIdByDateTime(turnoFecha, turno.Horario) || '';
-    //console.log(idTurno);
-    console.log(turnoFecha, turno.Horario);
-
     const documento = this.firestore.doc('Turnos/' + turno.id);
     documento.update({
-      Estado: 'Esperando'
+      Estado: 'Aceptado'
     })
   }
 
@@ -208,16 +173,19 @@ export class TurnosEspecialistasComponent implements OnInit, OnDestroy{
   async onCancelTurnoDismiss()
   {
     this.viewCancel = false;
+    this.alerta.successToast("Turno cancelado.");
   }
 
   async onRechazarTurnoDismiss()
   {
     this.viewRechazar = false;
+    this.alerta.successToast("Turno rechazado.");
   }
 
   async onFinishTurnosDismiss()
   {
     this.viewFinish = false;
+    this.alerta.successToast("Turno finalizado.");
   }
 
   async onReseniaTurnoDismiss()
@@ -231,4 +199,23 @@ export class TurnosEspecialistasComponent implements OnInit, OnDestroy{
   }
   //#endregion
 
+  /*
+  async onEspecialidadChange(especialidad : any) //No se llama nunca, es exclusiva de Administradores
+  {
+    this.turnos.forEach((turno : any) => {
+      if(turno.Especialidad == especialidad)
+      {
+        //Me tengo que traer todos los pacientes que son atendidos por el medico logueado en la especialidad seleccionada.
+      }
+    });
+    //this.pacientes = await this.data.GetPacientes('JoseFE', especialidad);
+    console.log(this.pacientes);
+    this.turnosFiltrados = this.turnos.filter((turno: { Especialidad: any; }) => turno.Especialidad == especialidad);
+  }
+
+  async onPacienteChange(paciente : any) //No se llama nunca
+  {
+    this.turnosFiltrados = this.turnos.filter((turno: { Paciente: any; }) => turno.Paciente == paciente);
+  }
+  */
 }

@@ -1,0 +1,9 @@
+.div_turno {
+    background-color: rgb(135, 202, 222); 
+    border-style: none; 
+    border-radius: 5px; 
+    padding: 8px 20px; 
+    letter-spacing: .8px; 
+    margin: auto; 
+    margin-top: 10px; 
+}

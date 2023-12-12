@@ -8,13 +8,8 @@ de consulta o de tratamiento, la duracion es de 30 minutos mínimo (los profesio
 la duracion segun su especialidad).
 * Hay un sector dentro de la clinica que se encarga de la organizacion y administracion de la misma.
 
-Sprint 2: solicitar turnos, visualizar turno(paciente->especialista->admin),
-
-
-
 
 Sprint 3: charts, historias-clinicas, excel y pdf
-
 
 
 Objetivos:
@@ -78,8 +73,3 @@ Web ✔
 
 elementRef.nativeElement.textContent
 elementRef.nativeElement.innerText
-
-* Cada especialidad debe tener una foto
-* La "nueva especialidad" tiene que tener foto por defecto.
-
-A lo mejor cada especialidad deberia tener en la DB una direccion a su imagen.

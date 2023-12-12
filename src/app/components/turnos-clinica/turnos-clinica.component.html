@@ -1,66 +1,55 @@
-<div class="row background">
+<div class="row">
     <div class="col-md-7">
-        <div class="row">
-            <div class="col-md-12">
-                <h1>TURNOS</h1>
-            </div>
+        <div class="col-md-12" style="display: flex; align-items: center; justify-content: center;">
+            <h1>TURNOS</h1>
         </div>
 
-        <div class="info-container">
+        <div style="background-color:seashell;">
+            <div class="row col-md-12">
+                <span><b>Especialidad</b></span>
+            </div>
             <div class="row">
-                <div class="col-md-12 text">
-                    <span><b>Especialidad</b></span>
-                </div>
-            </div>
-            <div class="row especialidad">
-                <div *ngFor="let especialidad of this.especialidades" class="radio-button col-md-3 col-sm-4">
-                    <input type="radio" id="{{especialidad.nombreEspecialidad}}" name="especialidades" value="{{especialidad.nombreEspecialidad}}" 
+                <div *ngFor="let especialidad of this.especialidades" class="col-md-3 col-sm-4">
+                    <input type="radio" id="{{ especialidad.nombreEspecialidad }}" name="especialidades" value="{{ especialidad.nombreEspecialidad }}" 
                     [(ngModel)]="this.especialidadSeleccionada"  (change)="onEspecialidadChange(especialidad.nombreEspecialidad)" checked>
-                    <label for="{{especialidad.nombreEspecialidad}}">{{especialidad.nombreEspecialidad}}</label>
+                    <label for="{{ especialidad.nombreEspecialidad }}">{{ especialidad.nombreEspecialidad }}</label>
                 </div>
             </div>
-        </div>
-
-        <div class="info-container">
+        
             <div class="row">
                 <div class="col-md-12 text">
                     <span><b>Especialista</b></span>
                 </div>
             </div>
-            <div class="row especialidad">
-                <div *ngFor="let especialista of this.especialistas" class="radio-button col-md-2 col-sm-4">
+            <div class="row">
+                <div *ngFor="let especialista of this.especialistas" class="col-md-2 col-sm-4">
                     <input type="radio" id="{{especialista.nombre}}" name="especialistas" value="{{especialista.id}}"
                     [(ngModel)]="this.especialistaSeleccionado"  (change)="onEspecialistaChange(especialista)" checked>
                     <label for="{{especialista.nombre}}">{{especialista.nombre}}</label>
                 </div>
             </div>
-        </div>
+        </div><br>
 
         <div class="row">
             <div class="col-md-12">
-                <button class="clean-btn" (click)="onLimpiarFiltrosClick()">
+                <button class="btn btn-secondary" (click)="onLimpiarFiltrosClick()">
                     <span>LIMPIAR FILTROS</span>
                 </button>
             </div>
-        </div>
+        </div><br>
 
-        <div class="turnos-container">
-            <div class="row">
-                <div class="col-md-12 turno" *ngFor="let turno of this.turnosFiltrados">
-                    <div class="info">
-                        <span>{{turno.Especialidad}}</span>
-                        <div>
-                            <button class="btn btn-danger" (click)="onCancelClick(turno)" *ngIf="turno.Estado == 'Pendiente'">
-                                <span>Cancelar</span>
-                            </button>
-                        </div>
-                    </div>
-                    <div class="info">
-                        <span>{{turno.Especialista}}</span><!-- Mostrar nombre Especialista (y Paciente tmb seria lo ideal)-->
-                        <div><span>{{turno.Dia}}</span></div>
-                        <span>{{turno.Horario}}</span>
-                        <span>{{turno.Estado}}</span>
-                    </div>
+        <div class="row" style="overflow: auto; max-height: 630px;">
+            <div class="col-md-6 div_turno" *ngFor="let turno of this.turnosFiltrados">
+                <div>
+                    <span>{{turno.Especialidad}}</span><br>
+                    <span>Doctor: {{data.getNameById(turno.idEspecialista, "Especialistas")}}</span><br>
+                    <span>Paciente: {{data.getNameById(turno.idPaciente, "Pacientes")}}</span><br>
+                    <span>{{turno.Dia}}</span><br>
+                    <span>{{turno.Horario}}</span><br>
+                    <span><b>{{turno.Estado}}</b></span><br>
+                    <button class="btn btn-danger" (click)="onCancelClick(turno)" *ngIf="turno.Estado == 'Aceptado'">
+                        <span>Cancelar</span>
+                    </button>
                 </div>
             </div>
         </div>

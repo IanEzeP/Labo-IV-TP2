@@ -1,5 +1,4 @@
 import { Component, Input, Output, EventEmitter, OnInit } from '@angular/core';
-import { DatabaseService } from 'src/app/servicios/database.service';
 import { AngularFirestore } from '@angular/fire/compat/firestore';
 
 @Component({
@@ -14,11 +13,11 @@ export class ValorarComponent implements OnInit {
   public text! : string;
   public rating! : number;
 
-  constructor(private data : DatabaseService, private firestore: AngularFirestore) {}
+  constructor(private firestore: AngularFirestore) {}
 
   ngOnInit(): void {
     this.text = "";
-    this.rating = 0;
+    this.rating = 3;
   }
   
   public onDismiss()
@@ -27,16 +26,7 @@ export class ValorarComponent implements OnInit {
   }
 
   public async onEnviarRateClick()
-  { 
-    let date = 
-    {
-      day: this.turno.Dia,
-      monthText: this.turno.Mes,
-      year: this.turno.Año
-    }
-    //let turnoId = await this.data.getTurnoIdByDateTime(date, this.turno.Horario);
-    //await this.data.updateRatingTurnoByTurnoId(turnoId, this.rating.toString(), this.text);
-
+  {
     const documento = this.firestore.doc('Turnos/' + this.turno.id);
     documento.update({
       Valoracion: this.rating.toString(),

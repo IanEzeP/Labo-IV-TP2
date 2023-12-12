@@ -1,5 +1,4 @@
 import { Component, Input, Output, EventEmitter } from '@angular/core';
-import { DatabaseService } from 'src/app/servicios/database.service';
 import { AngularFirestore } from '@angular/fire/compat/firestore';
 
 @Component({
@@ -13,10 +12,10 @@ export class EncuestaComponent {
   @Output() close = new EventEmitter<boolean>();
 
   public solucionRespuesta : any;
-  public recomendacionRespuesta : any;
-  public limpiezaRespuesta : any;
+  public medicacionRespuesta : any;
+  public estudiosRespuesta : any;
 
-  constructor(private data : DatabaseService, private firestore: AngularFirestore) {}
+  constructor(private firestore: AngularFirestore) {}
   
   public onDismiss()
   {
@@ -27,20 +26,10 @@ export class EncuestaComponent {
   {
     let encuesta =
     {
-      SOLUCION: this.solucionRespuesta,
-      RECOMENDACION: this.recomendacionRespuesta,
-      LIMPIEZA: this.limpiezaRespuesta,
+      Solucion: this.solucionRespuesta,
+      Medicacion: this.medicacionRespuesta,
+      Estudios: this.estudiosRespuesta,
     }
-/*
-    let date = 
-    {
-      day: this.turno.Dia,
-      monthText: this.turno.Mes,
-      year: this.turno.Año
-    }
-
-    let turnoId = await this.data.getTurnoIdByDateTime(date, this.turno.Horario);
-    await this.data.updateEncuestaByTurnoId(turnoId, encuesta);*/
 
     const documento = this.firestore.doc('Turnos/' + this.turno.id);
     documento.update({

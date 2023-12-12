@@ -1,6 +1,7 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { DatabaseService } from 'src/app/servicios/database.service';
 import { AuthService } from 'src/app/servicios/auth.service';
+import { AlertasService } from 'src/app/servicios/alerta.service';
 import { Subscription } from 'rxjs';
 
 @Component({
@@ -10,12 +11,11 @@ import { Subscription } from 'rxjs';
 })
 export class TurnosPacientesComponent implements OnInit, OnDestroy{
   
-  especialidades : any;
+  especialidades : any;//
   especialistas : any;
 
-  especialistaSeleccionado : any;
-  especialidadSeleccionada : any;
-  ratingSeleccionado : number = 0;
+  especialistaSeleccionado : any;//
+  especialidadSeleccionada : any;//
 
   turnos : any;
 
@@ -32,7 +32,7 @@ export class TurnosPacientesComponent implements OnInit, OnDestroy{
   observableEspecialidades = Subscription.EMPTY;
   observableTurnos = Subscription.EMPTY;
 
-  constructor(private data : DatabaseService, private auth : AuthService) { }
+  constructor(public data : DatabaseService, private auth : AuthService, private alerta: AlertasService) { }
 
   async ngOnInit()
   {
@@ -56,8 +56,7 @@ export class TurnosPacientesComponent implements OnInit, OnDestroy{
       result.forEach(especialidad =>
       {
         this.especialidades.push(especialidad.nombreEspecialidad);
-      }
-      );
+      });
     });
   }
 
@@ -76,27 +75,8 @@ export class TurnosPacientesComponent implements OnInit, OnDestroy{
           this.turnos.push(turno);
           this.turnosFiltrados = this.turnos;
         }
-      }
-      );
+      });
     });
-  }
-
-  async onEspecialidadChange(especialidad : string) //No se llama nunca, debe ser exclusiva de Especialistas
-  {
-    this.especialistas = this.actualizarEspecialistas(especialidad);
-    this.turnosFiltrados = this.turnos.filter((turno: { Especialidad: any; }) => turno.Especialidad == especialidad);
-  }
-
-  actualizarEspecialistas(especialidad : string) //No se llama nunca, debe ser exclusiva de Especialistas
-  {
-    let especialistas : Array<any> = [];
-    this.data.especDB.forEach(espec => {
-      if(espec.especialidades.includes(especialidad))
-      {
-        especialistas.push(espec);
-      }
-    });
-    return especialistas;
   }
 
   filtrarTurnos()
@@ -124,15 +104,9 @@ export class TurnosPacientesComponent implements OnInit, OnDestroy{
             }
           }
         }
-        
         return false;
       })
     );
-  }
-
-  async onEspecialistaChange(especialista : any)  //No se llama nunca, debe ser exclusiva de Especialistas
-  {
-    this.turnosFiltrados = this.turnos.filter((turno: { Especialista: any; Especialidad : any;}) => turno.Especialista == especialista && turno.Especialidad == this.especialidadSeleccionada);
   }
 
   limpiarFiltros()
@@ -186,16 +160,19 @@ export class TurnosPacientesComponent implements OnInit, OnDestroy{
   async onCancelTurnoDismiss()
   {
     this.viewCancel = false;
+    this.alerta.successToast("Turno cancelado.");
   }
 
   onRateTurnoDismiss()
   {
     this.viewRate = false;
+    this.alerta.successToast("Valoración completada.");
   }
 
   onEncuestaTurnoDismiss()
   {
     this.viewEncuesta = false;
+    this.alerta.successToast("Encuesta completada.");
   }
 
   onReseniaTurnoDismiss()
@@ -203,4 +180,28 @@ export class TurnosPacientesComponent implements OnInit, OnDestroy{
     this.viewMessage = false;
   }
   //#endregion
+
+  /*
+  async onEspecialidadChange(especialidad : string) //No se llama nunca, debe ser exclusiva de Especialistas
+  {
+    this.especialistas = this.actualizarEspecialistas(especialidad);
+    this.turnosFiltrados = this.turnos.filter((turno: { Especialidad: any; }) => turno.Especialidad == especialidad);
+  }
+
+  actualizarEspecialistas(especialidad : string)
+  {
+    let especialistas : Array<any> = [];
+    this.data.especDB.forEach(espec => {
+      if(espec.especialidades.includes(especialidad))
+      {
+        especialistas.push(espec);
+      }
+    });
+    return especialistas;
+  }
+
+  async onEspecialistaChange(especialista : any)  //No se llama nunca
+  {
+    this.turnosFiltrados = this.turnos.filter((turno: { Especialista: any; Especialidad : any;}) => turno.Especialista == especialista && turno.Especialidad == this.especialidadSeleccionada);
+  }*/
 }

@@ -1,56 +1,50 @@
-<div class="row background">
+<div class="row">
     <div class="col-md-7">
+        <div class="col-md-12" style="display: flex; align-items: center; justify-content: center;">
+            <h1>TURNOS</h1>
+        </div>
+
         <div class="row">
             <div class="col-md-12">
-                <h1>TURNOS</h1>
+                <input type="text" [(ngModel)]="inputFiltro" (input)="filtrarTurnos()" placeholder="Buscar...">
             </div>
         </div>
 
         <div class="row">
             <div class="col-md-12">
-                <input class="input-filtro" type="text" [(ngModel)]="inputFiltro" (input)="filtrarTurnos()" placeholder="Buscar...">
-            </div>
-        </div>
-
-        <div class="row">
-            <div class="col-md-12">
-                <button class="clean-btn" (click)="onLimpiarFiltrosClick()">
+                <button class="btn btn-secondary" (click)="onLimpiarFiltrosClick()">
                     <span>LIMPIAR FILTROS</span>
                 </button>
             </div>
         </div>
 
-        <div class="turnos-container">
-            <div class="row">
-                <div class="col-md-12 turno" *ngFor="let turno of this.turnosFiltrados">
-                    <div class="info">
-                        <span>{{turno.Especialidad}}</span>
-                        <div>
-                            <button class="btn btn-secondary" (click)="onRechazarTurnoClick(turno)" *ngIf="turno.Estado == 'Pendiente' ">
-                                <span>Rechazar</span>
-                            </button>
-                            <button class="btn btn-danger" (click)="onCancelClick(turno)" *ngIf="turno.Estado == 'Esperando'">
-                                <span>Cancelar</span>
-                            </button>
-                            <button class="btn btn-primary" (click)="onAcceptTurnoClick(turno)" *ngIf="turno.Estado == 'Pendiente' ">
-                                <span>Aceptar</span>
-                            </button>
-                            <button class="btn btn-success" (click)="onFinishTurnoClick(turno)" *ngIf="turno.Estado == 'Esperando'">
-                                <span>Finalizar</span>
-                            </button>
-                            <button class="btn btn-warning" (click)="onViewMessageClick(turno)" *ngIf="turno.Estado == 'Finalizado' && turno.Mensaje.length > 0 ">
-                                <span>Ver mensaje</span>
-                            </button>
-                            <button class="btn" (click)="onHistoraClick(turno)" *ngIf="turno.Estado == 'Finalizado' && turno.Mensaje.length > 0 && turno.HistoriaClinica == null">
-                                <span>Redactar Historia Clínica</span>
-                            </button>
-                        </div>
-                    </div>
-                    <div class="info">
-                        <span>{{turno.Paciente}}</span><!-- Mostrar nombre de Paciente -->
-                        <div><span>{{turno.Dia}}</span></div>
-                        <span>{{turno.Horario}}</span><br>
-                        <span>{{turno.Estado}}</span>
+        <div class="row" style="overflow: auto; max-height: 700px;">
+            <div class="col-md-6 div_turno" *ngFor="let turno of this.turnosFiltrados">
+                <div>
+                    <span>{{turno.Especialidad}}</span><br>
+                    <span>{{data.getNameById(turno.idPaciente, "Pacientes")}}</span><br>
+                    <span>{{turno.Dia}}</span><br>
+                    <span>{{turno.Horario}}</span><br>
+                    <span>{{turno.Estado}}</span><br>
+                    <div>
+                        <button class="btn btn-danger" (click)="onRechazarTurnoClick(turno)" *ngIf="turno.Estado == 'Pendiente'">
+                            <span>Rechazar</span>
+                        </button>
+                        <button class="btn btn-danger" (click)="onCancelClick(turno)" *ngIf="turno.Estado == 'Aceptado'">
+                            <span>Cancelar</span>
+                        </button>
+                        <button class="btn btn-primary" (click)="onAcceptTurnoClick(turno)" *ngIf="turno.Estado == 'Pendiente'">
+                            <span>Aceptar</span>
+                        </button>
+                        <button class="btn btn-success" (click)="onFinishTurnoClick(turno)" *ngIf="turno.Estado == 'Aceptado'">
+                            <span>Finalizar</span>
+                        </button>
+                        <button class="btn btn-warning" (click)="onViewMessageClick(turno)" *ngIf="turno.Estado == 'Finalizado' && turno.Diagnostico.length > 0 ">
+                            <span>Ver Diagnostico</span>
+                        </button>
+                        <button class="btn btn-secondary" (click)="onHistoraClick(turno)" *ngIf="turno.Estado == 'Finalizado' && turno.Diagnostico.length > 0 && turno.HistoriaClinica == null">
+                            <span>Redactar Historia Clínica</span>
+                        </button>
                     </div>
                 </div>
             </div>

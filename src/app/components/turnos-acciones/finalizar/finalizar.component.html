@@ -1,20 +1,20 @@
-<div class="row body">
+<div class="row">
     <div class="col-md-12 d-flex justify-content-end">
         <button class="button-close" (click)="onDismiss()">
-            <i class="bi bi-x-lg"></i>
+            <span><b>X</b></span>
         </button>
     </div>
     <div class="col-md-12">
-        <h1>Reseña del turno del {{turno.Dia}} / {{turno.Mes}} / {{turno['Año']}}</h1>
+        <h1>Reseña del turno del día {{turno.Dia}}</h1>
     </div>
     <div class="col-md-12">
-        <p>Por favor, deje una reseña del turno</p>
+        <p>Por favor, deje un comentario con respecto a la consulta</p>
     </div>
     <div class="col-md-12">
-        <textarea class="textarea" placeholder="Escriba su reseña aqui..." [(ngModel)]="this.text" ></textarea>
+        <textarea class="textarea" rows="8" cols="50" placeholder="Escriba su reseña aqui..." [(ngModel)]="this.text"></textarea>
     </div>
     <div class="col-md-12">
-        <button class="button-cancel" (click)="onFinishClick()">
+        <button class="btn btn-success" (click)="onFinishClick()">
             <span>FINALIZAR TURNO</span>
         </button>
     </div>

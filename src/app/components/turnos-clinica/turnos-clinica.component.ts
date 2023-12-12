@@ -1,6 +1,6 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
+import { AlertasService } from 'src/app/servicios/alerta.service';
 import { DatabaseService } from 'src/app/servicios/database.service';
-import { AuthService } from 'src/app/servicios/auth.service';
 import { Subscription } from 'rxjs';
 
 @Component({
@@ -8,27 +8,23 @@ import { Subscription } from 'rxjs';
   templateUrl: './turnos-clinica.component.html',
   styleUrls: ['./turnos-clinica.component.css']
 })
-export class TurnosClinicaComponent {
+export class TurnosClinicaComponent implements OnInit, OnDestroy{
 
   especialidades : any;
   especialistas : any;
 
   especialistaSeleccionado : any;
   especialidadSeleccionada : any;
-  ratingSeleccionado : number = 0;
 
   turnos : any;
-
   turnosFiltrados : any;
   viewCancel : boolean = false;
-  viewRate : boolean = false;
-  viewEncuesta : boolean = false;
 
   fechaTurno! : string
   observableEspecialidades = Subscription.EMPTY;
   observableTurnos = Subscription.EMPTY;
 
-  constructor(private data : DatabaseService, private auth : AuthService) {}
+  constructor(public data : DatabaseService, private alerta: AlertasService) {}
 
   async ngOnInit()
   {
@@ -68,12 +64,18 @@ export class TurnosClinicaComponent {
       {
         this.turnosFiltrados = this.turnos.filter((turno: { Especialidad: any; }) => turno.Especialidad == this.especialidadSeleccionada);
   
-        if(this.especialidadSeleccionada != null) //Sera especialistaSeleccionado?
+        if(this.especialistaSeleccionado != null) //Lo cambie, antes era "especialidadSeleccionada".
         {
           this.turnosFiltrados = this.turnos.filter((turno: { Especialista: any; Especialidad : any;}) => turno.Especialidad == this.especialidadSeleccionada && turno.Especialista == this.especialistaSeleccionado);
         }
       }
     });
+  }
+
+  ngOnDestroy(): void 
+  {
+    this.observableEspecialidades.unsubscribe();
+    this.observableTurnos.unsubscribe();
   }
 
   public async onEspecialidadChange(especialidad : any)
@@ -107,14 +109,19 @@ export class TurnosClinicaComponent {
     this.especialistas = null;
   }
 
-  public onCancelClick(turno : any) //La unica usada
+  public onCancelClick(turno : any)
   {
     this.viewCancel = true;
-    this.viewRate = false;
-    this.viewEncuesta = false;
     this.fechaTurno = turno;
   }
-
+  
+  public async onCancelTurnoDismiss(cancel : boolean)
+  {
+    this.viewCancel = false;
+    this.alerta.successToast("Turno cancelado.");
+  }
+  
+/*
   public onRateTurnoClick(turno : any)
   {
     this.viewRate = true;
@@ -131,11 +138,6 @@ export class TurnosClinicaComponent {
     this.fechaTurno = turno;
   }
 
-  public async onCancelTurnoDismiss(cancel : boolean) //La unica usada
-  {
-    this.viewCancel = false;
-  }
-
   public onRateTurnoDismiss()
   {
     this.viewRate = false;
@@ -144,5 +146,5 @@ export class TurnosClinicaComponent {
   public onEncuestaTurnoDismiss()
   {
     this.viewEncuesta = false;
-  }
+  }*/
 }

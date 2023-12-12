@@ -5,12 +5,29 @@
         </div>
     </div>
     <div class="row">
-        <div *ngFor="let especialidad of this.especialidades" class="col-md-2 col-sm-4"> <!-- Sacar nombre de especialidad (ver en donde podemos mostrarlo...) -->
+        <div *ngFor="let especialidad of this.especialidades" class="col-md-2 col-sm-4"> <!-- Sacar nombre de especialidad -->
             <button name="especialidad" class="btn btn-primary" id="{{especialidad.nombreEspecialidad}}" (click)="actualizarEspecialistas(especialidad.nombreEspecialidad)">
                 <img style="width: 50px; height: 50px; border-radius: 50%; object-fit: cover;" src="{{especialidad.imagen}}">{{especialidad.nombreEspecialidad}}
             </button>
         </div>
     </div>
+
+    <div *ngIf="this.esAdmin">
+        <div class="row p-4 mb-4 text-white bg-dark rounded-3">
+            <div class="col-md-12">
+                <span><b>Paciente</b></span>
+            </div>
+        </div>
+        <div class="row">
+            <div *ngFor="let paciente of this.pacientesBD" class="col-md-2 col-sm-4">
+                <button name="paciente" class="btn btn-primary" id="{{paciente.id}}" (click)="onPacienteElegido(paciente)">
+                    <img style="width: 50px; height: 50px; border-radius: 50%;" src="{{paciente.ImagenPerfil}}">
+                    <br><span>{{paciente.Nombre}}</span>
+                </button>
+            </div>
+        </div>
+    </div>
+
     <div class="row p-4 mb-4 text-white bg-dark rounded-3">
         <div class="col-md-12">
             <span><b>Especialista</b></span>
@@ -49,11 +66,25 @@
         </div>
     </div>
     <br>
+    <div *ngIf="esAdmin==false; then turnoPaciente else turnoAdmin"></div>
+    <ng-template #turnoPaciente>
     <div class="row">
         <div class="col-md-12">
-            <button class="btn btn-lg btn-success" (click)="solicitarTurno()" [disabled]="!(this.especialidadSeleccionada != null && this.especialistaSeleccionado != null && this.horaSeleccionada != null && this.diaSeleccionado != null)" >
+            <button class="btn btn-lg btn-success" (click)="solicitarTurno()" 
+            [disabled]="!(this.especialidadSeleccionada != null && this.especialistaSeleccionado != null && this.horaSeleccionada != null && this.diaSeleccionado != null)">
                 <span>Solicitar turno</span>
             </button>
         </div>
     </div>
+    </ng-template>
+    <ng-template #turnoAdmin>
+    <div class="row">
+        <div class="col-md-12">
+            <button class="btn btn-lg btn-success" (click)="solicitarTurno()" 
+            [disabled]="!(this.especialidadSeleccionada != null && this.especialistaSeleccionado != null && this.horaSeleccionada != null && this.diaSeleccionado != null && this.pacienteSeleccionado != null)">
+                <span>Solicitar turno</span>
+            </button>
+        </div>
+    </div>
+    </ng-template>
 </div>

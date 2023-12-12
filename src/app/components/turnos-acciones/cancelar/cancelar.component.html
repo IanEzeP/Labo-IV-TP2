@@ -1,20 +1,20 @@
 <div class="row">
     <div class="col-md-12 d-flex justify-content-end">
         <button class="button-close" (click)="onDismiss()">
-            <i class="bi bi-x-lg"></i>
+            <span><b>X</b></span>
         </button>
     </div>
     <div class="col-md-12">
-        <h1>Usted está apunto de cancelar el turno del {{turno.Dia}} / {{turno.Mes}} / {{turno['Año']}}</h1>
+        <h1>Usted está apunto de cancelar el turno del dia {{turno.Dia}} a las {{turno.Horario}}</h1>
     </div>
     <div class="col-md-12">
-        <p>Por favor, deje una justificacion de porque cancelara el turno</p>
+        <p>Por favor, deje una justificacion de por qué cancelara el turno</p>
     </div>
     <div class="col-md-12">
-        <textarea class="textarea" placeholder="Cancelo el turno debido a que..." [(ngModel)]="this.text" ></textarea>
+        <textarea class="textarea" rows="8" cols="50" placeholder="Cancelo el turno debido a..." [(ngModel)]="this.text"></textarea>
     </div>
     <div class="col-md-12">
-        <button class="button-cancel" (click)="onCancelClick()">
+        <button class="btn btn-secondary" (click)="onCancelClick()">
             <span>CANCELAR TURNO</span>
         </button>
     </div>

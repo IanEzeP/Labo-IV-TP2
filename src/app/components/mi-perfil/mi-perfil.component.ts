@@ -12,8 +12,8 @@ export class MiPerfilComponent implements OnInit {
   usuario : any;
   atencionManiana : boolean = false;
   atencionTarde : boolean = false;
-  //especialidades : any;
-  //turnos : any;
+  especialidades : any;
+  turnos : any;
 
   constructor(public auth: AuthService, private data: DatabaseService) {}
 
@@ -31,6 +31,34 @@ export class MiPerfilComponent implements OnInit {
         this.atencionTarde = this.usuario.TurnoTarde;
       }
     });
+  }
+  
+  public onDownloadHistoriaClick(especialidad : string)
+  {
+    let turnos;
+    this.data.getTurnosByUserUserName(this.auth.userName).subscribe((x) =>
+      {
+        turnos = x;
+        turnos = turnos.filter((turno : {HistoriaClinica : any, Especialidad : any}) => turno.HistoriaClinica != null && turno.Especialidad == especialidad);
+        let historiasArray = turnos.map((turno : any) =>
+        {
+          let datosHistoriaClinica: { [clave: string]: any } = {};
+          for (let clave in turno.HistoriaClinica) {
+            datosHistoriaClinica[clave] = turno.HistoriaClinica[clave];
+          }
+
+          return {
+            Paciente: turno.Paciente,
+            Especialista: turno.Especialista,
+            Especialidad: turno.Especialidad,
+            Dia: turno.Dia,
+            Mes: turno.Mes,
+            ['Año']: turno.Año,
+            ...datosHistoriaClinica,
+          }
+        });
+        this.file.downloadPDF(historiasArray);
+      });
   }
 
   public cambiarAtencion(time: string) 

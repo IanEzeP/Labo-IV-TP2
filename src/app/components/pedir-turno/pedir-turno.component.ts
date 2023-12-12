@@ -3,9 +3,8 @@ import { Router } from '@angular/router';
 import { AngularFirestore } from '@angular/fire/compat/firestore';
 import { AuthService } from 'src/app/servicios/auth.service';
 import { DatabaseService } from 'src/app/servicios/database.service';
-import { LoadingService } from 'src/app/servicios/loading.service';
 import { AlertasService } from 'src/app/servicios/alerta.service';
-import { Subscription, min } from 'rxjs';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-pedir-turno',
@@ -17,10 +16,13 @@ export class PedirTurnoComponent implements OnInit, OnDestroy{
   especialidades : Array<any> = [];
   especialistasBD : Array<any> = [];
   turnosBD : Array<any> = [];
-  //pacientesBD : Array<any> = []; Tambien necesito a los Pacientes. Ya que los administradores pueden sacarle turno a un paciente.
+  pacientesBD : Array<any> = [];
   especDisplay : Array<any> = [];
   especialidadSeleccionada : string = '';
   especialistaSeleccionado : any;
+  pacienteSeleccionado : any;
+
+  esAdmin : boolean = false;
 
   diasTurnos : Array<any> = [];
   horarios : Array<any> = [];
@@ -29,9 +31,10 @@ export class PedirTurnoComponent implements OnInit, OnDestroy{
 
   observableEspecialidades = Subscription.EMPTY;
   observableEspecialistas = Subscription.EMPTY;
+  observablePacientes = Subscription.EMPTY;
   observableTurnos = Subscription.EMPTY;
 
-  constructor(private auth: AuthService, private data: DatabaseService, private loading: LoadingService, private router: Router,
+  constructor(private auth: AuthService, private data: DatabaseService, private router: Router,
     private alerta: AlertasService, private firestore: AngularFirestore) { }
 
   ngOnInit(): void 
@@ -39,6 +42,11 @@ export class PedirTurnoComponent implements OnInit, OnDestroy{
     this.cargarEspecialidades();
     this.cargarEspecialistas();
     this.cargarTurnos();
+    if(this.auth.rol == "ADMINISTRADOR")
+    {
+      this.esAdmin = true;
+      this.cargarPacientes();
+    }
   }
 
   ngOnDestroy(): void 
@@ -46,6 +54,7 @@ export class PedirTurnoComponent implements OnInit, OnDestroy{
     this.observableEspecialidades.unsubscribe();
     this.observableEspecialistas.unsubscribe();
     this.observableTurnos.unsubscribe();
+    this.observablePacientes.unsubscribe();
   }
 
   cargarEspecialidades()
@@ -58,8 +67,7 @@ export class PedirTurnoComponent implements OnInit, OnDestroy{
       result.forEach(especialidad =>
       {
         this.especialidades.push(especialidad);
-      }
-      );
+      });
     });
   }
 
@@ -73,8 +81,21 @@ export class PedirTurnoComponent implements OnInit, OnDestroy{
       result.forEach(especialista =>
       {
         this.especialistasBD.push(especialista);
-      }
-      );
+      });
+    });
+  }
+
+  cargarPacientes()
+  {
+    this.observablePacientes = this.data.getCollectionObservable('Pacientes').subscribe((next : any) =>
+    {
+      this.pacientesBD = [];
+      let result : Array<any> = next;
+
+      result.forEach(paciente =>
+      {
+        this.pacientesBD.push(paciente);
+      });
     });
   }
 
@@ -87,17 +108,14 @@ export class PedirTurnoComponent implements OnInit, OnDestroy{
 
       result.forEach(turno =>
       {
-        //console.log(turno);
         this.turnosBD.push(turno);
-      }
-      );
+      });
     });
   }
 
   actualizarEspecialistas(especialidad : string)
   {
     this.especialidadSeleccionada = especialidad;
-    console.log(this.especialidadSeleccionada);
     this.especDisplay = [];
     this.diasTurnos = [];
     this.horarios = [];
@@ -118,7 +136,6 @@ export class PedirTurnoComponent implements OnInit, OnDestroy{
   actualizarDias(especialista : any)
   {
     this.especialistaSeleccionado = especialista;
-    console.log(this.especialistaSeleccionado);
     this.diasTurnos = [];
     this.horarios = [];
     this.horaSeleccionada = null;
@@ -140,7 +157,6 @@ export class PedirTurnoComponent implements OnInit, OnDestroy{
         diasProximos++;
       }
     }
-    console.log(this.diasTurnos);
   }
 
   public parseDate(date : Date)
@@ -163,7 +179,6 @@ export class PedirTurnoComponent implements OnInit, OnDestroy{
   public actualizarHorarios(dia : any)
   {
     this.diaSeleccionado = dia;
-    console.log(this.diaSeleccionado);
     this.horarios = [];
     this.horaSeleccionada = null;
     
@@ -206,22 +221,18 @@ export class PedirTurnoComponent implements OnInit, OnDestroy{
           let fecha = new Date(dia.year, dia.month-1, dia.day, hora, minutos);
           let horaOcupada = false;
           
-          this.turnosBD.forEach(turno => {
-          if(turno.idEspecialista == this.especialistaSeleccionado.id)
+          this.turnosBD.forEach(turno => 
           {
-            if(turno.Fecha.seconds == (fecha.valueOf() / 1000))
+            if(turno.idEspecialista == this.especialistaSeleccionado.id)
             {
-              horaOcupada = true;
+              if(turno.Fecha.seconds == (fecha.valueOf() / 1000))
+              {
+                horaOcupada = true;
+              }
             }
-          }
           });
           const horario = 
-          {
-            hour: hora,
-            minute: minutos,
-            time: horaFormateada,
-            checked: horaOcupada,
-          };
+          { hour: hora, minute: minutos, time: horaFormateada, checked: horaOcupada };
           this.horarios.push(horario);
         }
       }
@@ -231,19 +242,33 @@ export class PedirTurnoComponent implements OnInit, OnDestroy{
   onHoraElegida(hora : any)
   {
     this.horaSeleccionada = hora;
-    console.log(this.horaSeleccionada);
+  }
+
+  onPacienteElegido(paciente : any)
+  {
+    this.pacienteSeleccionado = paciente;
   }
 
   public solicitarTurno()
   {
+    let id : string;
     const fecha = new Date(this.diaSeleccionado.year, this.diaSeleccionado.month - 1, this.diaSeleccionado.day,
     this.horaSeleccionada.hour, this.horaSeleccionada.minute);
 
     const documento = this.firestore.doc('Turnos/' + this.firestore.createId());
 
+    if(this.esAdmin)
+    {
+      id = this.pacienteSeleccionado.id;
+    }
+    else
+    {
+      id = this.auth.idUser;
+    }
+
     documento.set({
       id: documento.ref.id,
-      idPaciente: this.auth.idUser,
+      idPaciente: id,
       idEspecialista: this.especialistaSeleccionado.id,
       Especialidad: this.especialidadSeleccionada,
       Horario: this.horaSeleccionada.time,
@@ -252,8 +277,8 @@ export class PedirTurnoComponent implements OnInit, OnDestroy{
       Fecha: fecha
     }).then(() => 
     {
-      this.alerta.successAlert("Turno solicitado correctamente. Puede revisar en Mis Turnos el estado de su solicitud.");
-      //this.router.navigateByUrl('home');
+      this.alerta.sweetAlert("Turno solicitado correctamente", "Puede revisar en Mis Turnos el estado de su solicitud", "success")
+      .then(() => this.router.navigateByUrl('home'));
     }).catch(error => 
     {
       console.log(error);

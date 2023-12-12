@@ -29,8 +29,7 @@
             <span>Obra social: </span>
             <span> {{this.usuario.ObraSocial}}</span>
         </div>
-        <!--
-        <div *ngIf="this.auth.rol == 'PACIENTE'">
+        <div *ngIf="this.auth.rol == 'PACIENTE'"> <!-- Tiene que haber una tambien para administradores -->
             <h1>Descargar historias clinicas</h1>
             <div>
                 <div *ngFor="let especialidad of this.especialidades" class="col-md-3 col-sm-4">
@@ -40,7 +39,7 @@
                     </div>
                 </div>
             </div>
-        </div>-->
+        </div>
         <div *ngIf="this.auth.rol == 'ESPECIALISTA'">
             <div class="col-md-12">
                 <div>

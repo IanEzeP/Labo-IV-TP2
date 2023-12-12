@@ -173,6 +173,41 @@ export class DatabaseService{
     return id;
   }
 
+  getNameById(id : string, coleccion : string)
+  {
+    let nombre : string = '';
+
+    switch(coleccion)
+    {
+      case "Administradores":
+        this.adminsDB.forEach(admin => {
+          if(admin.id == id)
+          {
+            nombre = admin.nombre + " " + admin.apellido;
+          }
+        });
+        break;
+      case "Pacientes":
+        this.pacDB.forEach(pac => {
+          if(pac.id == id)
+          {
+            nombre = pac.nombre + " " + pac.apellido;
+          }
+        });
+        break;
+      case "Especialistas":
+        this.especDB.forEach(espec => {
+          if(espec.id == id)
+          {
+            nombre = espec.nombre + " " + espec.apellido;
+          }
+        });
+        break;
+    }
+
+    return nombre;
+  }
+
   actualizarHorarios(id : string, horario : any)
   {
     const espec = this.firestore.doc('Especialistas/' + id);

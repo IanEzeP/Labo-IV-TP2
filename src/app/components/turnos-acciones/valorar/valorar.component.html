@@ -1,19 +1,25 @@
 <div class="row body">
     <div class="col-md-12 d-flex justify-content-end">
         <button class="button-close" (click)="onDismiss()">
-            <i class="bi bi-x-lg"></i>
+            <span><b>X</b></span>
         </button>
     </div>
     <div class="col-md-12">
-        <h1>Turno del {{turno.Dia}} / {{turno.Mes}} / {{turno['Año']}}</h1>
+        <h1>Turno del dia: {{turno.Dia}} Horario: {{turno.Horario}}</h1>
     </div>
     <div class="col-md-12">
-        <p>Por favor, deje una puntuacion y un comentario de su turno</p>
+        <p>Por favor, califique su atención y deje un comentario de su turno</p>
     </div>
-    <div class="col-md-12" style="text-align: center;">
+    <div class="col-md-9">
+        <div style="position: relative; display: flex; align-items: center; justify-content: center;">
+            <label for="valoracion" class="form-label">Del 1 al 5 ¿Como calificaría su atención?</label>
+            <div>1</div>
+            <input type="range" class="form-range" id="valoracion" min="1" max="5" step="1" [(ngModel)]="this.rating">
+            <div>5</div>
+        </div>
     </div>
     <div class="col-md-12">
-        <textarea class="textarea" placeholder="Deje su opinion aquí" [(ngModel)]="this.text" ></textarea>
+        <textarea class="textarea" rows="8" cols="50" placeholder="Deje su comentario aquí..." [(ngModel)]="this.text"></textarea>
     </div>
     <div class="col-md-12">
         <button class="button-cancel" (click)="onEnviarRateClick()">

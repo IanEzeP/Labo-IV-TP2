@@ -1,13 +1,13 @@
 <div class="row body">
     <div class="col-md-12 d-flex justify-content-end">
         <button class="button-close" (click)="onDismiss()">
-            <i class="bi bi-x-lg"></i>
+            <span><b>X</b></span>
         </button>
     </div>
     <div class="col-md-12">
-        <h1>Reseña del turno del {{turno.Dia}} / {{turno.Mes}} / {{turno['Año']}}</h1>
+        <h1>Reseña del turno del dia {{turno.Dia}} a las {{turno.Horario}}</h1>
     </div>
     <div class="col-md-12">
-        <p>{{turno.Mensaje}}</p>
+        <p>{{turno.Diagnostico}}</p>
     </div>
 </div>
