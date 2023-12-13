@@ -1,42 +1,42 @@
 <div class="row body">
     <div class="col-md-12 d-flex justify-content-end">
         <button class="button-close" (click)="onDismiss()">
-            <i class="bi bi-x-lg"></i>
+            <span><b>X</b></span>
         </button>
     </div>
     <div class="col-md-12">
-        <h1>Historia clinica del día {{turno.Dia}} / {{turno.Mes}} / {{turno['Año']}} para el paciente {{turno.Paciente}}</h1>
+        <h1>Historia clinica de {{this.data.getNameById(this.turno.idPaciente, 'Pacientes')}} en fecha {{turno.Dia}}</h1>
     </div>
     <div class="col-md-12">
-        <p>Complete la historia clinica del paciente</p>
+        <p>Redacte la historia clinica</p>
     </div>
 
     <div class="col-md-6" style="text-align: left;">
         <span>Altura</span>
     </div>
-    <div class="col-md-6" style="text-align: center;">
-        <input class="input-form" type="number" min="120" max="220" [(ngModel)]="this.altura" placeholder="Indique la altura...">
+    <div class="col-md-6" style="text-align: left;">
+        <input class="input-form" type="number" min="120" max="220" [(ngModel)]="this.altura" placeholder="(en cm)">
     </div>
 
     <div class="col-md-6" style="text-align: left;">
         <span>Peso</span>
     </div>
-    <div class="col-md-6" style="text-align: center;">
-        <input class="input-form" type="number" min="30" max="220" [(ngModel)]="this.peso" placeholder="Indique el peso">
+    <div class="col-md-6" style="text-align: left;">
+        <input class="input-form" type="number" min="30" max="220" [(ngModel)]="this.peso" placeholder="(en Kg)">
     </div>
 
     <div class="col-md-6" style="text-align: left;">
         <span>Temperatura</span>
     </div>
-    <div class="col-md-6" style="text-align: center;">
-        <input class="input-form" type="number" min="30" max="45" [(ngModel)]="this.temperatura" placeholder="Indique la temperatura...">
+    <div class="col-md-6" style="text-align: left;">
+        <input class="input-form" type="number" min="30" max="45" [(ngModel)]="this.temperatura" placeholder="(en Cº)">
     </div>
 
     <div class="col-md-6" style="text-align: left;">
         <span>Presión</span>
     </div>
-    <div class="col-md-6" style="text-align: center;">
-        <input class="input-form" type="number" min="100" max="250" [(ngModel)]="this.presion" placeholder="Indique la presión...">
+    <div class="col-md-6" style="text-align: left;">
+        <input class="input-form" type="number" min="80" max="200" [(ngModel)]="this.presion" placeholder="(en mmHg)">
     </div>
 
     
@@ -47,20 +47,20 @@
                     <div class="col-md-6" style="text-align: left;">
                         <span>Clave {{i + 1}}</span>
                     </div>
-                    <div class="col-md-6" style="text-align: center;">
+                    <div class="col-md-6" style="text-align: left;">
                         <input [id]="'clave' + i" class="input-form" type="text">
                     </div>
                     <div class="col-md-6" style="text-align: left;">
                         <span>Valor {{i + 1}}</span>
                     </div>
-                    <div class="col-md-6" style="text-align: center;">
+                    <div class="col-md-6" style="text-align: left;">
                         <input [id]="'valor' + i" class="input-form" type="text">
                     </div>
                 </div>
             </div>
             <div class="col-md-1 d-flex justify-content-center align-items-center" > 
                 <button class="button-sacar" (click)="eliminarCampo(i)">
-                    <i class="bi bi-trash"></i>
+                    <span><b>Descartar</b></span>
                 </button>
             </div>
         </div>

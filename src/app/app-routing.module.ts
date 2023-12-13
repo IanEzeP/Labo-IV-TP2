@@ -12,6 +12,7 @@ import { TurnosPacientesComponent } from './components/turnos-pacientes/turnos-p
 import { TurnosEspecialistasComponent } from './components/turnos-especialistas/turnos-especialistas.component';
 import { TurnosClinicaComponent } from './components/turnos-clinica/turnos-clinica.component';
 import { HistorialComponent } from './components/historial/historial.component';
+import { VerPacientesComponent } from './components/ver-pacientes/ver-pacientes.component';
 
 const routes: Routes = [
   { path: 'home', component: BienvenidaComponent},
@@ -19,6 +20,7 @@ const routes: Routes = [
   { path: 'login', component: LoginComponent},
   { path: 'registro', component: RegistroComponent},
   { path: 'usuarios', component: UsuariosComponent},  //Agregar guard (CanActivate)
+  { path: 'pacientes', component: VerPacientesComponent},  //Agregar guard (CanActivate)
   { path: 'verificando-acceso', component: VerificacionAccesoComponent},  //Agregar guard (CanActivate y CanDeactivate)
   { path: 'perfil', component: MiPerfilComponent},
   { path: 'pedir-turno', component: PedirTurnoComponent},

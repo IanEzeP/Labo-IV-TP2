@@ -10,28 +10,29 @@ export class ValorarComponent implements OnInit {
 
   @Input() turno : any;
   @Output() close = new EventEmitter<boolean>();
-  public text! : string;
-  public rating! : number;
+  text! : string;
+  rating! : number;
 
   constructor(private firestore: AngularFirestore) {}
 
-  ngOnInit(): void {
+  ngOnInit(): void 
+  {
     this.text = "";
     this.rating = 3;
   }
   
-  public onDismiss()
+  onDismiss()
   {
     this.close.emit();
   }
 
-  public async onEnviarRateClick()
+  onEnviarRateClick()
   {
     const documento = this.firestore.doc('Turnos/' + this.turno.id);
+    
     documento.update({
       Valoracion: this.rating.toString(),
       Opinion: this.text
     }).then(() => this.close.emit(true));
-    
   }
 }

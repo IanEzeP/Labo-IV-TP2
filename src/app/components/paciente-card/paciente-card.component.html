@@ -1,0 +1,13 @@
+<div class="card" style="width: 18rem;">
+    <img class="card-img-top" src="{{pacienteSeleccionado.ImagenPerfil}}" alt="ImagenPaciente">
+    <div class="card-body">
+        <h5 class="card-title">{{pacienteSeleccionado.Nombre}} {{pacienteSeleccionado.Apellido}}</h5>
+        <h6 class="card-subtitle">Ultimos turnos:</h6><br>
+        <div *ngFor="let turno of this.turnosPaciente">
+            <p class="card-text">Fecha {{turno.Dia}} {{turno.Horario}}</p>
+            <p class="card-text">Especialidad {{turno.Especialidad}}</p>
+            <p class="card-text">Estado {{turno.Estado}}</p><hr>
+        </div>
+        <button type="button" class="btn btn-primary" (click)="onVerHistorial(pacienteSeleccionado.id)">Ver Historial</button>
+    </div>
+</div>

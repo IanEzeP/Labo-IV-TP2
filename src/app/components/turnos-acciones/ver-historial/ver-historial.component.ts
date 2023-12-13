@@ -1,5 +1,6 @@
 import { Component, Input, Output, EventEmitter } from '@angular/core';
 import { DatabaseService } from 'src/app/servicios/database.service';
+import { AngularFirestore } from '@angular/fire/compat/firestore';
 
 @Component({
   selector: 'app-ver-historial',
@@ -7,59 +8,56 @@ import { DatabaseService } from 'src/app/servicios/database.service';
   styleUrls: ['./ver-historial.component.css']
 })
 export class VerHistorialComponent {
+  
   @Input() turno : any;
   @Output() close = new EventEmitter<boolean>();
 
-  public altura! : number;
-  public peso! : number;
-  public temperatura! : number;
-  public presion! : number
+  altura! : number;
+  peso! : number;
+  temperatura! : number;
+  presion! : number;
 
   campos: { clave: string; valor: string }[] = [];
 
-  constructor (private data : DatabaseService) {}
+  constructor (public data : DatabaseService, private firestore: AngularFirestore) {}
 
-  public agregarCampo() {
+  agregarCampo() 
+  {
     this.campos.push({ clave: '', valor: '' });
   }
 
-  public onDismiss()
+  eliminarCampo(index : number)
+  {
+    this.campos.splice(index, 1);
+  }
+
+  onDismiss()
   {
     this.close.emit();
   }
 
-  public async onSubirHistoriaClinica()
+  onSubirHistoriaClinica()
   {
-    let historiaClinica : any = {
+    let historiaClinica : any = 
+    {
       Altura: this.altura,
       Peso: this.peso,
       Temperatura: this.temperatura,
       Presion: this.presion,
     }
 
-    for (let i = 0; i < this.campos.length; i++) {
-      const clave = (document.getElementById(`clave${i}`) as HTMLInputElement).value;
-      const valor = (document.getElementById(`valor${i}`) as HTMLInputElement).value;
+    for (let i = 0; i < this.campos.length; i++) 
+    {
+      const clave = (document.getElementById('clave' + i) as HTMLInputElement).value;
+      const valor = (document.getElementById('valor' + i) as HTMLInputElement).value;
 
-      if (clave && valor) {
+      if (clave && valor) 
+      {
         historiaClinica[clave] = valor;
       }
     }
 
-    let date = {
-      day: this.turno.Dia,
-      monthText: this.turno.Mes,
-      year: this.turno.Año,
-    }
-
-    //let turnoId = await this.data.getTurnoIdByDateTime(date, this.turno.Horario);
-    //await this.data.saveHistoriaClinicaByTurnoId(turnoId, historiaClinica);
-    
-    this.close.emit();
-  }
-
-  public eliminarCampo(index : number)
-  {
-    this.campos.splice(index, 1);
+    const documento = this.firestore.doc('Turnos/' + this.turno.id);
+    documento.update({ Historia: historiaClinica }).then(() => this.close.emit());
   }
 }

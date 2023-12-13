@@ -32,7 +32,7 @@ export class MiPerfilComponent implements OnInit {
       }
     });
   }
-  
+  /*
   public onDownloadHistoriaClick(especialidad : string)
   {
     let turnos;
@@ -59,7 +59,7 @@ export class MiPerfilComponent implements OnInit {
         });
         this.file.downloadPDF(historiasArray);
       });
-  }
+  }*/
 
   public cambiarAtencion(time: string) 
   {

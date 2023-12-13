@@ -18,6 +18,7 @@ import { AlertasService } from './servicios/alerta.service';
 import { DatabaseService } from './servicios/database.service';
 import { AuthService } from './servicios/auth.service';
 import { LoadingService } from './servicios/loading.service';
+import { GenerateFilesService } from './servicios/generate-files.service';
 
 import { BienvenidaComponent } from './components/bienvenida/bienvenida.component';
 import { RegistroComponent } from './components/registro/registro.component';
@@ -50,6 +51,8 @@ import { ValorarComponent } from './components/turnos-acciones/valorar/valorar.c
 import { RechazarComponent } from './components/turnos-acciones/rechazar/rechazar.component';
 import { VerValoracionComponent } from './components/turnos-acciones/ver-valoracion/ver-valoracion.component';
 import { VerHistorialComponent } from './components/turnos-acciones/ver-historial/ver-historial.component';
+import { VerPacientesComponent } from './components/ver-pacientes/ver-pacientes.component';
+import { PacienteCardComponent } from './components/paciente-card/paciente-card.component';
 
 @NgModule({
   declarations: [
@@ -84,7 +87,9 @@ import { VerHistorialComponent } from './components/turnos-acciones/ver-historia
     ValorarComponent,
     RechazarComponent,
     VerValoracionComponent,
-    VerHistorialComponent
+    VerHistorialComponent,
+    VerPacientesComponent,
+    PacienteCardComponent
   ],
   imports: [
     BrowserModule,
@@ -103,7 +108,8 @@ import { VerHistorialComponent } from './components/turnos-acciones/ver-historia
     AlertasService,
     DatabaseService,
     AuthService,
-    LoadingService],
+    LoadingService,
+    GenerateFilesService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

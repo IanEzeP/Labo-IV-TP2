@@ -42,7 +42,7 @@
                         <button class="btn btn-warning" (click)="onViewMessageClick(turno)" *ngIf="turno.Estado == 'Finalizado' && turno.Diagnostico.length > 0 ">
                             <span>Ver Diagnostico</span>
                         </button>
-                        <button class="btn btn-secondary" (click)="onHistoraClick(turno)" *ngIf="turno.Estado == 'Finalizado' && turno.Diagnostico.length > 0 && turno.HistoriaClinica == null">
+                        <button class="btn btn-secondary" (click)="onHistoraClick(turno)" *ngIf="turno.Estado == 'Finalizado' && turno.Diagnostico.length > 0 && turno.Historia == null">
                             <span>Redactar Historia Clínica</span>
                         </button>
                     </div>

@@ -1,0 +1,18 @@
+<div class="row">
+    <div class="col-md-12">
+        <div class="container">
+            <div class="col-md-12" style="display: flex; justify-content: center;">
+                <h2>Pacientes</h2>
+            </div>
+            <div class="row">
+                <div class="col-md-4" *ngFor="let paciente of this.pacientes">
+                    <app-paciente-card
+                    [turnos]="this.turnos"
+                    [pacienteSeleccionado]="paciente"
+                    (verHistorial)="mostrarHistorial($event)"
+                    ></app-paciente-card>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
