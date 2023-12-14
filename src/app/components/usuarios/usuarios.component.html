@@ -1,20 +1,24 @@
 <div style="display: flex; justify-content: center;">
-    <div class="col-md-4">
-    <button class="btn-success" (click)="onConsultarClick()">
+    <div class="col-md-3">
+    <button class="btn-success col-md-12" (click)="onConsultarClick()">
         <p>Consultar información de usuarios</p>
     </button>
     </div>
-    <div class="col-md-4">
-    <button class=" btn-warning" (click)="onHabilitarClick()">
+    <div class="col-md-3">
+    <button class=" btn-warning col-md-12" (click)="onHabilitarClick()">
         <p>Habilitar o Inhabilitar acceso a Especialistas</p>
     </button>
     </div>
-    <div class="col-md-4" (click)="onRegistrarClick()">
-    <button class="btn-primary">
+    <div class="col-md-3" (click)="onRegistrarClick()">
+    <button class="btn-primary col-md-12">
         <p>Alta de nuevos Admin</p>
     </button>
     </div>
-    
+    <div class="col-md-3" (click)="onDescargarClick()">
+    <button class="btn-info col-md-12">
+        <p>Descargar Excel de Usuarios</p>
+    </button>
+    </div>
 </div>
 <div class="container">
     <app-listado *ngIf="showListado"></app-listado>

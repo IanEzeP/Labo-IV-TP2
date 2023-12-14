@@ -13,28 +13,30 @@ import { Auth,
 })
 export class AuthService {
 
-  public logueado : boolean = false;
-  public email : string = "";
-  public rol : string = "";
-  public especAutorizado : boolean = false;
-  public idUser : string = "";
+  logueado : boolean = false;
+  email : string = "";
+  rol : string = "";
+  especAutorizado : boolean = false;
+  idUser : string = "";
+  idHistoria : string = "";
 
   constructor(private auth: Auth, private loading: LoadingService) { }
 
-  public async logIn(email: string, password: string) 
+  async logIn(email: string, password: string) 
   {
-    try {
+    try 
+    {
       const credential = signInWithEmailAndPassword(this.auth, email, password);
-      //console.log(credential);
       this.logueado = true;
 
       return credential;
-    } catch (error) {
+    } catch (error) 
+    {
       return null;
     }
   }
 
-  public async logOut()
+  async logOut()
   {
     this.loading.load();
     this.logueado = false;
@@ -48,7 +50,7 @@ export class AuthService {
     return await signOut(this.auth);
   }
 
-  public async register(email : string, password : string)
+  async register(email : string, password : string)
   {
       const userCredential = await createUserWithEmailAndPassword(this.auth, email, password);
       await this.logIn(email, password);
@@ -60,12 +62,12 @@ export class AuthService {
       }
   }
   
-  public get usuarioActual() : User | null
+   get usuarioActual() : User | null
   {
     return this.auth.currentUser
   }
   
-  public cambiarUsuarioActual(usuario : User | null)
+   cambiarUsuarioActual(usuario : User | null)
   {
     return this.auth.updateCurrentUser(usuario)
   }

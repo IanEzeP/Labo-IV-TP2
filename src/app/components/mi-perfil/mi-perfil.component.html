@@ -29,16 +29,19 @@
             <span>Obra social: </span>
             <span> {{this.usuario.ObraSocial}}</span>
         </div>
-        <div *ngIf="this.auth.rol == 'PACIENTE'"> <!-- Tiene que haber una tambien para administradores 
-            <h1>Descargar historias clinicas</h1>
-            <div>
-                <div *ngFor="let especialidad of this.especialidades" class="col-md-3 col-sm-4">
-                    <div>
-                        <span>{{especialidad}}</span>
-                        <button type="button" class="btn" (click)="onDownloadHistoriaClick(especialidad)"></button>
-                    </div>
+        <div *ngIf="this.auth.rol == 'PACIENTE'"> 
+            <h1>Historial clinico</h1>
+            <div class="col-md-3 col-sm-4">
+                <button type="button" class="btn btn-info" (click)="consultarHistoriaClinica()">Ver Historial</button>
+            </div>
+            <h2>Descargar Historial por especialidad</h2>
+            <div *ngFor="let especialidad of this.especialidades" class="col-md-3 col-sm-4">
+                <div>
+                    <button type="button" class="btn btn-primary" (click)="descargarHistoriaEspecialidad(especialidad)">
+                        <span>{{especialidad.nombreEspecialidad}}</span>
+                    </button>
                 </div>
-            </div>-->
+            </div>
         </div>
         <div *ngIf="this.auth.rol == 'ESPECIALISTA'">
             <div class="col-md-12">
@@ -47,7 +50,7 @@
                 </div>
             </div>
             <div class="col-md-12">
-                <input id="tarde" type="checkbox" [(ngModel)]="this.atencionTarde" (click)="cambiarAtencion('tarde')"><label for="tarde">TARDE</label>
+                <input id="tarde" type="checkbox" [(ngModel)]="this.atencionTarde" (click)="cambiarAtencion('tarde')"><label for="tarde">TARDE</label><br>
                 <input id="maniana" type="checkbox" [(ngModel)]="this.atencionManiana" (click)="cambiarAtencion('mañana')"><label for="maniana">MAÑANA</label>
             </div>
         </div>

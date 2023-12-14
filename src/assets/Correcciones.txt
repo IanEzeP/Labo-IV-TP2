@@ -13,7 +13,7 @@ especialista haya atendido al menos 1 vez."	Mostrar los usuarios con CARD ,
 con un detalle de los 3 ULTIMOS TURNOS y cuando fueron. acceso a historia clinica
 
 "En la sección usuarios, solamente para el perfil Administrador, un excel con los datos de los
-usuarios."	Mostrar los usuarios con un favbutton redondo , imagen y nombre. 
+usuarios."	Mostrar los usuarios con un favbutton redondo, imagen y nombre. 
 Al seleccionarlo descarga los datos de que turnos tomo y con quien (excel)
 
 Mi perfil "Para los usuarios paciente, un pdf con la historia clínica.

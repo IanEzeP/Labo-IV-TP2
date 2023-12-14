@@ -1,1 +1,25 @@
-<p>historial works!</p>
+<div class="col-md-12">
+    <div *ngIf="this.paciente != null">
+        <h1>Historial clinico</h1>
+        <h2>{{this.paciente.Nombre}} {{this.paciente.Apellido}}</h2>
+        <div class="container" *ngFor="let turno of this.turnos">
+            <div *ngIf="turno['Historia'] != null">
+                <span>
+                    {{turno['Especialidad']}} - {{this.data.getNameById(turno.idEspecialista, "Especialistas")}} - {{turno['Dia']}}
+                </span>
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th *ngFor="let campo of turno['Historia'] | keyvalue">{{ campo.key }}</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                        <td *ngFor="let campo of turno['Historia'] | keyvalue">{{ campo.value }}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>

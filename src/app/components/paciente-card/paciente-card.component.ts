@@ -25,6 +25,10 @@ export class PacienteCardComponent implements OnInit{
         i++;
       }
       j++;
+      if(j == this.turnos.length)
+      {
+        break;
+      }
     }
   }
 

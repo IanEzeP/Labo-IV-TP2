@@ -2,6 +2,9 @@
     <div *ngIf="condition">
         <div [ngSwitch]="detalle">
         <div *ngSwitchCase="datosPaciente">
+            <div class="col-md-3 col-sm-4">
+                <button type="button" class="btn btn-info" (click)="consultarHistoriaClinica()">Ver Historial</button>
+            </div>
             <p> Información: </p>
             <p> Id: {{ paciente.id }} </p>
             <p> Nombre: {{ paciente.nombre }} </p>

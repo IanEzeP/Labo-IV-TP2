@@ -1,6 +1,8 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { AuthService } from 'src/app/servicios/auth.service';
 import { DatabaseService } from 'src/app/servicios/database.service';
+import { Router } from '@angular/router';
+import { LoadingService } from 'src/app/servicios/loading.service';
 import { Subscription } from 'rxjs';
 
 @Component({
@@ -11,17 +13,19 @@ import { Subscription } from 'rxjs';
 export class VerPacientesComponent implements OnInit, OnDestroy{
 
   idPac : Array<string> = [];
+  
   pacientes : Array<any> = [];
   turnos : Array<any> = [];
-  contador : number = 0;
+  turnosHistorial : Array<any> = [];
 
   observableTurnos = Subscription.EMPTY;
-  pacienteSeleccionado : any;
 
-  constructor(private data : DatabaseService, private auth : AuthService) {}
+  constructor(private data : DatabaseService, private auth : AuthService, private router: Router, 
+    private loading : LoadingService) {}
 
   ngOnInit() 
   {
+    this.loading.load();
     this.observableTurnos = this.data.getCollectionObservable("Turnos").subscribe((next : any) => 
     {
       this.turnos = [];
@@ -46,8 +50,10 @@ export class VerPacientesComponent implements OnInit, OnDestroy{
         });
       });
       this.turnos.sort((a, b) => b.Fecha - a.Fecha);
+      setTimeout(() => {
+        this.loading.stop();
+      }, 500);
     });
-    
   }
 
   ngOnDestroy(): void 
@@ -57,13 +63,7 @@ export class VerPacientesComponent implements OnInit, OnDestroy{
 
   mostrarHistorial(id : any)
   {
-    let idHistorial = id;
-    
-    //Mostrar Historial del paciente
-    /*
-    this.modalRef = this.modalService.open(UserHistoriaClinicaComponent, {
-      data: { paciente: pacienteInfo },
-      modalClass: 'modal-xl'
-    });*/
+    this.auth.idHistoria = id;
+    this.router.navigateByUrl("historial-clinico");
   }
 }

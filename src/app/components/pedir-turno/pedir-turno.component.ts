@@ -45,7 +45,6 @@ export class PedirTurnoComponent implements OnInit, OnDestroy{
     if(this.auth.rol == "ADMINISTRADOR")
     {
       this.esAdmin = true;
-      this.cargarPacientes();
     }
   }
 
@@ -122,6 +121,12 @@ export class PedirTurnoComponent implements OnInit, OnDestroy{
     this.horaSeleccionada = null;
     this.diaSeleccionado = null;
     this.especialistaSeleccionado = null;
+
+    if(this.esAdmin)
+    {
+      this.cargarPacientes();
+    }
+
     if(this.especialidadSeleccionada != '')
     {
       this.especialistasBD.forEach(espec => {

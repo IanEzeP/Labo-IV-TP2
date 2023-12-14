@@ -16,9 +16,19 @@ export class GenerateFilesService {
     const workbook = XLSX.utils.book_new();
     const worksheet = XLSX.utils.json_to_sheet(data);
 
-    XLSX.utils.book_append_sheet(workbook, worksheet, 'Users data');
+    XLSX.utils.book_append_sheet(workbook, worksheet, 'Historias clínicas');
     
     XLSX.writeFile(workbook, data[0].idPaciente + "-historia.xlsx", { bookType: 'xlsx', type: 'array' });
+  }
+
+  datosUsuariosToExcel(data : Array<any>)
+  {
+    const workbook = XLSX.utils.book_new();
+    const worksheet = XLSX.utils.json_to_sheet(data);
+
+    XLSX.utils.book_append_sheet(workbook, worksheet, 'Users data');
+    
+    XLSX.writeFile(workbook, "Usuarios_data.xlsx", { bookType: 'xlsx', type: 'array' });
   }
 
   historiaClinicaToPDF(data : Array<any>)
@@ -34,7 +44,7 @@ export class GenerateFilesService {
     const logoX = (pageWidth - logoWidth) / 2;
     const logoY = (pageHeight - logoHeight) / 6;
 
-    let paciente : string = "Historial clinico de " + this.data.getNameById(data[0].idPaciente, 'Pacientes');
+    let paciente : string = "Historial clinico de " + data[0].Paciente;
     let fecha : string = "Emisión: " + new Date().toLocaleDateString();
 
     pdf.setFont("courier", "bold");
@@ -76,9 +86,9 @@ export class GenerateFilesService {
       columns:  columns,
       body: filas,
       theme: 'grid',
-      styles: { fontSize: 10 },
+      styles: { fontSize: 8 },
     })
 
-    pdf.save("Countries.pdf");
+    pdf.save(data[0].Paciente + '_' + data[0].Especialidad + ".pdf");
   }
 }
