@@ -7,12 +7,15 @@ import { DatabaseService } from 'src/app/servicios/database.service';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Subscription } from 'rxjs';
 import { sendEmailVerification } from '@angular/fire/auth';
+import { slideInAnimation } from 'src/app/animation/animation.component';
 
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
-  styleUrls: ['./login.component.css']
+  styleUrls: ['./login.component.css'],
+  animations: [slideInAnimation]
 })
+
 export class LoginComponent implements OnInit, OnDestroy {
   
   arrayTodosUsuarios : Array<Usuario> = [];

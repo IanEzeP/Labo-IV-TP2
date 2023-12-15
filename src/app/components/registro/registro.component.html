@@ -1,3 +1,4 @@
+<div [@slideInBottom] *ngIf="this.imageVisible">
 <div *ngIf="condition; then conditionTrue else conditionFalse"></div>
 <ng-template #conditionTrue>
     <P>Para registrar un Paciente clickea acá</P><button (click)="cambiarEstado()">PACIENTES</button>
@@ -168,5 +169,6 @@
         </div>
         <button class="col-md-12 btn btn-primary btn-lg" (click)="registrar()">REGISTRAR</button>
     </form>
+</div>
 </div>
 </div>

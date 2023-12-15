@@ -198,24 +198,4 @@ export class TurnosEspecialistasComponent implements OnInit, OnDestroy{
     this.viewHistoria = false;
   }
   //#endregion
-
-  /*
-  async onEspecialidadChange(especialidad : any) //No se llama nunca, es exclusiva de Administradores
-  {
-    this.turnos.forEach((turno : any) => {
-      if(turno.Especialidad == especialidad)
-      {
-        //Me tengo que traer todos los pacientes que son atendidos por el medico logueado en la especialidad seleccionada.
-      }
-    });
-    //this.pacientes = await this.data.GetPacientes('JoseFE', especialidad);
-    console.log(this.pacientes);
-    this.turnosFiltrados = this.turnos.filter((turno: { Especialidad: any; }) => turno.Especialidad == especialidad);
-  }
-
-  async onPacienteChange(paciente : any) //No se llama nunca
-  {
-    this.turnosFiltrados = this.turnos.filter((turno: { Paciente: any; }) => turno.Paciente == paciente);
-  }
-  */
 }

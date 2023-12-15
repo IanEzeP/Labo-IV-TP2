@@ -18,7 +18,7 @@ export class GenerateFilesService {
 
     XLSX.utils.book_append_sheet(workbook, worksheet, 'Historias clínicas');
     
-    XLSX.writeFile(workbook, data[0].idPaciente + "-historia.xlsx", { bookType: 'xlsx', type: 'array' });
+    XLSX.writeFile(workbook, data[0].Paciente + "_historia.xlsx", { bookType: 'xlsx', type: 'array' });
   }
 
   datosUsuariosToExcel(data : Array<any>)

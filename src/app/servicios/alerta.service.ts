@@ -64,18 +64,5 @@ export class AlertasService {
         title: mensaje
       });
   }
-/*
-  public async inputText(mensaje : string)
-  {
-    const { value: string } = await Swal.fire({
-        icon: 'question',
-        title: mensaje,
-        input: "text",
-        inputValidator: (value) => {
-          if(!value) {
-            return "Ingrese una especialidad";
-          }
-        }
-      });
-  }*/
+
 }

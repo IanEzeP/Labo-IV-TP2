@@ -120,31 +120,5 @@ export class TurnosClinicaComponent implements OnInit, OnDestroy{
     this.viewCancel = false;
     this.alerta.successToast("Turno cancelado.");
   }
-  
-/*
-  public onRateTurnoClick(turno : any)
-  {
-    this.viewRate = true;
-    this.viewEncuesta = false;
-    this.viewCancel = false;
-    this.fechaTurno = turno;
-  }
 
-  public onEncuestaClick(turno : any)
-  {
-    this.viewEncuesta = true;
-    this.viewCancel = false;
-    this.viewRate = false;
-    this.fechaTurno = turno;
-  }
-
-  public onRateTurnoDismiss()
-  {
-    this.viewRate = false;
-  }
-
-  public onEncuestaTurnoDismiss()
-  {
-    this.viewEncuesta = false;
-  }*/
 }

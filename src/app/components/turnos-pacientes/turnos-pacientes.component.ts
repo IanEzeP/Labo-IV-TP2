@@ -180,28 +180,4 @@ export class TurnosPacientesComponent implements OnInit, OnDestroy{
     this.viewMessage = false;
   }
   //#endregion
-
-  /*
-  async onEspecialidadChange(especialidad : string) //No se llama nunca, debe ser exclusiva de Especialistas
-  {
-    this.especialistas = this.actualizarEspecialistas(especialidad);
-    this.turnosFiltrados = this.turnos.filter((turno: { Especialidad: any; }) => turno.Especialidad == especialidad);
-  }
-
-  actualizarEspecialistas(especialidad : string)
-  {
-    let especialistas : Array<any> = [];
-    this.data.especDB.forEach(espec => {
-      if(espec.especialidades.includes(especialidad))
-      {
-        especialistas.push(espec);
-      }
-    });
-    return especialistas;
-  }
-
-  async onEspecialistaChange(especialista : any)  //No se llama nunca
-  {
-    this.turnosFiltrados = this.turnos.filter((turno: { Especialista: any; Especialidad : any;}) => turno.Especialista == especialista && turno.Especialidad == this.especialidadSeleccionada);
-  }*/
 }

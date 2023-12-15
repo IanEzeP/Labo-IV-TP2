@@ -53,6 +53,7 @@ import { VerValoracionComponent } from './components/turnos-acciones/ver-valorac
 import { VerHistorialComponent } from './components/turnos-acciones/ver-historial/ver-historial.component';
 import { VerPacientesComponent } from './components/ver-pacientes/ver-pacientes.component';
 import { PacienteCardComponent } from './components/paciente-card/paciente-card.component';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 @NgModule({
   declarations: [
@@ -89,7 +90,7 @@ import { PacienteCardComponent } from './components/paciente-card/paciente-card.
     VerValoracionComponent,
     VerHistorialComponent,
     VerPacientesComponent,
-    PacienteCardComponent
+    PacienteCardComponent,
   ],
   imports: [
     BrowserModule,
@@ -97,6 +98,7 @@ import { PacienteCardComponent } from './components/paciente-card/paciente-card.
     FormsModule,
     ReactiveFormsModule,
     HttpClientModule,
+    BrowserAnimationsModule,
     AngularFireModule.initializeApp(environment.firebase),
     AngularFireStorageModule,
     provideFirebaseApp(() => initializeApp(environment.firebase)),

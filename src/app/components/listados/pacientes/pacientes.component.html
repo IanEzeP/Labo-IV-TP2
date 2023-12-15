@@ -13,12 +13,21 @@
             CORREO
         </th>
     </tr>
-    <tr *ngFor="let paciente of listaPacientes;" >
+    <tr *ngFor="let paciente of listaPacientes; index as i" >
         <td> {{ paciente.id }} </td>
         <td> {{ paciente.nombre }} {{ paciente.apellido }} </td>
         <td> {{ paciente.email }} </td>
         <td>
-            <button class="btn btn-primary" (click)="seleccionarPaciente(paciente)">VER DETALLE</button>
+            <div class="btn-multi">
+                <input type="checkbox" id="multi-btn{{ + i}}" name="multi-btn" />
+                <label for="multi-btn{{ + i}}">
+                    <a class="btn btn-circle" target="_blank"><i class="fa fa-facebook icon" aria-hidden="true"><img src="{{paciente.imagenPerfil}}" height="40px" width="40px"></i></a>
+                    <a class="btn btn-circle" target="_blank" (click)="seleccionarPaciente(paciente)"><i class="fa fa-twitter icon" aria-hidden="true"><img src="https://cdn-icons-png.flaticon.com/512/8750/8750540.png" height="45px" width="45px"></i></a>
+                    <a class="btn btn-circle" target="_blank" (click)="descargarHistoria(paciente)"><i class="fa fa-google-plus icon" aria-hidden="true"><img src="https://icons-for-free.com/iconfiles/png/512/down+download+downloads+icon-1320196066868908267.png" height="40px" width="40px"></i></a>
+                    <span class="btn btn-circle"><i class="material-icons icon">X</i></span>
+                    <i class="material-icons icon">Ver</i>
+                </label>
+            </div>        
         </td>
     </tr>
     

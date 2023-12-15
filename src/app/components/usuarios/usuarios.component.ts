@@ -50,7 +50,6 @@ export class UsuariosComponent {
 
       for (let clave in usuario) 
       {
-        //Hacer algo con Especialidades.
         if(clave != 'password')
         {
           data[clave] = usuario[clave];

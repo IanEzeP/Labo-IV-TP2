@@ -9,13 +9,31 @@ import { DatabaseService } from 'src/app/servicios/database.service';
 import { FormBuilder, FormGroup, Validators, AbstractControl } from '@angular/forms';
 import { Subscription } from 'rxjs';
 import { Router } from '@angular/router';
+import { animate, state, style, transition, trigger } from '@angular/animations';
 
 @Component({
   selector: 'app-registro',
   templateUrl: './registro.component.html',
-  styleUrls: ['./registro.component.css']
+  styleUrls: ['./registro.component.css'],
+  animations: [
+    trigger('slideInBottom', [
+      transition(':enter', [
+        style({ transform: 'translateY(100%)' }),
+        animate('500ms ease-out', style({ transform: 'translateY(0)' })),
+      ]),
+      transition(":leave", [
+        animate('500ms ease-out', style({ transform: 'translateY(100%)' })),
+      ])
+    ])
+  ],
 })
 export class RegistroComponent implements OnInit, OnDestroy{
+
+  imageVisible = true;
+
+  toggleImage() {
+    this.imageVisible == false ? this.imageVisible = true : this.imageVisible = false
+  }
 
   paciente : Pacientes = Pacientes.inicializar();
   especialista : Especialistas = Especialistas.inicializar();

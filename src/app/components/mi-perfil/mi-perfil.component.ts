@@ -72,6 +72,7 @@ export class MiPerfilComponent implements OnInit, OnDestroy {
     if(this.auth.rol == "PACIENTE")
     {
       this.observableTurnos.unsubscribe();
+      this.observableEspecialidades.unsubscribe();
     }
   }
   

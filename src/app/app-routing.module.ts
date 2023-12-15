@@ -15,13 +15,13 @@ import { HistorialComponent } from './components/historial/historial.component';
 import { VerPacientesComponent } from './components/ver-pacientes/ver-pacientes.component';
 
 const routes: Routes = [
-  { path: 'home', component: BienvenidaComponent},
+  { path: 'home', component: BienvenidaComponent, data: { animation: 'HomePage' }},
   { path: '', redirectTo: 'home', pathMatch: 'full'},
-  { path: 'login', component: LoginComponent},
-  { path: 'registro', component: RegistroComponent},
-  { path: 'usuarios', component: UsuariosComponent},  //Agregar guard (CanActivate)
-  { path: 'pacientes', component: VerPacientesComponent},  //Agregar guard (CanActivate)
-  { path: 'verificando-acceso', component: VerificacionAccesoComponent},  //Agregar guard (CanActivate y CanDeactivate)
+  { path: 'login', component: LoginComponent, data: { animation: 'LoginPage'}},
+  { path: 'registro', component: RegistroComponent, data: { animation: 'RegisterPage'}},
+  { path: 'usuarios', component: UsuariosComponent},
+  { path: 'pacientes', component: VerPacientesComponent}, 
+  { path: 'verificando-acceso', component: VerificacionAccesoComponent},  
   { path: 'perfil', component: MiPerfilComponent},
   { path: 'pedir-turno', component: PedirTurnoComponent},
   { path: 'turnos-pacientes', component: TurnosPacientesComponent},
