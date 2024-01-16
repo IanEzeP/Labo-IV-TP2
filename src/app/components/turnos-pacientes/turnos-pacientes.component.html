@@ -26,6 +26,9 @@
                     <span>{{turno.Dia}}</span><br>
                     <span>{{turno.Horario}}</span><br>
                     <span>{{turno.Estado}}</span>
+                    <div *ngIf="turno.Historia != null">
+                        <span>{{turno.Historia}}</span><!-- Mostrar datos de la historia, no el objeto -->
+                    </div>
                     <div>
                         <button class="btn btn-success" (click)="onEncuestaClick(turno)" *ngIf="turno.Estado == 'Finalizado'  && turno.Encuesta == null">
                             <span>Encuesta</span>

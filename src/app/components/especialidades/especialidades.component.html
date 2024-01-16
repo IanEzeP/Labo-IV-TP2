@@ -1,7 +1,7 @@
 <form class="needs-validation" [formGroup]="formEspecialidad">
   <ol>
       <li *ngFor="let especialidad of listaEspecialidades; index as i" >
-        <button class="btn_especialidad" (click)="seleccionarEspecialidad(especialidad)">
+        <button class="btn_especialidad" (click)="seleccionarEspecialidad(especialidad.nombreEspecialidad)">
           <span>{{ especialidad.nombreEspecialidad }}</span>
           <img src="{{ especialidad.imagen }}" style="width: 40px; height: 40px;">
         </button>

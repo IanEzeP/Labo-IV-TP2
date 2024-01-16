@@ -11,56 +11,32 @@ import { Subscription } from 'rxjs';
 })
 export class TurnosPacientesComponent implements OnInit, OnDestroy{
   
-  especialidades : any;//
-  especialistas : any;
-
-  especialistaSeleccionado : any;//
-  especialidadSeleccionada : any;//
-
   turnos : any;
-
   turnosFiltrados : any;
+
   viewCancel : boolean = false;
   viewRate : boolean = false;
   viewEncuesta : boolean = false;
   viewMessage : boolean = false;
 
   inputFiltro : any;
+  fechaTurno! : string // Les manda el turno (???)
 
-  fechaTurno! : string
-
-  observableEspecialidades = Subscription.EMPTY;
   observableTurnos = Subscription.EMPTY;
 
   constructor(public data : DatabaseService, private auth : AuthService, private alerta: AlertasService) { }
 
   async ngOnInit()
   {
-    this.cargarEspecialidades();
     this.cargarTurnos();
   }
 
   ngOnDestroy(): void 
   {
-    this.observableEspecialidades.unsubscribe();
     this.observableTurnos.unsubscribe();
   }
 
-  cargarEspecialidades()
-  {
-    this.observableEspecialidades = this.data.getCollectionObservable('Especialidades').subscribe((next : any) =>
-    {
-      this.especialidades = [];
-      let result : Array<any> = next;
-
-      result.forEach(especialidad =>
-      {
-        this.especialidades.push(especialidad.nombreEspecialidad);
-      });
-    });
-  }
-
-  cargarTurnos()
+  cargarTurnos() //A lo mejor habria que cambiar el ID especialista por el nombre desde el codigo... para evitar filtrar por id por accidente, ya que en codigo solo muestro el nombre.
   {
     this.observableTurnos = this.data.getCollectionObservable('Turnos').subscribe((next : any) =>
     {
@@ -81,8 +57,8 @@ export class TurnosPacientesComponent implements OnInit, OnDestroy{
 
   filtrarTurnos()
   {
-    this.turnosFiltrados = this.turnos.filter((turno : any) =>
-      Object.values(turno).some((valor: any) => 
+    this.turnosFiltrados = this.turnos.filter((turno : any) => //Aca "turno" es un objeto dentro del array "turnos". La idea es que "turnosFiltrados" contenga los turnos que cumplan con la condicion de busqueda del filtro (que devuelvan True).
+      Object.values(turno).some((valor: any) => //Aca Object.values() devuelve un Array con los valores cargados en el turno Y Array.some() devuleve True o False si algún elemento del array cumple una condicion. Va a iterar sobre cada elemento del array, haciendo que en cada uno se evalue la condicion. 
       {
         if (typeof valor === 'string' || valor instanceof String) 
         {
@@ -99,10 +75,16 @@ export class TurnosPacientesComponent implements OnInit, OnDestroy{
             if (typeof valor === 'object' && valor !== null) 
             {
               return Object.values(valor).some((valorAnidado: any) =>
-                typeof valorAnidado === 'string' && valorAnidado.toLowerCase().includes(this.inputFiltro.toLowerCase())
-              );
+              {
+                if(typeof valorAnidado === 'number')
+                {
+                  valorAnidado = valorAnidado.toString();
+                }
+                return typeof valorAnidado === 'string' && valorAnidado.toLowerCase().includes(this.inputFiltro.toLowerCase());
+              });
             }
           }
+          
         }
         return false;
       })
@@ -113,9 +95,6 @@ export class TurnosPacientesComponent implements OnInit, OnDestroy{
   {
     this.inputFiltro = '';
     this.turnosFiltrados = this.turnos;
-    this.especialidadSeleccionada = null;
-    this.especialistaSeleccionado = null;
-    this.especialistas = null;
   }
 
   //#region Visualizadores de componentes hijos

@@ -1,7 +1,9 @@
 
+Al momento de cargar datos dinamicos, como el maximo es 3 deberia darle los 3 para que rellene Y darle la posibilidad de eliminar uno o más campos.
+
 Sprint 4:
-- En mi perfil del paciente debería poder descargar el pdf entero también
-- Búsqueda por campos dinamicos
+- En mi perfil del paciente debería poder descargar el pdf entero también (El historial completo, sin importar especialidad).
+- Búsqueda por campos dinamicos (agregar a los filtros los campos dinamicos del turno, que fueron cargados por el especialista) (SOLO Pacientes y Especialistas).
 
 * Al momento de anotarme a final enviar mail a Octavio o Agustín
 entregando ya el TP.
