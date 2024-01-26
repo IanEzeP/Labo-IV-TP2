@@ -1,5 +1,6 @@
 Sprint 4: Graficos, pipes, directivas
 
+Pipes usadas: 1 (keyvalue).
 
 La clinica cuenta con 6 consultorios, 2 laboratorios y una sala de espera
 Horario: lunes a viernes, de 08:00 a 19:00. sabados de 08:00 a 14:00

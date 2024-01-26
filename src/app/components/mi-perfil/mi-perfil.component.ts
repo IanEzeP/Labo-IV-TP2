@@ -81,6 +81,34 @@ export class MiPerfilComponent implements OnInit, OnDestroy {
     this.router.navigateByUrl("historial-clinico");
   }
 
+  descargarHistoriaCompleta()
+  {
+    let turnos = this.turnos;
+    turnos = turnos.filter((turno : {Historia : any}) => turno.Historia != null);
+    
+    let historiasArray = turnos.map((turno : any) =>
+    {
+      let unDatosHistoriaClinica: { [clave: string]: any } = {};
+
+      for (let clave in turno.Historia) 
+      {
+        unDatosHistoriaClinica[clave] = turno.Historia[clave];
+      }
+
+      const datosHistoriaClinica = Object.fromEntries(Object.entries(unDatosHistoriaClinica).sort());
+      
+      return {
+        Paciente: this.usuario.Nombre + "-" + this.usuario.Apellido,
+        Especialista: this.data.getNameById(turno.idEspecialista, "Especialistas"),
+        Especialidad: turno.Especialidad,
+        Dia: turno.Dia,
+        ...datosHistoriaClinica,
+      }
+    });
+
+    this.file.historiaClinicaToPDF(historiasArray);
+  }
+
   descargarHistoriaEspecialidad(especialidad : any)
   {
     let turnos = this.turnos;

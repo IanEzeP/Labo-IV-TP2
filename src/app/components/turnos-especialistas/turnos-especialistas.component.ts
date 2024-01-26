@@ -12,12 +12,8 @@ import { Subscription } from 'rxjs';
 })
 export class TurnosEspecialistasComponent implements OnInit, OnDestroy{
 
-  pacientes : any;//
   turnos : any;
   turnosFiltrados : any;
-
-  especialidadSeleccionada : any;//
-  pacienteSeleccionado : any;//
   turnoSeleccionado : any;
 
   viewCancel : boolean = false;
@@ -53,36 +49,19 @@ export class TurnosEspecialistasComponent implements OnInit, OnDestroy{
       {
         if(this.auth.idUser == turno.idEspecialista)
         {
+          turno.idPaciente = this.data.getNameById(turno.idPaciente, "Pacientes");
           this.turnos.push(turno);
           this.turnosFiltrados = this.turnos;
-          
         }
       });
-      if(this.especialidadSeleccionada != null)
-      {
-        this.turnosFiltrados = this.turnos.filter((turno: { Especialidad: any; }) => turno.Especialidad == this.especialidadSeleccionada);
-  
-        if(this.pacienteSeleccionado != null)
-        {
-          this.turnosFiltrados = this.turnos.filter((turno: { Paciente: any; Especialidad : any;}) => turno.Especialidad == this.especialidadSeleccionada && turno.Paciente == this.pacienteSeleccionado);
-        }
-      }
     });
-  }
-
-  onLimpiarFiltrosClick()
-  {
-    this.inputFiltro = '';
-    this.turnosFiltrados = this.turnos;
-    this.especialidadSeleccionada = null;
-    this.pacienteSeleccionado = null;
-    this.pacientes = null;
   }
 
   filtrarTurnos()
   {
     this.turnosFiltrados = this.turnos.filter((turno : any) =>
-      Object.values(turno).some((valor: any) => {
+      Object.values(turno).some((valor: any) => 
+      {
         if (typeof valor === 'string' || valor instanceof String) 
         {
           return valor.toLowerCase().includes(this.inputFiltro.toLowerCase());
@@ -98,14 +77,25 @@ export class TurnosEspecialistasComponent implements OnInit, OnDestroy{
             if (typeof valor === 'object' && valor !== null) 
             {
               return Object.values(valor).some((valorAnidado: any) =>
-                typeof valorAnidado === 'string' && valorAnidado.toLowerCase().includes(this.inputFiltro.toLowerCase())
-              );
+              {
+                if(typeof valorAnidado === 'number')
+                {
+                  valorAnidado = valorAnidado.toString();
+                }
+                return typeof valorAnidado === 'string' && valorAnidado.toLowerCase().includes(this.inputFiltro.toLowerCase());
+              });
             }
           }
         }
         return false;
       })
     );
+  }
+
+  limpiarFiltros()
+  {
+    this.inputFiltro = '';
+    this.turnosFiltrados = this.turnos;
   }
 
   //#region Visualizadores de componentes hijos

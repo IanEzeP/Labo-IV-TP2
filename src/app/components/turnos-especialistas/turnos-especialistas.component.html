@@ -12,7 +12,7 @@
 
         <div class="row">
             <div class="col-md-12">
-                <button class="btn btn-secondary" (click)="onLimpiarFiltrosClick()">
+                <button class="btn btn-secondary" (click)="limpiarFiltros()">
                     <span>LIMPIAR FILTROS</span>
                 </button>
             </div>
@@ -21,11 +21,17 @@
         <div class="row" style="overflow: auto; max-height: 700px;">
             <div class="col-md-6 div_turno" *ngFor="let turno of this.turnosFiltrados">
                 <div>
-                    <span>{{turno.Especialidad}}</span><br>
-                    <span>{{data.getNameById(turno.idPaciente, "Pacientes")}}</span><br>
-                    <span>{{turno.Dia}}</span><br>
-                    <span>{{turno.Horario}}</span><br>
-                    <span>{{turno.Estado}}</span><br>
+                    <span style="font-weight: bold;">{{turno.Especialidad}}</span><br>
+                    <span style="font-weight: bold;">Paciente: </span><span>{{turno.idPaciente}}</span><br>
+                    <span>Fecha: {{turno.Dia}}</span>
+                    <span> {{turno.Horario}}</span><br>
+                    <span>Estado: {{turno.Estado}}</span>
+                    <div *ngIf="turno.Historia != null">
+                        <span>Historia Clínica:</span><br>
+                        <div *ngFor="let dato of turno.Historia | keyvalue">
+                            <span>{{dato.key}}: {{dato.value}}</span>
+                        </div>
+                    </div>
                     <div>
                         <button class="btn btn-danger" (click)="onRechazarTurnoClick(turno)" *ngIf="turno.Estado == 'Pendiente'">
                             <span>Rechazar</span>

@@ -34,6 +34,7 @@
             <div class="col-md-3 col-sm-4">
                 <button type="button" class="btn btn-info" (click)="consultarHistoriaClinica()">Ver Historial</button>
             </div>
+                <button type="button" class="btn btn-success" (click)="descargarHistoriaCompleta()">Descargar Historial</button>
             <h2>Descargar Historial por especialidad</h2>
             <div *ngFor="let especialidad of this.especialidades" class="col-md-3 col-sm-4">
                 <div>

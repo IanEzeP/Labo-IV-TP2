@@ -13,6 +13,7 @@ export class TurnosPacientesComponent implements OnInit, OnDestroy{
   
   turnos : any;
   turnosFiltrados : any;
+  historia : any;
 
   viewCancel : boolean = false;
   viewRate : boolean = false;
@@ -20,7 +21,7 @@ export class TurnosPacientesComponent implements OnInit, OnDestroy{
   viewMessage : boolean = false;
 
   inputFiltro : any;
-  fechaTurno! : string // Les manda el turno (???)
+  fechaTurno! : string
 
   observableTurnos = Subscription.EMPTY;
 
@@ -36,7 +37,7 @@ export class TurnosPacientesComponent implements OnInit, OnDestroy{
     this.observableTurnos.unsubscribe();
   }
 
-  cargarTurnos() //A lo mejor habria que cambiar el ID especialista por el nombre desde el codigo... para evitar filtrar por id por accidente, ya que en codigo solo muestro el nombre.
+  cargarTurnos()
   {
     this.observableTurnos = this.data.getCollectionObservable('Turnos').subscribe((next : any) =>
     {
@@ -48,6 +49,7 @@ export class TurnosPacientesComponent implements OnInit, OnDestroy{
       {
         if(this.auth.idUser == turno.idPaciente)
         {
+          turno.idEspecialista = this.data.getNameById(turno.idEspecialista, "Especialistas");
           this.turnos.push(turno);
           this.turnosFiltrados = this.turnos;
         }
@@ -84,7 +86,6 @@ export class TurnosPacientesComponent implements OnInit, OnDestroy{
               });
             }
           }
-          
         }
         return false;
       })

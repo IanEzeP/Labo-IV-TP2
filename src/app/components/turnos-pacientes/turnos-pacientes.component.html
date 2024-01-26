@@ -21,13 +21,16 @@
         <div class="row" style="overflow: auto; max-height: 700px;">
             <div class="col-md-6 div_turno" *ngFor="let turno of this.turnosFiltrados">
                 <div class="info">
-                    <span>{{turno.Especialidad}}</span><br>
-                    <span>{{data.getNameById(turno.idEspecialista, "Especialistas")}}</span><br>
-                    <span>{{turno.Dia}}</span><br>
-                    <span>{{turno.Horario}}</span><br>
-                    <span>{{turno.Estado}}</span>
+                    <span style="font-weight: bold;">{{turno.Especialidad}}</span>
+                    <span> - {{turno.idEspecialista}}</span><br>
+                    <span>Fecha: {{turno.Dia}}</span>
+                    <span> {{turno.Horario}}</span><br>
+                    <span>Estado: {{turno.Estado}}</span>
                     <div *ngIf="turno.Historia != null">
-                        <span>{{turno.Historia}}</span><!-- Mostrar datos de la historia, no el objeto -->
+                        <span>Historia Clínica:</span><br>
+                        <div *ngFor="let dato of turno.Historia | keyvalue">
+                            <span>{{dato.key}}: {{dato.value}}</span>
+                        </div>
                     </div>
                     <div>
                         <button class="btn btn-success" (click)="onEncuestaClick(turno)" *ngIf="turno.Estado == 'Finalizado'  && turno.Encuesta == null">

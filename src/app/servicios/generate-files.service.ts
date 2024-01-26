@@ -89,6 +89,6 @@ export class GenerateFilesService {
       styles: { fontSize: 8 },
     })
 
-    pdf.save(data[0].Paciente + '_' + data[0].Especialidad + ".pdf");
+    pdf.save(data[0].Paciente + '_' + data[0].Especialidad + ".pdf"); //Caso Historial completo cambiar nombre de guardado de archivo 
   }
 }
