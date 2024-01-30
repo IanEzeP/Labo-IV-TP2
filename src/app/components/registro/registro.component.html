@@ -1,4 +1,14 @@
 <div [@slideInBottom] *ngIf="this.imageVisible">
+
+<ul>
+    <li><a routerLink="/registro/paciente">Paciente</a></li>
+    <li><a routerLink="/registro/especialista">Especialista</a></li>
+</ul>
+
+<router-outlet></router-outlet>
+
+
+    
 <div *ngIf="condition; then conditionTrue else conditionFalse"></div>
 <ng-template #conditionTrue>
     <P>Para registrar un Paciente clickea acá</P><button (click)="cambiarEstado()">PACIENTES</button>

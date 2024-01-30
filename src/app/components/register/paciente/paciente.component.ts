@@ -1,20 +1,18 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component } from '@angular/core';
 import { Pacientes } from 'src/app/classes/pacientes';
-import { Especialistas } from 'src/app/classes/especialistas';
 import { AngularFirestore } from '@angular/fire/compat/firestore';
 import { AngularFireStorage } from '@angular/fire/compat/storage';
 import { AlertasService } from 'src/app/servicios/alerta.service';
 import { AuthService } from 'src/app/servicios/auth.service';
 import { DatabaseService } from 'src/app/servicios/database.service';
 import { FormBuilder, FormGroup, Validators, AbstractControl } from '@angular/forms';
-import { Subscription } from 'rxjs';
 import { Router } from '@angular/router';
 import { animate, state, style, transition, trigger } from '@angular/animations';
 
 @Component({
-  selector: 'app-registro',
-  templateUrl: './registro.component.html',
-  styleUrls: ['./registro.component.css'],
+  selector: 'app-paciente',
+  templateUrl: './paciente.component.html',
+  styleUrls: ['./paciente.component.css'],
   animations: [
     trigger('slideInBottom', [
       transition(':enter', [
@@ -27,8 +25,8 @@ import { animate, state, style, transition, trigger } from '@angular/animations'
     ])
   ],
 })
-export class RegistroComponent implements OnInit, OnDestroy{
-
+export class PacienteComponent {
+  /* No estoy seguro de si deba preservarlo o si siquiera funciona*/
   imageVisible = true;
 
   toggleImage() {
@@ -36,21 +34,10 @@ export class RegistroComponent implements OnInit, OnDestroy{
   }
 
   paciente : Pacientes = Pacientes.inicializar();
-  especialista : Especialistas = Especialistas.inicializar();
 
-  observableEspecialidades = Subscription.EMPTY;
-  
-  condition = true;
   imgPerfil1 = '';
-
-  //Para especialista
-  storageEspecialidades : Array<any> = [];
-  especialidad : string = '';
-
-  //Para paciente
   imgPerfil2 = '';
 
-  //Image files
   imgFile1 : any;
   imgFile2 : any;
 
@@ -123,49 +110,17 @@ export class RegistroComponent implements OnInit, OnDestroy{
   }
   //#endregion
 
-  ngOnInit(): void 
-  {
-    this.traerEspecialidades();
-  }
-
-  ngOnDestroy(): void 
-  {
-    this.observableEspecialidades.unsubscribe();
-  }
-
-  traerEspecialidades()
-  {
-    this.observableEspecialidades = this.data.getCollectionObservable('Especialidades').subscribe((next : any) =>
-    {
-      this.storageEspecialidades = [];
-      let result : Array<any> = next;
-
-      result.forEach(especialidad =>
-      {
-        this.storageEspecialidades.push(especialidad);
-      }
-      );
-    });
-  }
-
-  registrar()
+  onRegistrar()
   {
     if(this.formRegistro.valid)
     {
-      if(this.condition && this.especialidad != '' && this.imgFile1)
+      if(this.imgFile1 && this.imgFile2 && this.formRegistro.controls['obraSocial'].valid)
       {
-        this.registrarEspecialista();
+        this.registrarPaciente();
       }
       else
       {
-        if(this.condition == false && this.imgFile1 && this.imgFile2 && this.formRegistro.controls['obraSocial'].valid)
-        {
-          this.registrarPaciente();
-        }
-        else
-        {
-          this.alertas.failureAlert("ERROR - Hay campos vacíos o incorrectos");
-        }
+        this.alertas.failureAlert("ERROR - Hay campos vacíos o incorrectos");
       }
     }
     else
@@ -173,19 +128,7 @@ export class RegistroComponent implements OnInit, OnDestroy{
       this.alertas.failureAlert("ERROR - Hay campos vacíos o incorrectos");
     }
   }
-
-  registrarEspecialista()
-  {
-    let formValues = this.formRegistro.value;
-
-    this.especialista = new Especialistas('', formValues.nombre, formValues.apellido, formValues.edad,
-      formValues.dni, formValues.email, formValues.password, 'empty', [], false);
-    
-    this.especialista.cargarEspecialidad(this.especialidad);
-
-    this.guardarEspecialista();
-  }
-
+  
   registrarPaciente()
   {
     let formValues = this.formRegistro.value;
@@ -194,42 +137,6 @@ export class RegistroComponent implements OnInit, OnDestroy{
       formValues.dni, formValues.email, formValues.password, 'empty', 'empty', formValues.obraSocial);
 
     this.guardarPaciente();
-  }
-
-  guardarEspecialista()
-  {
-    let coleccion = 'Especialistas';
-
-    this.auth.register(this.especialista.email, this.especialista.password).then(result =>
-    {
-      const documento = this.firestore.doc(coleccion + '/' + this.firestore.createId());
-      this.subirFotoPerfil(documento.ref.id, coleccion, this.imgFile1);
-      
-      documento.set(
-      {
-        id: documento.ref.id,
-        Nombre : this.especialista.nombre,
-        Apellido : this.especialista.apellido,
-        Edad : this.especialista.edad,
-        DNI : this.especialista.dni,
-        Mail : this.especialista.email,
-        Password : this.especialista.password,
-        ImagenPerfil : this.especialista.imagenPerfil,
-        Especialidades : this.especialista.especialidades,
-        autorizado: false,
-      });
-
-      this.validarDatoGuardado(documento.ref.id, coleccion);
-    }).catch(error => 
-    {
-      console.log(error);
-      let excepcion : string = error.toString();
-      if(excepcion.includes("(auth/email-already-in-use)"))
-      {
-        this.alertas.failureAlert("ERROR - El correo electónico ya se encuentra en uso.");
-      }
-    });
-    
   }
 
   guardarPaciente()
@@ -296,12 +203,7 @@ export class RegistroComponent implements OnInit, OnDestroy{
       }
     }).catch(error => { this.alertas.failureAlert("ERROR en Promise de firestore collection"); console.log(error);});
   }
-
-  atraparEspecialidades(especialidad : string)
-  {
-    this.especialidad = especialidad;
-  }
-
+  
   onFileChange1($event : any) //Para foto (paciente y especialista)
   {
     this.imgFile1 = $event.target.files[0];
@@ -311,7 +213,7 @@ export class RegistroComponent implements OnInit, OnDestroy{
   {
     this.imgFile2 = $event.target.files[0];
   }
-  
+
   async subirFotoPerfil(id : string, directorio : string, file : any)
   {
     if(file)
@@ -322,9 +224,9 @@ export class RegistroComponent implements OnInit, OnDestroy{
       {
         if(file === this.imgFile1)
         {
-          const path = directorio + '/' + id + '/' + this.formRegistro.controls['nombre'].value + extension; //Este es el path de Firebase Storage.
+          const path = directorio + '/' + id + '/' + this.formRegistro.controls['nombre'].value + extension; 
           const uploadTask = await this.firestorage.upload(path, file);
-          const url = await uploadTask.ref.getDownloadURL();  //Esta URL es un link directo a la imágen.
+          const url = await uploadTask.ref.getDownloadURL();
 
           const documento = this.firestore.doc(directorio + '/' + id);
           documento.update({ ImagenPerfil : url });
@@ -349,39 +251,12 @@ export class RegistroComponent implements OnInit, OnDestroy{
     }
   }
 
-  cambiarEstado()
-  {
-    this.condition = !this.condition;
-    this.reestablecerDatos();
-  }
-
   reestablecerDatos()
   {
     this.imgPerfil1 = '';
-    this.especialidad = '';
     this.imgPerfil2 = '';
     this.imgFile1 = null;
     this.imgFile2 = null;
     this.formRegistro.reset({ nombre: '', apellido: '', edad: 0, dni: 0, email: '', password: '', obraSocial: ''});
   }
-
-  //#region getImages()
-  //SOLO PRUEBA, tengo que moverlo a otro componente. Y probar que funcione
-  getImages()
-  {
-    const imagesref = this.firestorage.ref('pacientes'); //Referencia a la carpeta de FireStorage
-    const ii = imagesref.listAll().subscribe((next : any) => 
-    {
-      let result : Array<any> = next;
-      console.log(result);
-      //limpiar el array de imagenes[].
-      next.items.forEach((item : string) => {
-        const ee = this.firestorage.storage.refFromURL(item);
-        const url = ee.getDownloadURL();
-        console.log(url);
-        //Guardar cada url en un array de imagenes[].
-      });
-    });
-  }
-  //#endregion
 }

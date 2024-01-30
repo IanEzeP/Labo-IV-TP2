@@ -1,15 +1,15 @@
 <div style="display: flex; justify-content: center;">
     <div class="col-md-3">
-    <button class="btn-success col-md-12" (click)="onConsultarClick()">
+    <button class="btn-success col-md-12" routerLink="listado">
         <p>Consultar información de usuarios</p>
     </button>
     </div>
     <div class="col-md-3">
-    <button class=" btn-warning col-md-12" (click)="onHabilitarClick()">
+    <button class=" btn-warning col-md-12" routerLink="acceso-espec">
         <p>Habilitar o Inhabilitar acceso a Especialistas</p>
     </button>
     </div>
-    <div class="col-md-3" (click)="onRegistrarClick()">
+    <div class="col-md-3" routerLink="registrar-admin">
     <button class="btn-primary col-md-12">
         <p>Alta de nuevos Admin</p>
     </button>
@@ -21,7 +21,5 @@
     </div>
 </div>
 <div class="container">
-    <app-listado *ngIf="showListado"></app-listado>
-    <app-manejar-acceso *ngIf="showAcceso"></app-manejar-acceso>
-    <app-registrar *ngIf="showRegistro"></app-registrar>
+    <router-outlet></router-outlet>
 </div>

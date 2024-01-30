@@ -64,7 +64,6 @@ export class ListadoComponent implements OnInit, OnDestroy{
 
   ngOnDestroy(): void 
   {
-    console.log("Me desubscribo");
     this.observablePac.unsubscribe();
     this.observableAdmin.unsubscribe();
     this.observableEspec.unsubscribe();

@@ -1,10 +1,8 @@
 <div style="display: flex; justify-content: center;">
     <div *ngIf="condition">
         <div [ngSwitch]="detalle">
+
         <div *ngSwitchCase="datosPaciente">
-            <div class="col-md-3 col-sm-4">
-                <button type="button" class="btn btn-info" (click)="consultarHistoriaClinica()">Ver Historial</button>
-            </div>
             <p> Información: </p>
             <p> Id: {{ paciente.id }} </p>
             <p> Nombre: {{ paciente.nombre }} </p>
@@ -12,11 +10,15 @@
             <p> Edad: {{ paciente.edad }} </p>
             <p> DNI: {{ paciente.dni }} </p>
             <p> Obra Social: {{ paciente.obraSocial }} </p>
-            <p> Email: {{ paciente.email }} </p>
+            <p> Email: {{ paciente.email }} </p> 
+            <div class="col-md-3 col-sm-4">
+                <button type="button" class="btn btn-info" (click)="consultarHistoriaClinica()">Ver Historial</button>
+            </div>
             <p> Fotos: </p>
             <img src="{{ paciente.imagenPerfil }}" width="320" height="320">
             <img src="{{ paciente.imagenAdicional }}" width="320" height="320">
         </div>
+
         <div *ngSwitchCase="datosAdmin">
             <p> Información: </p>
             <p> Id: {{ admin.id }} </p>
@@ -28,6 +30,7 @@
             <p> Fotos: </p>
             <img src="{{ admin.imagenPerfil }}" width="320" height="320">
         </div>
+        
         <div *ngSwitchCase="datosEspecialista">
             <p> Información: </p>
             <p> Id: {{ especialista.id }} </p>

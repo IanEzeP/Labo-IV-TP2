@@ -60,7 +60,7 @@ export class RegistrarComponent {
   { 
     const value = <string>control.value;
     const arroba = value.includes('@');
-    //Si el registrar de auth rechaza formato, intentar validar formato '.com' o '.es'
+
     if(!arroba)
     {
       return { formatoInvalido: true };
@@ -75,7 +75,7 @@ export class RegistrarComponent {
   { 
     const value = <string>control.value;
     const espacios = value.includes(' ');
-    //Si el registrar de auth rechaza formato, intentar validar formato '.com' o '.es'
+    
     if(espacios)
     {
       return { contieneEspacios: true };

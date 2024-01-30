@@ -13,13 +13,24 @@ import { TurnosEspecialistasComponent } from './components/turnos-especialistas/
 import { TurnosClinicaComponent } from './components/turnos-clinica/turnos-clinica.component';
 import { HistorialComponent } from './components/historial/historial.component';
 import { VerPacientesComponent } from './components/ver-pacientes/ver-pacientes.component';
+import { ListadoComponent } from './components/usuarios/listado/listado.component';
+import { ManejarAccesoComponent } from './components/usuarios/manejar-acceso/manejar-acceso.component';
+import { RegistrarComponent } from './components/usuarios/registrar/registrar.component';
 
 const routes: Routes = [
   { path: 'home', component: BienvenidaComponent, data: { animation: 'HomePage' }},
   { path: '', redirectTo: 'home', pathMatch: 'full'},
   { path: 'login', component: LoginComponent, data: { animation: 'LoginPage'}},
-  { path: 'registro', component: RegistroComponent, data: { animation: 'RegisterPage'}},
-  { path: 'usuarios', component: UsuariosComponent},
+  { path: 'registro', component: RegistroComponent, data: { animation: 'RegisterPage'},
+    loadChildren: () => import('./components/register/register.module').then( m => m.RegisterModule)
+  },
+  { path: 'usuarios', component: UsuariosComponent, 
+  children: [
+    { path: 'listado', component: ListadoComponent },
+    { path: 'acceso-espec', component: ManejarAccesoComponent },
+    { path: 'registrar-admin', component: RegistrarComponent },
+    { path: '', redirectTo: 'listado', pathMatch:'full'},
+  ]},
   { path: 'pacientes', component: VerPacientesComponent}, 
   { path: 'verificando-acceso', component: VerificacionAccesoComponent},  
   { path: 'perfil', component: MiPerfilComponent},

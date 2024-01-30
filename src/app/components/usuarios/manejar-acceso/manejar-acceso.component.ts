@@ -18,8 +18,6 @@ export class ManejarAccesoComponent implements OnInit, OnDestroy{
 
   ngOnInit(): void 
   {
-    console.log("Me subscribo");
-
     this.observableControl = this.data.getCollectionObservable("Especialistas").subscribe((next : any) => 
     {
       this.especialistas = [];
@@ -34,8 +32,6 @@ export class ManejarAccesoComponent implements OnInit, OnDestroy{
 
   ngOnDestroy(): void 
   {
-    console.log("Me desubscribo");
-
     this.observableControl.unsubscribe();
   }
 
