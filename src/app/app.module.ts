@@ -24,11 +24,9 @@ import { BienvenidaComponent } from './components/bienvenida/bienvenida.componen
 import { RegistroComponent } from './components/registro/registro.component';
 import { LoginComponent } from './components/login/login.component';
 import { ErrorComponent } from './components/error/error.component';
-import { EspecialidadesComponent } from './components/especialidades/especialidades.component';
 import { NavigatorComponent } from './components/navigator/navigator.component';
 import { AccessUsersComponent } from './components/login/access-users/access-users.component';
 import { LoadingComponent } from './components/loading/loading.component';
-import { VerificarComponent } from './components/registro/verificar/verificar.component';
 import { UsuariosComponent } from './components/usuarios/usuarios.component';
 import { ListadoComponent } from './components/usuarios/listado/listado.component';
 import { ManejarAccesoComponent } from './components/usuarios/manejar-acceso/manejar-acceso.component';
@@ -65,7 +63,6 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
     NavigatorComponent,
     AccessUsersComponent,
     LoadingComponent,
-    VerificarComponent,
     UsuariosComponent,
     ListadoComponent,
     ManejarAccesoComponent,

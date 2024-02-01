@@ -53,6 +53,7 @@ export class EspecialidadesComponent {
       documento.set(
       {
         nombreEspecialidad: nuevaEspecialidad,
+        imagen: "../../../assets/default.png"
       });
       
       this.addEspecialidad = false;

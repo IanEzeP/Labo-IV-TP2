@@ -59,6 +59,7 @@ export class AuthService {
       if(user != null)
       {
         await sendEmailVerification(user);
+        this.logueado = false;
       }
   }
   

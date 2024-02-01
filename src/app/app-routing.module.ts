@@ -16,6 +16,7 @@ import { VerPacientesComponent } from './components/ver-pacientes/ver-pacientes.
 import { ListadoComponent } from './components/usuarios/listado/listado.component';
 import { ManejarAccesoComponent } from './components/usuarios/manejar-acceso/manejar-acceso.component';
 import { RegistrarComponent } from './components/usuarios/registrar/registrar.component';
+import { especVerificationGuard } from './guards/espec-verification.guard';
 
 const routes: Routes = [
   { path: 'home', component: BienvenidaComponent, data: { animation: 'HomePage' }},
@@ -32,7 +33,7 @@ const routes: Routes = [
     { path: '', redirectTo: 'listado', pathMatch:'full'},
   ]},
   { path: 'pacientes', component: VerPacientesComponent}, 
-  { path: 'verificando-acceso', component: VerificacionAccesoComponent},  
+  { path: 'verificando-acceso', component: VerificacionAccesoComponent, canDeactivate: [especVerificationGuard]},  
   { path: 'perfil', component: MiPerfilComponent},
   { path: 'pedir-turno', component: PedirTurnoComponent},
   { path: 'turnos-pacientes', component: TurnosPacientesComponent},

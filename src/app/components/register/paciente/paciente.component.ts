@@ -4,7 +4,6 @@ import { AngularFirestore } from '@angular/fire/compat/firestore';
 import { AngularFireStorage } from '@angular/fire/compat/storage';
 import { AlertasService } from 'src/app/servicios/alerta.service';
 import { AuthService } from 'src/app/servicios/auth.service';
-import { DatabaseService } from 'src/app/servicios/database.service';
 import { FormBuilder, FormGroup, Validators, AbstractControl } from '@angular/forms';
 import { Router } from '@angular/router';
 import { animate, state, style, transition, trigger } from '@angular/animations';
@@ -44,7 +43,7 @@ export class PacienteComponent {
   siteKey : string = "6LeIxAcTAAAAAJcZVRqyHh71UMIEGNQ_MXjiZKhI";
   formRegistro : FormGroup;
 
-  constructor(private firestore: AngularFirestore, private firestorage: AngularFireStorage, private data: DatabaseService,
+  constructor(private firestore: AngularFirestore, private firestorage: AngularFireStorage,
     private alertas: AlertasService, private auth: AuthService, public formBuilder : FormBuilder, private router: Router)
   {
     this.formRegistro = this.formBuilder.group(
@@ -204,12 +203,12 @@ export class PacienteComponent {
     }).catch(error => { this.alertas.failureAlert("ERROR en Promise de firestore collection"); console.log(error);});
   }
   
-  onFileChange1($event : any) //Para foto (paciente y especialista)
+  onFileChange1($event : any) 
   {
     this.imgFile1 = $event.target.files[0];
   }
 
-  onFileChange2($event : any) //Para foto adicional (paciente)
+  onFileChange2($event : any)
   {
     this.imgFile2 = $event.target.files[0];
   }
