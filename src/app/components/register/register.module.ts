@@ -6,11 +6,13 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 import { PacienteComponent } from './paciente/paciente.component';
 import { EspecialistaComponent } from './especialista/especialista.component';
+import { EspecialidadesComponent } from '../especialidades/especialidades.component';
 
 @NgModule({
   declarations: [
     PacienteComponent,
-    EspecialistaComponent
+    EspecialistaComponent,
+    EspecialidadesComponent
   ],
   imports: [
     CommonModule,

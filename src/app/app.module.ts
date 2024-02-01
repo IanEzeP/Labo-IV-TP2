@@ -62,7 +62,6 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
     RegistroComponent,
     LoginComponent,
     ErrorComponent,
-    EspecialidadesComponent,
     NavigatorComponent,
     AccessUsersComponent,
     LoadingComponent,
