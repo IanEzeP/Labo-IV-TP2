@@ -37,6 +37,11 @@ export class VerificacionAccesoComponent implements OnInit, OnDestroy {
             this.tieneAcceso = true;
             this.auth.idUser = this.data.getIdByEmail(document.Mail, 'Especialistas');
             this.alerta.successToast("Sesion iniciada correctamente!");
+            let log = { 
+              User: this.data.getNameById(this.auth.idUser, coleccion), 
+              Date: new Date()
+            };
+            this.data.saveLog(log);
             this.router.navigateByUrl('/home');
           }
           else

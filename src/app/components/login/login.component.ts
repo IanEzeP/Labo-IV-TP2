@@ -67,6 +67,8 @@ export class LoginComponent implements OnInit, OnDestroy {
         if(res!.user.emailVerified == true)
         {
           let rol = this.data.traerRol(res!.user.email || '');
+          let coleccion : string = '';
+
           if(rol != 'NF' && rol != '')
           {
             this.auth.rol = rol;
@@ -83,12 +85,19 @@ export class LoginComponent implements OnInit, OnDestroy {
               {
                 case 'PACIENTE':
                   this.auth.idUser = this.data.getIdByEmail(formValues.email, 'Pacientes');
+                  coleccion = 'Pacientes';
                   break;
                 case 'ADMINISTRADOR':
                   this.auth.idUser = this.data.getIdByEmail(formValues.email, 'Administradores');
+                  coleccion = 'Administradores';
                   break;
               }
               this.alertas.successToast("Sesion iniciada correctamente!");
+              let log = { 
+                User: this.data.getNameById(this.auth.idUser, coleccion), 
+                Date: new Date()
+              };
+              this.data.saveLog(log);
               this.router.navigateByUrl('/home');
             }
           }

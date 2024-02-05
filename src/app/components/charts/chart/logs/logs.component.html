@@ -1,0 +1,22 @@
+<div>
+    <h1>Logs de ingresos al sistema</h1>
+    
+    <div>
+        <table>
+            <div *ngFor="let data of this.logs">
+                <thead>
+                    <th>Usuario</th>
+                    <th>Fecha</th>
+                    <th>Hora</th>
+                </thead>
+                <tbody>
+                        <tr>
+                            <td>{{ data.Usuario }}</td>
+                            <td>{{ data.Fecha }}</td>
+                            <td>{{ data.Hora }}</td>
+                        </tr>
+                </tbody>
+            </div>
+        </table>
+    </div>
+</div>

@@ -28,12 +28,6 @@ import { animate, state, style, transition, trigger } from '@angular/animations'
 })
 export class EspecialistaComponent implements OnInit, OnDestroy {
   
-  imageVisible = true;
-
-  toggleImage() {
-    this.imageVisible == false ? this.imageVisible = true : this.imageVisible = false
-  }
-
   especialista : Especialistas = Especialistas.inicializar();
 
   observableEspecialidades = Subscription.EMPTY;

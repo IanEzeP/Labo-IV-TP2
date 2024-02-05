@@ -17,6 +17,7 @@ import { ListadoComponent } from './components/usuarios/listado/listado.componen
 import { ManejarAccesoComponent } from './components/usuarios/manejar-acceso/manejar-acceso.component';
 import { RegistrarComponent } from './components/usuarios/registrar/registrar.component';
 import { especVerificationGuard } from './guards/espec-verification.guard';
+import { ChartsComponent } from './components/charts/charts.component';
 
 const routes: Routes = [
   { path: 'home', component: BienvenidaComponent, data: { animation: 'HomePage' }},
@@ -40,6 +41,7 @@ const routes: Routes = [
   { path: 'turnos-especialistas', component: TurnosEspecialistasComponent},
   { path: 'turnos-admins', component: TurnosClinicaComponent},
   { path: 'historial-clinico', component: HistorialComponent},
+  { path: 'graficos', component: ChartsComponent, loadChildren: () => import('./components/charts/chart/chart.module').then( m => m.ChartModule)},
   { path: '**', component: ErrorComponent},
 ];
 

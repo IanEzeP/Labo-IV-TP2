@@ -29,11 +29,15 @@
             <li class="nav-item">
               <a class="nav-link" (click)="onTurnosClick()">Mis turnos</a>
             </li>
+            <li class="nav-item">
+              <a class="nav-link" routerLink="graficos">Gráficos</a><!-- Meter en solo ADMIN -->
+            </li>
           </ng-template>
           <div *ngIf="auth.rol=='ADMINISTRADOR'">
             <li class="nav-item">
               <a class="nav-link" routerLink="usuarios">Usuarios</a>
             </li>
+            
           </div>
           <div *ngIf="auth.rol=='ADMINISTRADOR' || auth.rol=='PACIENTE'">
             <li class="nav-item">

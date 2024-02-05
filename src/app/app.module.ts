@@ -52,6 +52,7 @@ import { VerHistorialComponent } from './components/turnos-acciones/ver-historia
 import { VerPacientesComponent } from './components/ver-pacientes/ver-pacientes.component';
 import { PacienteCardComponent } from './components/paciente-card/paciente-card.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { ChartsComponent } from './components/charts/charts.component';
 
 @NgModule({
   declarations: [
@@ -87,6 +88,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
     VerHistorialComponent,
     VerPacientesComponent,
     PacienteCardComponent,
+    ChartsComponent,
   ],
   imports: [
     BrowserModule,

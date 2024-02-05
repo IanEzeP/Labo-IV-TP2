@@ -63,12 +63,12 @@ export class AuthService {
       }
   }
   
-   get usuarioActual() : User | null
+  get usuarioActual() : User | null
   {
     return this.auth.currentUser
   }
   
-   cambiarUsuarioActual(usuario : User | null)
+  cambiarUsuarioActual(usuario : User | null)
   {
     return this.auth.updateCurrentUser(usuario)
   }

@@ -219,4 +219,10 @@ export class DatabaseService{
       console.log(error);
     });
   }
+
+  saveLog(log : any)
+  {
+    const documento = this.firestore.doc("Logs/" + this.firestore.createId());
+    documento.set(log);
+  }
 }

@@ -25,12 +25,6 @@ import { animate, state, style, transition, trigger } from '@angular/animations'
   ],
 })
 export class PacienteComponent {
-  /* No estoy seguro de si deba preservarlo o si siquiera funciona*/
-  imageVisible = true;
-
-  toggleImage() {
-    this.imageVisible == false ? this.imageVisible = true : this.imageVisible = false
-  }
 
   paciente : Pacientes = Pacientes.inicializar();
 
