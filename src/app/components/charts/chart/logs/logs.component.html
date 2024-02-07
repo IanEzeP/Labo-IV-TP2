@@ -1,22 +1,28 @@
-<div>
-    <h1>Logs de ingresos al sistema</h1>
+<div class="row g-5" style="display: flex; align-items: center;justify-content: center;">
+    <div class="col-md-12 col-lg-10">
+
+        <h1>Logs de ingresos al sistema</h1>
+        <div class="row g-3">
     
-    <div>
-        <table>
-            <div *ngFor="let data of this.logs">
-                <thead>
+        <div class="col-sm-3 overflow-auto" style="max-height: 700px;">
+        <table [cellPadding]="6">
+                <tr>
                     <th>Usuario</th>
                     <th>Fecha</th>
                     <th>Hora</th>
-                </thead>
-                <tbody>
-                        <tr>
-                            <td>{{ data.Usuario }}</td>
-                            <td>{{ data.Fecha }}</td>
-                            <td>{{ data.Hora }}</td>
-                        </tr>
-                </tbody>
-            </div>
+                </tr>
+                <tr *ngFor="let data of this.logs">
+                    <td>{{ data.Usuario }}</td>
+                    <td>{{ data.Fecha }}</td>
+                    <td>{{ data.Hora }}</td>
+                </tr>
         </table>
+        </div>
+        <div class="col-sm-9">
+                <canvasjs-chart [options]="chartOptions" [styles]="{width: '100%', height:'360px'}"></canvasjs-chart>
+        </div>
+        </div>
     </div>
+
+    
 </div>

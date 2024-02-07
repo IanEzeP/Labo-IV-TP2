@@ -20,6 +20,8 @@
     "@angular/platform-browser": "^16.2.0",
     "@angular/platform-browser-dynamic": "^16.2.0",
     "@angular/router": "^16.2.0",
+    "@canvasjs/angular-charts": "^1.1.1",
+    "highcharts-angular": "^4.0.0",
     "jspdf": "^2.5.1",
     "jspdf-autotable": "^3.8.1",
     "ngx-captcha": "^13.0.0",

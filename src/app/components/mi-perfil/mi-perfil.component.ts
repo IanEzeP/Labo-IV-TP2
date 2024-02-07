@@ -116,7 +116,7 @@ export class MiPerfilComponent implements OnInit, OnDestroy {
     
     let historiasArray = turnos.map((turno : any) =>
     {
-      let unDatosHistoriaClinica: { [clave: string]: any } = {};
+      let unDatosHistoriaClinica : { [clave : string] : any } = {};
 
       for (let clave in turno.Historia) 
       {

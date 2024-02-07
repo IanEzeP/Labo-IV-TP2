@@ -2,14 +2,13 @@ import { Injectable } from '@angular/core';
 import * as XLSX from 'xlsx';
 import autoTable from 'jspdf-autotable'
 import { jsPDF } from 'jspdf';
-import { DatabaseService } from './database.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class GenerateFilesService {
 
-  constructor(private data: DatabaseService) {}
+  constructor() {}
 
   historiaClinicaToExcel(data : Array<any>)
   {

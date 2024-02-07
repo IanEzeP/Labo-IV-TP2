@@ -1,5 +1,4 @@
 import { Component } from '@angular/core';
-import { AuthService } from 'src/app/servicios/auth.service';
 import { DatabaseService } from 'src/app/servicios/database.service';
 import { GenerateFilesService } from 'src/app/servicios/generate-files.service';
 
@@ -12,7 +11,7 @@ export class UsuariosComponent {
 
   usuarios : Array<any> = [];
 
-  constructor(private auth: AuthService, private data: DatabaseService, private file: GenerateFilesService)
+  constructor(private data: DatabaseService, private file: GenerateFilesService)
   {
     this.usuarios = this.usuarios.concat(this.data.pacDB, this.data.especDB, this.data.adminsDB);
   }
