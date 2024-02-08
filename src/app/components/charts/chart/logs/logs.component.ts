@@ -13,10 +13,11 @@ import { Subscription } from 'rxjs';
 
 export class LogsComponent implements OnInit, OnDestroy {
 
-
   observableLogs = Subscription.EMPTY;
   logs : Array<any> = [];
   totalEntries : number = 0;
+
+  series : Array<any> = [];
 
   constructor (private firestore: AngularFirestore, private data: DatabaseService, private alertas: AlertasService, private auth: AuthService) {}
 
@@ -43,7 +44,8 @@ export class LogsComponent implements OnInit, OnDestroy {
       this.logs = this.logs.sort((a, b) => b.Seconds - a.Seconds);
       console.log(this.logs);
       this.totalEntries = this.logs.length;
-      console.log(this.totalEntries);
+
+      this.crearSeries();
     });
   }
 
@@ -52,24 +54,53 @@ export class LogsComponent implements OnInit, OnDestroy {
     this.observableLogs.unsubscribe();
   }
 
+  crearSeries()
+  {
+    let auxLogs = Array().concat(this.logs);
+    let j = 0;
+    for(let y = 0; y < this.totalEntries; y++)
+    {
+      let logsLength = auxLogs.length;
+
+      for(let i = 0; i < logsLength; i++)
+      {
+        if(auxLogs[i])
+        {
+          if(this.logs[y].Usuario == auxLogs[i].Usuario && this.logs[y].Fecha == auxLogs[i].Fecha)
+          {  
+            if(this.series[j])
+            {
+              this.series[j].Sessions++;
+            }
+            else
+            {
+              this.series.push({ User: auxLogs[i].Usuario, Date: auxLogs[i].Fecha, Sessions: 1});
+            }
+            auxLogs.splice(i, 1, null);
+          }
+        }
+        
+      }
+
+      if(this.series[j])
+      {
+        j++;
+      }
+    };
+    console.log(this.series);
+  }
   //#region chart Logs
   chart : any;
   chartOptions = {
     theme: "light2",
-    title: {
-      text: "Ingresos de Usuarios al Sistema"
-    },
+    title: { text: "Ingresos de Usuarios al Sistema" },
     axisX: {
       valueFormatString: "DDD",
       intervalType: "day",
       interval: 1
     },
-    axisY: {
-      title: "Sesiones diarias",
-    },
-    toolTip: {
-      shared: true
-    },
+    axisY: { title: "Sesiones diarias", },
+    toolTip: { shared: true },
     legend: {
       cursor: "pointer",
       itemclick: function(e: any){
@@ -81,6 +112,8 @@ export class LogsComponent implements OnInit, OnDestroy {
         e.chart.render();
       }
     },
+    //En data tengo que ser capaz de generar una serie (llaves {} con datos) por cada usuario, 
+    //y cada dataPoints debe tener la fecha (X) y la cantidad de sesiones ese día (Y) de un usuario
     data: [{
       type:"line",
       name: "User1",
