@@ -60,9 +60,7 @@ export class LogsComponent implements OnInit, OnDestroy {
     let j = 0;
     for(let y = 0; y < this.totalEntries; y++)
     {
-      let logsLength = auxLogs.length;
-
-      for(let i = 0; i < logsLength; i++)
+      for(let i = 0; i < auxLogs.length; i++)
       {
         if(auxLogs[i])
         {
@@ -76,7 +74,7 @@ export class LogsComponent implements OnInit, OnDestroy {
             {
               this.series.push({ User: auxLogs[i].Usuario, Date: auxLogs[i].Fecha, Sessions: 1});
             }
-            auxLogs.splice(i, 1, null);
+            auxLogs[i] = null;
           }
         }
         
