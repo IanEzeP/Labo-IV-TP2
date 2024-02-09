@@ -4,6 +4,7 @@ import { AlertasService } from 'src/app/servicios/alerta.service';
 import { AuthService } from 'src/app/servicios/auth.service';
 import { DatabaseService } from 'src/app/servicios/database.service';
 import { Subscription } from 'rxjs';
+import { CanvasJSChart } from '@canvasjs/angular-charts';
 
 @Component({
   selector: 'app-logs',
@@ -72,7 +73,7 @@ export class LogsComponent implements OnInit, OnDestroy {
             }
             else
             {
-              this.series.push({ User: auxLogs[i].Usuario, Date: auxLogs[i].Fecha, Sessions: 1});
+              this.series.push({ User: auxLogs[i].Usuario, Date: auxLogs[i].FullDate, Sessions: 1});
             }
             auxLogs[i] = null;
           }
@@ -86,9 +87,91 @@ export class LogsComponent implements OnInit, OnDestroy {
       }
     };
     console.log(this.series);
+
+    this.graficarSeries();
   }
-  //#region chart Logs
+
+  graficarSeries()
+  {
+    let arrayUnUser : any = [];
+
+    this.series.forEach(unaSerie => {
+      if(unaSerie.User == "Keanu Reeves")
+      {
+        let dataPoint = { x: new Date(unaSerie.Date.toDateString()), y: unaSerie.Sessions }
+        arrayUnUser.push(dataPoint);
+      }
+    });
+    this.smt = {
+      type: "line",
+      //name: `${this.series[0].User}`,
+      name: `Keanu Reeves`,
+      showInLegend: true,
+      yValueFormatString: "#.###",
+      dataPoints: arrayUnUser,
+    };
+
+    console.log(this.smt);
+
+    
+  }
+  getChartInstance(chart : Object)
+  {
+    this.chart = chart;
+    this.updateChart();
+  }
+
+  updateChart()
+  {
+    this.chart = new CanvasJSChart();
+    this.chart.chartContainerId = "chartLogs";
+    this.chart.options = { title: "Ingresos de Usuarios al Sistema",
+    theme: "light2",
+    axisY: { 
+      valueFormatString: "DDD",
+      intervalType: "day",
+      interval: 1,
+      },
+    axisX: { title: "Sesiones Diarias" },
+    toolTip: { shared: true },
+    data: [this.smt, this.example1],
+    };
+    this.chart.render();
+  }
   chart : any;
+
+  example1 = {
+    type:"line",
+    name: "User1",
+    showInLegend: true,
+    yValueFormatString: "#.###",
+    dataPoints: [		
+      { x: new Date(2021, 0, 1), y: 0 },
+      { x: new Date(2021, 0, 2), y: 5 },
+      { x: new Date(2021, 0, 3), y: 6 },
+      { x: new Date(2021, 0, 4), y: 3 },
+      { x: new Date(2021, 0, 5), y: 1 },
+      { x: new Date(2021, 0, 6), y: 4 },
+      { x: new Date(2021, 0, 7), y: 0 },
+    ]
+  };
+  example2 = {
+    type: "line",
+    name: "User2",
+    showInLegend: true,
+    yValueFormatString: "#.###",
+    dataPoints: [
+      { x: new Date(2021, 0, 1), y: 4 },
+      { x: new Date(2021, 0, 2), y: 1 },
+      { x: new Date(2021, 0, 3), y: 3 },
+      { x: new Date(2021, 0, 4), y: 4 },
+      { x: new Date(2021, 0, 5), y: 2 },
+      { x: new Date(2021, 0, 6), y: 6 },
+      { x: new Date(2021, 0, 7), y: 1 },
+    ]
+  };
+  smt : any = false;
+  //#region chart Logs
   chartOptions = {
     theme: "light2",
     title: { text: "Ingresos de Usuarios al Sistema" },
@@ -110,8 +193,10 @@ export class LogsComponent implements OnInit, OnDestroy {
         e.chart.render();
       }
     },
-    //En data tengo que ser capaz de generar una serie (llaves {} con datos) por cada usuario, 
+    //En data tengo que ser capaz de generar (TODO...) una serie (llaves {} con datos) por cada usuario, 
     //y cada dataPoints debe tener la fecha (X) y la cantidad de sesiones ese día (Y) de un usuario
+
+    //Se renderiza primero el grafico y no el tercer grafico
     data: [{
       type:"line",
       name: "User1",
@@ -141,7 +226,9 @@ export class LogsComponent implements OnInit, OnDestroy {
         { x: new Date(2021, 0, 6), y: 6 },
         { x: new Date(2021, 0, 7), y: 1 },
       ]
-    }]
+    },
+    this.smt,
+    ]
   };
 
   //#endregion
