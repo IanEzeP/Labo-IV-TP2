@@ -5,7 +5,7 @@
         </button>
     </div>
     <div class="col-md-12">
-        <h1>Historia clinica de {{this.data.getNameById(this.turno.idPaciente, 'Pacientes')}} en fecha {{turno.Dia}}</h1>
+        <h1>Historia clinica de {{this.nombrePaciente}} en fecha {{turno.Dia}}</h1>
     </div>
     <div class="col-md-12">
         <p>Redacte la historia clinica</p>
@@ -39,7 +39,60 @@
         <input class="input-form" type="number" min="80" max="200" [(ngModel)]="this.presion" placeholder="(en mmHg)">
     </div>
 
-    
+    <div class="row" style="margin: 0; padding: 0;"> 
+        <div class="row">
+            <div class="col-md-11">
+                <div class="row">
+                    
+                    <div class="col-md-6" style="text-align: left;">
+                        <span>Clave de rango</span>
+                    </div>
+                    <div class="col-md-6" style="text-align: left;">
+                        <input [id]="'claveRango'" class="input-form" type="text" [(ngModel)]="this.claveRango">
+                    </div>
+                    <div class="col-md-6" style="text-align: left;">
+                        <span>Valor de rango</span>
+                    </div>
+                    <div class="col-md-6" style="text-align: left;">
+                        <div style="position: relative; display: flex; align-items: center; justify-content: center;">
+                            <div>0</div>
+                            <input type="range" class="form-range" id="valorRango" min="0" max="100" step="1" [(ngModel)]="this.datoRango">
+                            <div>100</div>
+                        </div>
+                        <p>Valor: {{this.datoRango}}</p>
+                    </div>
+                    <div class="col-md-6" style="text-align: left;">
+                        <span>Clave numerica</span>
+                    </div>
+                    <div class="col-md-6" style="text-align: left;">
+                        <input [id]="'claveNumerica'" class="input-form" type="text" [(ngModel)]="this.claveNum">
+                    </div>
+                    <div class="col-md-6" style="text-align: left;">
+                        <span>Valor numérico</span>
+                    </div>
+                    <div class="col-md-6" style="text-align: left;">
+                        <input [id]="'valorNumerico'" class="input-form" type="number" [(ngModel)]="this.datoNum">
+                    </div>
+                    <div class="col-md-6" style="text-align: left;">
+                        <span>Clave Si/No</span>
+                    </div>
+                    <div class="col-md-6" style="text-align: left;">
+                        <input [id]="'claveBoolean'" class="input-form" type="text" [(ngModel)]="this.claveSwitch">
+                    </div>
+                    <div class="col-md-6" style="text-align: left;">
+                        <span>Valor Si/No</span>
+                    </div>
+                    <div class="col-md-6" style="text-align: left;">
+                        <label class="switch">
+                            <input [id]="'valorBoolean'" type="checkbox" [(ngModel)]="this.datoSwitch">
+                            <span class="slider round"></span>
+                        </label>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div> 
+    <br>
     <div class="row" style="margin: 0; padding: 0;" *ngFor="let campo of campos; let i = index"> 
         <div class="row">
             <div class="col-md-11">
@@ -66,7 +119,7 @@
         </div>
     </div> 
 
-    <div class="col-md-12">
+    <div *ngIf="this.campos.length < 3" class="col-md-12">
         <button class="button-agregar" (click)="agregarCampo()">Agregar Campo</button>
     </div>
 

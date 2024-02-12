@@ -1,4 +1,4 @@
-import { Component, Input, Output, EventEmitter } from '@angular/core';
+import { Component, Input, Output, EventEmitter, OnInit } from '@angular/core';
 import { DatabaseService } from 'src/app/servicios/database.service';
 import { AngularFirestore } from '@angular/fire/compat/firestore';
 
@@ -7,7 +7,7 @@ import { AngularFirestore } from '@angular/fire/compat/firestore';
   templateUrl: './ver-historial.component.html',
   styleUrls: ['./ver-historial.component.css']
 })
-export class VerHistorialComponent {
+export class VerHistorialComponent implements OnInit{
   
   @Input() turno : any;
   @Output() close = new EventEmitter<boolean>();
@@ -17,10 +17,27 @@ export class VerHistorialComponent {
   temperatura! : number;
   presion! : number;
 
+  //Para nuevos datos dinámicos
+  claveRango! : string;
+  claveNum! : string;
+  claveSwitch! : string;
+
+  datoRango! : number;
+  datoNum! : number;
+  datoSwitch : boolean = false;
+
+  nombrePaciente : string = "";
+
   campos: { clave: string; valor: string }[] = [];
 
-  constructor (public data : DatabaseService, private firestore: AngularFirestore) {}
+  constructor (private data : DatabaseService, private firestore: AngularFirestore) {}
 
+  ngOnInit(): void 
+  {
+    this.datoRango = 50;
+    this.nombrePaciente = this.turno.idPaciente;
+  }
+  
   agregarCampo() 
   {
     this.campos.push({ clave: '', valor: '' });
@@ -56,6 +73,10 @@ export class VerHistorialComponent {
         historiaClinica[clave] = valor;
       }
     }
+
+    historiaClinica[this.claveRango] = this.datoRango;
+    historiaClinica[this.claveNum] = this.datoNum;
+    historiaClinica[this.claveSwitch] = this.datoSwitch;
 
     const documento = this.firestore.doc('Turnos/' + this.turno.id);
     documento.update({ Historia: historiaClinica }).then(() => this.close.emit());

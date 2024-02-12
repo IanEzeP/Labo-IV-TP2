@@ -136,7 +136,6 @@ export class LogsComponent implements OnInit, OnDestroy {
     toolTip: { shared: true },
     data: [this.smt, this.example1],
     };
-    this.chart.render();
   }
   chart : any;
 
@@ -170,7 +169,7 @@ export class LogsComponent implements OnInit, OnDestroy {
       { x: new Date(2021, 0, 7), y: 1 },
     ]
   };
-  smt : any = false;
+  smt : any = {};
   //#region chart Logs
   chartOptions = {
     theme: "light2",
@@ -196,38 +195,11 @@ export class LogsComponent implements OnInit, OnDestroy {
     //En data tengo que ser capaz de generar (TODO...) una serie (llaves {} con datos) por cada usuario, 
     //y cada dataPoints debe tener la fecha (X) y la cantidad de sesiones ese día (Y) de un usuario
 
-    //Se renderiza primero el grafico y no el tercer grafico
-    data: [{
-      type:"line",
-      name: "User1",
-      showInLegend: true,
-      yValueFormatString: "#.###",
-      dataPoints: [		
-        { x: new Date(2021, 0, 1), y: 0 },
-        { x: new Date(2021, 0, 2), y: 5 },
-        { x: new Date(2021, 0, 3), y: 6 },
-        { x: new Date(2021, 0, 4), y: 3 },
-        { x: new Date(2021, 0, 5), y: 1 },
-        { x: new Date(2021, 0, 6), y: 4 },
-        { x: new Date(2021, 0, 7), y: 0 },
-      ]
-    },
-    {
-      type: "line",
-      name: "User2",
-      showInLegend: true,
-      yValueFormatString: "#.###",
-      dataPoints: [
-        { x: new Date(2021, 0, 1), y: 4 },
-        { x: new Date(2021, 0, 2), y: 1 },
-        { x: new Date(2021, 0, 3), y: 3 },
-        { x: new Date(2021, 0, 4), y: 4 },
-        { x: new Date(2021, 0, 5), y: 2 },
-        { x: new Date(2021, 0, 6), y: 6 },
-        { x: new Date(2021, 0, 7), y: 1 },
-      ]
-    },
+    //Se renderiza primero el grafico y no la tercer serie
+    data: [
     this.smt,
+    this.example1,
+    this.example2
     ]
   };
 
