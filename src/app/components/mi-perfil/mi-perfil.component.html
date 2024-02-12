@@ -25,6 +25,7 @@
             <span>DNI:</span>
             <span> {{this.usuario.DNI}}</span>
         </div>
+        
         <div class="col-md-12" *ngIf="this.auth.rol == 'PACIENTE'">
             <span>Obra social: </span>
             <span> {{this.usuario.ObraSocial}}</span>
@@ -44,6 +45,7 @@
                 </div>
             </div>
         </div>
+
         <div *ngIf="this.auth.rol == 'ESPECIALISTA'">
             <div class="col-md-12">
                 <div>

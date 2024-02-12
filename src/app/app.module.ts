@@ -53,7 +53,12 @@ import { VerPacientesComponent } from './components/ver-pacientes/ver-pacientes.
 import { PacienteCardComponent } from './components/paciente-card/paciente-card.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ChartsComponent } from './components/charts/charts.component';
-
+import { TranslatePipe } from './pipes/translate.pipe';
+import { TranslateService } from '@ngx-translate/core';
+export function setupTranslateServiceFactory(
+  service: TranslateService): Function {
+return () => service.use('es');
+}
 @NgModule({
   declarations: [
     AppComponent,
@@ -89,6 +94,7 @@ import { ChartsComponent } from './components/charts/charts.component';
     VerPacientesComponent,
     PacienteCardComponent,
     ChartsComponent,
+    TranslatePipe,
   ],
   imports: [
     BrowserModule,
@@ -104,12 +110,19 @@ import { ChartsComponent } from './components/charts/charts.component';
     provideAuth(() => getAuth()),
     NgxCaptchaModule,
   ],
-  providers: [{ provide: FIREBASE_OPTIONS, useValue: environment.firebase },
+  providers: [{ provide: FIREBASE_OPTIONS, useValue: environment.firebase,
+    useFactory: setupTranslateServiceFactory,
+    deps: [
+      TranslateService
+    ],
+   },
     AlertasService,
     DatabaseService,
     AuthService,
     LoadingService,
-    GenerateFilesService],
+    GenerateFilesService,
+    TranslateService,
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

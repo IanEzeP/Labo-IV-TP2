@@ -2,7 +2,7 @@
     <ol>
         <li *ngFor="let user of arrayUsuarios; index as i">
         <button (click)="seleccionarUsuario(user)">
-            <img style="width: 30px; height: 30px;" src="{{ user.imagenPerfil }}"><!-- Cambiar por imágen ilustrativa-->
+            <img style="width: 30px; height: 30px;" src="{{ user.imagenPerfil }}">
             <span>{{ data.traerRol(user.email) }}</span>
         </button>
         
