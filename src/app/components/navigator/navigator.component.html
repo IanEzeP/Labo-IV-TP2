@@ -50,34 +50,15 @@
               <a class="nav-link" routerLink="pacientes">{{ 'NAV_PATIENTS' | translate }}</a>
             </li>
           </div>
-          <div>
-            <mat-form-field>
-              <mat-label>Countries</mat-label>
-              <mat-select (selectionChange)="onChange($event)">
-                <mat-option *ngFor="let country of countriesList" [value]="country">{{country}}</mat-option>
-              </mat-select>
-            </mat-form-field>
-          </div>
           <li class="nav-item dropdown">
-            <button class="nav-link dropdown-toggle" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
-              Idioma
-            </button>
-            <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-              <li><button class="dropdown-item" (click)="setLang('en')">Language: EN</button></li>
-              <li><a class="dropdown-item" href="#">Another action</a></li>
-              <li><a class="dropdown-item" href="#">Something else here</a></li>
-            </ul>
+            <select class="btn nav-link dropdown-toggle bg-dark" (change)="setLang($event)">
+              <option *ngFor="let item of langArray" [value]="item.lang">{{item.idioma}}</option>
+            </select> 
           </li>
         </ul>
       </div>
 
-      
-     
     </div>
-        <div>
-            <button (click)="setLang('en')">Language: EN</button>
-            <button (click)="setLang('es')">Language: ES</button>
-        </div>
 </nav>
 <div *ngIf="loading.isLoading">
   <app-loading></app-loading>

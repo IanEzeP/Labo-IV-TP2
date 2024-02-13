@@ -90,4 +90,40 @@ export class GenerateFilesService {
 
     pdf.save(data[0].Paciente + '_' + data[0].Especialidad + ".pdf"); //Caso Historial completo cambiar nombre de guardado de archivo 
   }
+
+  downloadPdfChart(title : string, filename : string, chart : string)
+  {
+    const pdf = new jsPDF();
+
+    var fecha = "Reporte emitido el " + new Date().toLocaleDateString();
+
+    // Obtener las dimensiones de la página
+    const pageSize = pdf.internal.pageSize;
+    const pageWidth = pageSize.getWidth();
+    const pageHeight = pageSize.getHeight();
+
+    //let logoBase64 = await this.convertImageToBase64(this.logoPath); AÑADIR IMAGEN CLINICA AL INFORME
+
+    const logoWidth = 100;
+    const logoHeight = 100;
+    const logoX = (pageWidth - logoWidth) / 2;
+    const logoY = (pageHeight - logoHeight) / 2;
+
+    //pdf.addImage(logoBase64, 'JPEG', logoX, logoY, logoWidth, logoHeight);
+
+    pdf.setFontSize(25);
+    pdf.setFont("helvetica", "bold");
+    pdf.text(title, pageWidth / 2, 50, { align: "center" });
+   
+    // Configurar fuente y tamaño para el texto de la fecha
+    pdf.setFontSize(25);
+    pdf.setFont("helvetica", "normal");
+    pdf.text(fecha, pageWidth / 2, pageHeight - 30, { align: "center" });
+   
+    pdf.addPage();
+
+    pdf.addImage(chart, 'JPEG', 0, 0, logoWidth * 2, logoHeight);
+
+    pdf.save(filename + '.pdf');
+  }
 }

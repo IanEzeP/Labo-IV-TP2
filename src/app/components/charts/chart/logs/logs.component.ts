@@ -18,9 +18,11 @@ export class LogsComponent implements OnInit, OnDestroy {
   logs : Array<any> = [];
   totalEntries : number = 0;
 
+  logueos : Array<any> = [];
   series : Array<any> = [];
+  usuarios : Array<any> = [];
 
-  constructor (private firestore: AngularFirestore, private data: DatabaseService, private alertas: AlertasService, private auth: AuthService) {}
+  constructor (private data: DatabaseService, private alertas: AlertasService) {}
 
   ngOnInit(): void 
   {
@@ -67,54 +69,79 @@ export class LogsComponent implements OnInit, OnDestroy {
         {
           if(this.logs[y].Usuario == auxLogs[i].Usuario && this.logs[y].Fecha == auxLogs[i].Fecha)
           {  
-            if(this.series[j])
+            if(this.logueos[j])
             {
-              this.series[j].Sessions++;
+              this.logueos[j].Sessions++;
             }
             else
             {
-              this.series.push({ User: auxLogs[i].Usuario, Date: auxLogs[i].FullDate, Sessions: 1});
+              this.logueos.push({ User: auxLogs[i].Usuario, Date: auxLogs[i].FullDate, Sessions: 1});
             }
             auxLogs[i] = null;
           }
-        }
-        
+        } 
       }
 
-      if(this.series[j])
+      if(this.logueos[j])
       {
         j++;
       }
     };
-    console.log(this.series);
+    console.log(this.logueos);
+
+    this.usuarios = this.crearListaNombres();
 
     this.graficarSeries();
   }
 
+  crearListaNombres()
+  {
+    let arrayNombres : Array<string> = [];
+
+    this.logueos.forEach(logueo => {
+
+    if(arrayNombres.indexOf(logueo.User) == -1)
+    {
+      arrayNombres.push(logueo.User);
+    }
+    });
+    console.log(arrayNombres);
+    return arrayNombres;
+  }
+
   graficarSeries()
   {
-    let arrayUnUser : any = [];
+    let arrayData : any = [];
+    let unaSerie : any = {};
 
-    this.series.forEach(unaSerie => {
-      if(unaSerie.User == "Keanu Reeves")
-      {
-        let dataPoint = { x: new Date(unaSerie.Date.toDateString()), y: unaSerie.Sessions }
-        arrayUnUser.push(dataPoint);
-      }
+    this.usuarios.forEach(unUsuario => {
+
+      arrayData = [];
+      this.logueos.forEach(unLogueo => {
+        
+        if(unLogueo.User == unUsuario)
+        {
+          let dataPoint = { x: new Date(unLogueo.Date.toDateString()), y: unLogueo.Sessions }
+          arrayData.push(dataPoint);
+        }
+      });
+
+      unaSerie = {
+        type: "line",
+        name: unUsuario,
+        showInLegend: true,
+        yValueFormatString: "#.###",
+        dataPoints: arrayData,
+      };
+      
+      this.series.push(unaSerie);
     });
-    this.smt = {
-      type: "line",
-      //name: `${this.series[0].User}`,
-      name: `Keanu Reeves`,
-      showInLegend: true,
-      yValueFormatString: "#.###",
-      dataPoints: arrayUnUser,
-    };
 
-    console.log(this.smt);
+    console.log(this.series);
 
-    
+    this.updateChart();
   }
+
   getChartInstance(chart : Object)
   {
     this.chart = chart;
@@ -123,20 +150,14 @@ export class LogsComponent implements OnInit, OnDestroy {
 
   updateChart()
   {
-    this.chart = new CanvasJSChart();
+    console.log("update chart");
     this.chart.chartContainerId = "chartLogs";
-    this.chart.options = { title: "Ingresos de Usuarios al Sistema",
-    theme: "light2",
-    axisY: { 
-      valueFormatString: "DDD",
-      intervalType: "day",
-      interval: 1,
-      },
-    axisX: { title: "Sesiones Diarias" },
-    toolTip: { shared: true },
-    data: [this.smt, this.example1],
-    };
+
+    this.chart.options.data = this.series; //Asignar Array con cada serie.
+    
+    this.chart.render();
   }
+
   chart : any;
 
   example1 = {
@@ -145,31 +166,16 @@ export class LogsComponent implements OnInit, OnDestroy {
     showInLegend: true,
     yValueFormatString: "#.###",
     dataPoints: [		
-      { x: new Date(2021, 0, 1), y: 0 },
-      { x: new Date(2021, 0, 2), y: 5 },
-      { x: new Date(2021, 0, 3), y: 6 },
-      { x: new Date(2021, 0, 4), y: 3 },
-      { x: new Date(2021, 0, 5), y: 1 },
-      { x: new Date(2021, 0, 6), y: 4 },
-      { x: new Date(2021, 0, 7), y: 0 },
+      { x: new Date(2024, 1, 5), y: 0 },
+      { x: new Date(2024, 1, 6), y: 5 },
+      { x: new Date(2024, 1, 7), y: 6 },
+      { x: new Date(2024, 1, 8), y: 3 },
+      { x: new Date(2024, 1, 9), y: 1 },
+      { x: new Date(2024, 1, 11), y: 4 },
+      { x: new Date(2024, 1, 12), y: 0 },
     ]
   };
-  example2 = {
-    type: "line",
-    name: "User2",
-    showInLegend: true,
-    yValueFormatString: "#.###",
-    dataPoints: [
-      { x: new Date(2021, 0, 1), y: 4 },
-      { x: new Date(2021, 0, 2), y: 1 },
-      { x: new Date(2021, 0, 3), y: 3 },
-      { x: new Date(2021, 0, 4), y: 4 },
-      { x: new Date(2021, 0, 5), y: 2 },
-      { x: new Date(2021, 0, 6), y: 6 },
-      { x: new Date(2021, 0, 7), y: 1 },
-    ]
-  };
-  smt : any = {};
+
   //#region chart Logs
   chartOptions = {
     theme: "light2",
@@ -192,15 +198,8 @@ export class LogsComponent implements OnInit, OnDestroy {
         e.chart.render();
       }
     },
-    //En data tengo que ser capaz de generar (TODO...) una serie (llaves {} con datos) por cada usuario, 
-    //y cada dataPoints debe tener la fecha (X) y la cantidad de sesiones ese día (Y) de un usuario
 
-    //Se renderiza primero el grafico y no la tercer serie
-    data: [
-    this.smt,
-    this.example1,
-    this.example2
-    ]
+    data: []
   };
 
   //#endregion

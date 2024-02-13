@@ -1,0 +1,35 @@
+{
+    "WELCOME_TITLE": "Bem-vindo!",
+    "WELCOME_SUBTITLE": "O site da Clínica OnLine está à sua disposição.",
+    "WELCOME_BODY": "Solicite consultas, verifique seu histórico médico e muito mais fazendo login. Se ainda não tiver uma conta, você pode se registrar gratuitamente a qualquer momento.",
+
+    "NAV_HOME" : "Início",
+    "NAV_LOGIN" : "Fazer login",
+    "NAV_SIGNIN" : "Registro",
+    "NAV_LOGOUT" : "Sair do Sistema",
+    "NAV_PROFILE" : "Meu perfil",
+    "NAV_USERS" : "Usuários",
+    "NAV_REQUEST" : "Solicite uma Consulta",
+    "NAV_CHECK" : "Meus Consultas",
+    "NAV_PATIENTS" : "Pacientes",
+    "NAV_CHARTS" : "Gráficos",
+
+    "PROFILE_HELLO" : "Olá",
+    "PROFILE_EMAIL" : "Correio Eletrônico",
+    "PROFILE_DNI" : "DNI",
+    "PROFILE_OS" : "Obra Social",
+    "PROFILE_HISTORY" : "Histórico Médico",
+    "PROFILE_CHECK_HIS" : "Ver Histórico Médico",
+    "PROFILE_DOWNLOAD_ALL" : "Download do Histórico Médico",
+    "PROFILE_DOWNLOAD_SINGLE" : "Download do Histórico por Especialidade",
+    "PROFILE_SHIFTS" : "Meus Turnos",
+    "PROFILE_AFTERNOON" : "Tarde",
+    "PROFILE_MORNING" : "Manhã",
+
+    "REQUEST_SPECIALTY": "Especialidade",
+    "REQUEST_PATIENT": "Paciente",
+    "REQUEST_SPECIALIST": "Especialista",
+    "REQUEST_DATE": "Data",
+    "REQUEST_TIME": "Horário",
+    "REQUEST_FINISH": "Solicite uma Consulta"
+}

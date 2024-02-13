@@ -11,7 +11,11 @@ import { TranslateService } from '../../servicios/translate.service';
 })
 export class NavigatorComponent implements OnInit {
 
-  countriesList: any[] = ['Germany', 'Switzerland', 'UAE', 'Pakistan', 'Brazil', 'England'];
+  langArray: any[] = [
+    { idioma: 'Español', lang: 'es' },
+    { idioma: 'Inglés', lang: 'en' },
+    { idioma: 'Portugués', lang: 'br' }
+  ];
 
   constructor(private router: Router, public auth: AuthService, public loading: LoadingService, private translator : TranslateService) {}
 
@@ -36,12 +40,8 @@ export class NavigatorComponent implements OnInit {
     }
   }
 
-  setLang(lang: string) 
+  setLang(lang: any) 
   {
-    this.translator.use(lang);
-  }
-
-  onChange(event: any) {
-    console.log(event.value);
+    this.translator.use(lang.target.value);
   }
 }
