@@ -1,7 +1,7 @@
 <div style="display: flex; justify-content: center;" *ngIf="this.usuario != null">
     <div class="col-md-3">
         <div class="col-md-12">
-            <span>¡Hola {{ this.usuario.Nombre }}!</span>
+            <span>¡{{ 'PROFILE_HELLO' | translate }} {{ this.usuario.Nombre }}!</span>
         </div>
         <div class="col-md-12">
             <img width="300" height="300" src="{{ this.usuario.ImagenPerfil }}">
@@ -18,25 +18,29 @@
             </div>
         </div>
         <div class="col-md-12">
-            <span>Correo electronico:</span>
+            <span>{{ 'PROFILE_EMAIL' | translate }}:</span>
             <span> {{this.usuario.Mail}}</span>
         </div>
         <div class="col-md-12">
-            <span>DNI:</span>
+            <span>{{ 'PROFILE_DNI' | translate }}:</span>
             <span> {{this.usuario.DNI}}</span>
         </div>
         
         <div class="col-md-12" *ngIf="this.auth.rol == 'PACIENTE'">
-            <span>Obra social: </span>
+            <span>{{ 'PROFILE_OS' | translate }}: </span>
             <span> {{this.usuario.ObraSocial}}</span>
         </div>
         <div *ngIf="this.auth.rol == 'PACIENTE'"> 
-            <h1>Historial clinico</h1>
+            <h1>{{ 'PROFILE_HISTORY' | translate }}</h1>
             <div class="col-md-3 col-sm-4">
-                <button type="button" class="btn btn-info" (click)="consultarHistoriaClinica()">Ver Historial</button>
+                <button type="button" class="btn btn-info" (click)="consultarHistoriaClinica()">
+                    {{ 'PROFILE_CHECK_HIS' | translate }}
+                </button>
             </div>
-                <button type="button" class="btn btn-success" (click)="descargarHistoriaCompleta()">Descargar Historial</button>
-            <h2>Descargar Historial por especialidad</h2>
+                <button type="button" class="btn btn-success" (click)="descargarHistoriaCompleta()">
+                    {{ 'PROFILE_DOWNLOAD_ALL' | translate }}
+                </button>
+            <h2>{{ 'PROFILE_DOWNLOAD_SINGLE' | translate }}</h2>
             <div *ngFor="let especialidad of this.especialidades" class="col-md-3 col-sm-4">
                 <div>
                     <button type="button" class="btn btn-primary" (click)="descargarHistoriaEspecialidad(especialidad)">
@@ -49,12 +53,14 @@
         <div *ngIf="this.auth.rol == 'ESPECIALISTA'">
             <div class="col-md-12">
                 <div>
-                    <span>Mis horarios:</span>
+                    <span>{{ 'PROFILE_SHIFTS' | translate }}:</span>
                 </div>
             </div>
             <div class="col-md-12">
-                <input id="tarde" type="checkbox" [(ngModel)]="this.atencionTarde" (click)="cambiarAtencion('tarde')"><label for="tarde">TARDE</label><br>
-                <input id="maniana" type="checkbox" [(ngModel)]="this.atencionManiana" (click)="cambiarAtencion('mañana')"><label for="maniana">MAÑANA</label>
+                <input id="tarde" type="checkbox" [(ngModel)]="this.atencionTarde" (click)="cambiarAtencion('tarde')">
+                <label for="tarde">{{ 'PROFILE_AFTERNOON' | translate }}</label><br>
+                <input id="maniana" type="checkbox" [(ngModel)]="this.atencionManiana" (click)="cambiarAtencion('mañana')">
+                <label for="maniana">{{ 'PROFILE_MORNING' | translate }}</label>
             </div>
         </div>
     </div>

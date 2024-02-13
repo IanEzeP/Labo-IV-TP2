@@ -7,51 +7,77 @@
       <div class="collapse navbar-collapse" id="navbarMain">
         <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
           <li class="nav-item">
-            <a class="nav-link active" routerLink="home">Home</a>
+            <a class="nav-link active" routerLink="home">{{ 'NAV_HOME' | translate }}</a>
           </li>
-
           <div *ngIf="auth.logueado == false; then conditionTrue else conditionFalse"></div>
           <ng-template #conditionTrue>
             <li class="nav-item">
-              <a class="nav-link" routerLink="login">Log in</a>
+              <a class="nav-link" routerLink="login">{{ 'NAV_LOGIN' | translate }}</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" routerLink="registro">Registro</a>
+              <a class="nav-link" routerLink="registro">{{ 'NAV_SIGNIN' | translate }}</a>
             </li>
           </ng-template>
+
           <ng-template #conditionFalse>
             <li class="nav-item">
-              <a class="nav-link" routerLink="perfil">Mi perfil</a>
+              <a class="nav-link" routerLink="perfil">{{ 'NAV_PROFILE' | translate }}</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" routerLink="home" (click)="auth.logOut()">Cerrar Sesión</a>
+              <a class="nav-link" routerLink="home" (click)="auth.logOut()">{{ 'NAV_LOGOUT' | translate }}</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" (click)="onTurnosClick()">Mis turnos</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" routerLink="graficos">Gráficos</a><!-- Meter en solo ADMIN -->
+              <a class="nav-link" (click)="onTurnosClick()">{{ 'NAV_CHECK' | translate }}</a>
             </li>
           </ng-template>
           <div *ngIf="auth.rol=='ADMINISTRADOR'">
             <li class="nav-item">
-              <a class="nav-link" routerLink="usuarios">Usuarios</a>
+              <a class="nav-link" routerLink="usuarios">{{ 'NAV_USERS' | translate }}</a>
             </li>
-            
+          </div>
+          <div *ngIf="auth.rol=='ADMINISTRADOR'">
+            <li class="nav-item">
+              <a class="nav-link" routerLink="graficos">{{ 'NAV_CHARTS' | translate }}</a>
+            </li>
           </div>
           <div *ngIf="auth.rol=='ADMINISTRADOR' || auth.rol=='PACIENTE'">
             <li class="nav-item">
-              <a class="nav-link" routerLink="pedir-turno">Solicitar turnos</a>
+              <a class="nav-link" routerLink="pedir-turno">{{ 'NAV_REQUEST' | translate }}</a>
             </li>
           </div>
           <div *ngIf="auth.rol=='ESPECIALISTA'">
             <li class="nav-item">
-              <a class="nav-link" routerLink="pacientes">Pacientes</a>
+              <a class="nav-link" routerLink="pacientes">{{ 'NAV_PATIENTS' | translate }}</a>
             </li>
           </div>
+          <div>
+            <mat-form-field>
+              <mat-label>Countries</mat-label>
+              <mat-select (selectionChange)="onChange($event)">
+                <mat-option *ngFor="let country of countriesList" [value]="country">{{country}}</mat-option>
+              </mat-select>
+            </mat-form-field>
+          </div>
+          <li class="nav-item dropdown">
+            <button class="nav-link dropdown-toggle" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
+              Idioma
+            </button>
+            <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+              <li><button class="dropdown-item" (click)="setLang('en')">Language: EN</button></li>
+              <li><a class="dropdown-item" href="#">Another action</a></li>
+              <li><a class="dropdown-item" href="#">Something else here</a></li>
+            </ul>
+          </li>
         </ul>
       </div>
+
+      
+     
     </div>
+        <div>
+            <button (click)="setLang('en')">Language: EN</button>
+            <button (click)="setLang('es')">Language: ES</button>
+        </div>
 </nav>
 <div *ngIf="loading.isLoading">
   <app-loading></app-loading>

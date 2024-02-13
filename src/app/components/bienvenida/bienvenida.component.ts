@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { TranslateService } from '../../servicios/translate.service';
+import { DatabaseService } from 'src/app/servicios/database.service';
 
 @Component({
   selector: 'app-bienvenida',
@@ -8,21 +9,13 @@ import { TranslateService } from '../../servicios/translate.service';
 })
 export class BienvenidaComponent implements OnInit {
 
-  lang = 'es';
   titulo = 'WELCOME_TITLE';
   subtitulo = 'WELCOME_SUBTITLE';
   cuerpo = 'WELCOME_BODY';
 
-  constructor (private translator : TranslateService) {}
+  constructor (private translator : TranslateService, private data : DatabaseService) {}
 
   ngOnInit(): void 
   {
-    this.translator.use("es").then(() => {
-      console.log(this.translator.data);
-    });
-  }
-
-  setLang(lang: string) {
-    this.translator.use(lang);
   }
 }

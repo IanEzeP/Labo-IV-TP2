@@ -55,6 +55,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ChartsComponent } from './components/charts/charts.component';
 import { TranslatePipe } from './pipes/translate.pipe';
 import { TranslateService } from '@ngx-translate/core';
+import { MatSelectModule } from '@angular/material/select';
 export function setupTranslateServiceFactory(
   service: TranslateService): Function {
 return () => service.use('es');
@@ -109,6 +110,7 @@ return () => service.use('es');
     provideFirestore(() => getFirestore()),
     provideAuth(() => getAuth()),
     NgxCaptchaModule,
+    MatSelectModule,
   ],
   providers: [{ provide: FIREBASE_OPTIONS, useValue: environment.firebase,
     useFactory: setupTranslateServiceFactory,

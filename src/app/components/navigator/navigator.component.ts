@@ -1,15 +1,24 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { AuthService } from 'src/app/servicios/auth.service';
 import { LoadingService } from 'src/app/servicios/loading.service';
-import { DatabaseService } from 'src/app/servicios/database.service';
+import { TranslateService } from '../../servicios/translate.service';
+
 @Component({
   selector: 'app-navigator',
   templateUrl: './navigator.component.html',
   styleUrls: ['./navigator.component.css']
 })
-export class NavigatorComponent {
-  constructor(private router: Router, public auth: AuthService, public loading: LoadingService, private data: DatabaseService) {}
+export class NavigatorComponent implements OnInit {
+
+  countriesList: any[] = ['Germany', 'Switzerland', 'UAE', 'Pakistan', 'Brazil', 'England'];
+
+  constructor(private router: Router, public auth: AuthService, public loading: LoadingService, private translator : TranslateService) {}
+
+  ngOnInit(): void 
+  {
+    this.translator.use("es");
+  }
 
   public onTurnosClick()
   {
@@ -25,5 +34,14 @@ export class NavigatorComponent {
         this.router.navigateByUrl('turnos-pacientes');
         break;
     }
+  }
+
+  setLang(lang: string) 
+  {
+    this.translator.use(lang);
+  }
+
+  onChange(event: any) {
+    console.log(event.value);
   }
 }

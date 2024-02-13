@@ -1,6 +1,35 @@
 {
     "WELCOME_TITLE": "Welcome!",
     "WELCOME_SUBTITLE": "The OnLine Clinic website is at your disposal.",
-    "WELCOME_BODY": "Request appointments, check your medical history, and more by logging in. If you do not have an account yet, you can register for free at any time." 
+    "WELCOME_BODY": "Request appointments, check your medical history, and more by logging in. If you do not have an account yet, you can register for free at any time.",
 
+    "NAV_HOME" : "Home",
+    "NAV_LOGIN" : "Log In",
+    "NAV_SIGNIN" : "Sign In",
+    "NAV_LOGOUT" : "Log Out",
+    "NAV_PROFILE" : "My Profile",
+    "NAV_USERS" : "Users",
+    "NAV_REQUEST" : "Request Appointment",
+    "NAV_CHECK" : "My appointments",
+    "NAV_PATIENTS" : "Patients",
+    "NAV_CHARTS" : "Charts",
+
+    "PROFILE_HELLO" : "Hi",
+    "PROFILE_EMAIL" : "E-Mail",
+    "PROFILE_DNI" : "DNI",
+    "PROFILE_OS" : "Obra Social",
+    "PROFILE_HISTORY" : "Medical History",
+    "PROFILE_CHECK_HIS" : "View Medical History",
+    "PROFILE_DOWNLOAD_ALL" : "Download Medical History",
+    "PROFILE_DOWNLOAD_SINGLE" : "Download History by Specialty",
+    "PROFILE_SHIFTS" : "My Shifts",
+    "PROFILE_AFTERNOON" : "Afternoon",
+    "PROFILE_MORNING" : "Morning",
+
+    "REQUEST_SPECIALTY": "Specialty",
+    "REQUEST_PATIENT": "Patient",
+    "REQUEST_SPECIALIST": "Specialist",
+    "REQUEST_DATE": "Date",
+    "REQUEST_TIME": "Time",
+    "REQUEST_FINISH": "Request Appointment"
 }

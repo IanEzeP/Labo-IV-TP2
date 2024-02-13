@@ -1,7 +1,7 @@
 <div>
     <div class="row p-4 mb-4 text-white bg-dark rounded-3">
         <div class="col-md-12">
-            <span><b>Especialidad</b></span>
+            <span><b>{{ 'REQUEST_SPECIALTY' | translate }}</b></span>
         </div>
     </div>
     <div class="row">
@@ -15,7 +15,7 @@
     <div *ngIf="this.esAdmin">
         <div class="row p-4 mb-4 text-white bg-dark rounded-3">
             <div class="col-md-12">
-                <span><b>Paciente</b></span>
+                <span><b>{{ 'REQUEST_PATIENT' | translate }}</b></span>
             </div>
         </div>
         <div class="row">
@@ -30,7 +30,7 @@
 
     <div class="row p-4 mb-4 text-white bg-dark rounded-3">
         <div class="col-md-12">
-            <span><b>Especialista</b></span>
+            <span><b>{{ 'REQUEST_SPECIALIST' | translate }}</b></span>
         </div>
     </div>
     <div class="row">
@@ -43,7 +43,7 @@
     </div>
     <div class="row p-4 mb-4 text-white bg-dark rounded-3">
         <div class="col-md-12">
-            <span><b>Días</b></span>
+            <span><b>{{ 'REQUEST_DATE' | translate }}</b></span>
         </div>
     </div>
     <div class="row">
@@ -55,7 +55,7 @@
     </div>
     <div class="row p-4 mb-4 text-white bg-dark rounded-3">
         <div class="col-md-12">
-            <span><b>Horarios</b></span>
+            <span><b>{{ 'REQUEST_TIME' | translate }}</b></span>
         </div>
     </div>
     <div class="row">
@@ -72,7 +72,7 @@
         <div class="col-md-12">
             <button class="btn btn-lg btn-success" (click)="solicitarTurno()" 
             [disabled]="!(this.especialidadSeleccionada != null && this.especialistaSeleccionado != null && this.horaSeleccionada != null && this.diaSeleccionado != null)">
-                <span>Solicitar turno</span>
+                <span>{{ 'REQUEST_FINISH' | translate }}</span>
             </button>
         </div>
     </div>
@@ -82,7 +82,7 @@
         <div class="col-md-12">
             <button class="btn btn-lg btn-success" (click)="solicitarTurno()" 
             [disabled]="!(this.especialidadSeleccionada != null && this.especialistaSeleccionado != null && this.horaSeleccionada != null && this.diaSeleccionado != null && this.pacienteSeleccionado != null)">
-                <span>Solicitar turno</span>
+                <span>{{ 'REQUEST_FINISH' | translate }}</span>
             </button>
         </div>
     </div>

@@ -1,5 +1,35 @@
 {
     "WELCOME_TITLE": "¡Bienvenido!",
     "WELCOME_SUBTITLE": "La web de Clínica OnLine se encuentra a su disposición.",
-    "WELCOME_BODY": "Solicite turnos, consulte su historial clínico y más iniciando sesión. Si no tiene una cuenta puede registrarse de forma gratuita en cualquier momento." 
+    "WELCOME_BODY": "Solicite turnos, consulte su historial clínico y más iniciando sesión. Si no tiene una cuenta puede registrarse de forma gratuita en cualquier momento.",
+
+    "NAV_HOME" : "Menú",
+    "NAV_LOGIN" : "Iniciar Sesión",
+    "NAV_SIGNIN" : "Registrarse",
+    "NAV_LOGOUT" : "Cerrar Sesión",
+    "NAV_PROFILE" : "Mi perfil",
+    "NAV_USERS" : "Usuarios",
+    "NAV_REQUEST" : "Solicitar turnos",
+    "NAV_CHECK" : "Mis turnos",
+    "NAV_PATIENTS" : "Pacientes",
+    "NAV_CHARTS" : "Graficos",
+
+    "PROFILE_HELLO" : "Hola",
+    "PROFILE_EMAIL" : "Correo Electrónico",
+    "PROFILE_DNI" : "DNI",
+    "PROFILE_OS" : "Obra Social",
+    "PROFILE_HISTORY" : "Historia Clínica",
+    "PROFILE_CHECK_HIS" : "Ver Historial",
+    "PROFILE_DOWNLOAD_ALL" : "Descargar Historial",
+    "PROFILE_DOWNLOAD_SINGLE" : "Descargar Historial por Especialidad",
+    "PROFILE_SHIFTS" : "Mis Horarios",
+    "PROFILE_AFTERNOON" : "Tarde",
+    "PROFILE_MORNING" : "Mañana",
+
+    "REQUEST_SPECIALTY": "Especialidad",
+    "REQUEST_PATIENT": "Paciente",
+    "REQUEST_SPECIALIST": "Especialista",
+    "REQUEST_DATE": "Fecha",
+    "REQUEST_TIME": "Horario",
+    "REQUEST_FINISH": "Solicitar Turno"
 }
