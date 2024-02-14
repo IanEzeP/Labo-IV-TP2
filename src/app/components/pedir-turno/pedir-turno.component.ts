@@ -260,6 +260,7 @@ export class PedirTurnoComponent implements OnInit, OnDestroy{
     const fecha = new Date(this.diaSeleccionado.year, this.diaSeleccionado.month - 1, this.diaSeleccionado.day,
     this.horaSeleccionada.hour, this.horaSeleccionada.minute);
 
+    let anio = new Date().getFullYear();
     const documento = this.firestore.doc('Turnos/' + this.firestore.createId());
 
     if(this.esAdmin)
@@ -277,7 +278,7 @@ export class PedirTurnoComponent implements OnInit, OnDestroy{
       idEspecialista: this.especialistaSeleccionado.id,
       Especialidad: this.especialidadSeleccionada,
       Horario: this.horaSeleccionada.time,
-      Dia: this.diaSeleccionado.date + "/2023",
+      Dia: this.diaSeleccionado.date + "/" + anio,
       Estado: 'Pendiente',
       Fecha: fecha
     }).then(() => 

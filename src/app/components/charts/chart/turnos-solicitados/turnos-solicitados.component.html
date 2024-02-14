@@ -1,1 +1,24 @@
-<p>turnos-solicitados works!</p>
+<div class="row g-5" style="display: flex; align-items: center;justify-content: center;">
+    <div class="col-md-12 col-lg-10">
+
+        <h1>Informe de turnos por especialista</h1>
+        <div class="d-flex">
+            <div>
+                <span>Desde: </span>
+                <input type="date" [(ngModel)]="this.fechaDesde" (change)="cambioFecha()">
+            </div>
+            <div>
+                <span>Hasta: </span>
+                <input type="date" [(ngModel)]="this.fechaHasta" (change)="cambioFecha()">
+            </div>
+        </div>
+        <div class="row g-3">
+            <div class="col-sm-12">
+                <canvasjs-chart 
+                [options]="chartOptions" 
+                [styles]="{ width: '100%', height:'360px' }" 
+                (chartInstance)="getChartInstance($event)"></canvasjs-chart>
+            </div>
+        </div>
+    </div>    
+</div>

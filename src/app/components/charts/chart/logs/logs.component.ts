@@ -1,10 +1,6 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { AngularFirestore } from '@angular/fire/compat/firestore';
-import { AlertasService } from 'src/app/servicios/alerta.service';
-import { AuthService } from 'src/app/servicios/auth.service';
 import { DatabaseService } from 'src/app/servicios/database.service';
 import { Subscription } from 'rxjs';
-import { CanvasJSChart } from '@canvasjs/angular-charts';
 
 @Component({
   selector: 'app-logs',
@@ -22,7 +18,7 @@ export class LogsComponent implements OnInit, OnDestroy {
   series : Array<any> = [];
   usuarios : Array<any> = [];
 
-  constructor (private data: DatabaseService, private alertas: AlertasService) {}
+  constructor (private data: DatabaseService) {}
 
   ngOnInit(): void 
   {
@@ -87,7 +83,6 @@ export class LogsComponent implements OnInit, OnDestroy {
         j++;
       }
     };
-    console.log(this.logueos);
 
     this.usuarios = this.crearListaNombres();
 
@@ -105,7 +100,7 @@ export class LogsComponent implements OnInit, OnDestroy {
       arrayNombres.push(logueo.User);
     }
     });
-    console.log(arrayNombres);
+    
     return arrayNombres;
   }
 
@@ -150,31 +145,14 @@ export class LogsComponent implements OnInit, OnDestroy {
 
   updateChart()
   {
-    console.log("update chart");
     this.chart.chartContainerId = "chartLogs";
 
-    this.chart.options.data = this.series; //Asignar Array con cada serie.
+    this.chart.options.data = this.series; 
     
     this.chart.render();
   }
 
   chart : any;
-
-  example1 = {
-    type:"line",
-    name: "User1",
-    showInLegend: true,
-    yValueFormatString: "#.###",
-    dataPoints: [		
-      { x: new Date(2024, 1, 5), y: 0 },
-      { x: new Date(2024, 1, 6), y: 5 },
-      { x: new Date(2024, 1, 7), y: 6 },
-      { x: new Date(2024, 1, 8), y: 3 },
-      { x: new Date(2024, 1, 9), y: 1 },
-      { x: new Date(2024, 1, 11), y: 4 },
-      { x: new Date(2024, 1, 12), y: 0 },
-    ]
-  };
 
   //#region chart Logs
   chartOptions = {
@@ -198,10 +176,8 @@ export class LogsComponent implements OnInit, OnDestroy {
         e.chart.render();
       }
     },
-
     data: []
   };
 
   //#endregion
-
 }

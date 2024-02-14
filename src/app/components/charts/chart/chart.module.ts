@@ -1,4 +1,5 @@
 import { NgModule } from '@angular/core';
+import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { ChartRoutingModule } from './chart-routing.module';
 import { CanvasJSAngularChartsModule } from '@canvasjs/angular-charts';
@@ -19,6 +20,7 @@ import { TurnosFinalizadosComponent } from './turnos-finalizados/turnos-finaliza
   ],
   imports: [
     CommonModule,
+    FormsModule,
     ChartRoutingModule,
     CanvasJSAngularChartsModule,
   ]
