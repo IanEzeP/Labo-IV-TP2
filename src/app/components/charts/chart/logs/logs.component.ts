@@ -1,6 +1,8 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit, ElementRef, ViewChild } from '@angular/core';
 import { DatabaseService } from 'src/app/servicios/database.service';
 import { Subscription } from 'rxjs';
+import { GenerateFilesService } from 'src/app/servicios/generate-files.service';
+import html2canvas from 'html2canvas';
 
 @Component({
   selector: 'app-logs',
@@ -18,7 +20,9 @@ export class LogsComponent implements OnInit, OnDestroy {
   series : Array<any> = [];
   usuarios : Array<any> = [];
 
-  constructor (private data: DatabaseService) {}
+  @ViewChild('chartContainer') chartContainer! : ElementRef;
+
+  constructor (private data: DatabaseService, private file: GenerateFilesService) {}
 
   ngOnInit(): void 
   {
@@ -180,4 +184,14 @@ export class LogsComponent implements OnInit, OnDestroy {
   };
 
   //#endregion
+
+  public onPdfDownload()
+  {
+    html2canvas(this.chartContainer.nativeElement).then((canvas: { toDataURL: (arg0: string) => any; }) => 
+    {
+      let image : string = canvas.toDataURL('image/png');
+      let fecha = new Date().toLocaleDateString();
+      this.file.downloadPdfChart('Ingreso de usuarios por día', 'log-usuarios-dias_' + fecha, image);
+    });
+  }
 }

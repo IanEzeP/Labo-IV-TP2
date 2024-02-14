@@ -1,13 +1,33 @@
-<div>
-    <ul>
-        <li><a routerLink="/graficos/logs">Logs</a></li>
-        <li><a routerLink="/graficos/t-dias">Turnos por dia</a></li>
-        <li><a routerLink="/graficos/t-especialidad">Turnos por especialidad</a></li>
-        <li><a routerLink="/graficos/t-solicitados">Turnos por solicitados</a></li>
-        <li><a routerLink="/graficos/t-finalizados">Turnos por finalizados</a></li>
-    </ul>
-
-<router-outlet></router-outlet>
-
+<div style="display: flex; justify-content: center;">
+    <div class="col-md-4">
+    <button class="btn-primary col-md-12" routerLink="/graficos/logs">
+        <p>Logs de usuarios</p>
+    </button>
+    </div>
+    <div class="col-md-4">
+    <button class=" btn-success col-md-12" routerLink="/graficos/t-dias">
+        <p>Turnos por día</p>
+    </button>
+    </div>
+    <div class="col-md-4" routerLink="/graficos/t-especialidad">
+    <button class="btn-warning col-md-12">
+        <p>Turnos por especialidad</p>
+    </button>
+    </div>
+</div>
+<div style="display: flex; justify-content: center;">
+    <div class="col-md-6" routerLink="/graficos/t-solicitados">
+        <button class="btn-secondary col-md-12">
+            <p>Turnos solicitados</p>
+        </button>
+    </div>
+    <div class="col-md-6" routerLink="/graficos/t-finalizados">
+        <button class="btn-info col-md-12">
+            <p>Turnos finalizados</p>
+        </button>
+    </div>
+</div>
+<div class="container">
+    <router-outlet></router-outlet>
 </div>
     

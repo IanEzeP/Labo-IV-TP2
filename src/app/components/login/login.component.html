@@ -5,7 +5,7 @@
             <h3>Inicio de sesión</h3>
             <label for="mail">Correo electrónico</label>
             <br>
-            <input name="mail" type="email" formControlName="email">
+            <input autofocus name="mail" type="email" formControlName="email">
             <ul class="list-group" *ngIf="this.formLog.controls['email'].errors != null && this.formLog.controls['email'].touched">
                 <li *ngIf="this.formLog.controls['email'].errors!['required']">
                     Debe escribir el correo electrónico de su perfil.

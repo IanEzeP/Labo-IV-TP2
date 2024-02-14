@@ -1,6 +1,8 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit, ElementRef, ViewChild  } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { DatabaseService } from 'src/app/servicios/database.service';
+import { GenerateFilesService } from 'src/app/servicios/generate-files.service';
+import html2canvas from 'html2canvas';
 
 @Component({
   selector: 'app-turnos-especialiadad',
@@ -13,7 +15,9 @@ export class TurnosEspecialiadadComponent implements OnInit, OnDestroy {
   turnos : Array<any> = [];
   series : Array<any> = [];
 
-  constructor(private data : DatabaseService) {}
+  @ViewChild('chartContainer') chartContainer! : ElementRef;
+
+  constructor(private data : DatabaseService, private file : GenerateFilesService) {}
 
   ngOnInit(): void 
   {
@@ -88,5 +92,15 @@ export class TurnosEspecialiadadComponent implements OnInit, OnDestroy {
       dataPoints: [
       ]
     }]
-  }	
+  }
+  
+  public onPdfDownload()
+  {
+    html2canvas(this.chartContainer.nativeElement).then((canvas: { toDataURL: (arg0: string) => any; }) => 
+    {
+      let image : string = canvas.toDataURL('image/png');
+      let fecha = new Date().toLocaleDateString();
+      this.file.downloadPdfChart('Informe de cantidad de turnos por especialidad', 'cantidad-turnos-especialidad' + fecha, image);
+    });
+  }
 }

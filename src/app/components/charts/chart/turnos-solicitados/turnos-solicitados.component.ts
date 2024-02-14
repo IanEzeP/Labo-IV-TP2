@@ -1,6 +1,8 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit, ElementRef, ViewChild } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { DatabaseService } from 'src/app/servicios/database.service';
+import { GenerateFilesService } from 'src/app/servicios/generate-files.service';
+import html2canvas from 'html2canvas';
 
 @Component({
   selector: 'app-turnos-solicitados',
@@ -17,7 +19,9 @@ export class TurnosSolicitadosComponent implements OnInit, OnDestroy{
   fechaDesde : Date = new Date();
   fechaHasta : Date = new Date();
 
-  constructor(private data : DatabaseService) {}
+  @ViewChild('chartContainer') chartContainer! : ElementRef;
+
+  constructor(private data : DatabaseService, private file : GenerateFilesService) {}
 
   ngOnInit(): void 
   {
@@ -77,7 +81,7 @@ export class TurnosSolicitadosComponent implements OnInit, OnDestroy{
 
     for (let i = 0; i < this.arrayTurnosValidos.length; i++) 
     {
-      const element = this.turnos[i];
+      const element = this.arrayTurnosValidos[i];
       const nombre = this.data.getNameById(element.idEspecialista, 'Especialistas');
       
       if(arrayEspec.includes(nombre))
@@ -114,7 +118,7 @@ export class TurnosSolicitadosComponent implements OnInit, OnDestroy{
   chart : any;
 
   chartOptions = {
-    title:{ text: "Cantidad de turnos por especialista" },
+    title:{ text: "Cantidad de turnos solicitados por especialista" },
     animationEnabled: true,
     axisY: {
       title: "Turnos",
@@ -126,4 +130,14 @@ export class TurnosSolicitadosComponent implements OnInit, OnDestroy{
       ]
     }]
   }	
+  
+  public onPdfDownload()
+  {
+    html2canvas(this.chartContainer.nativeElement).then((canvas: { toDataURL: (arg0: string) => any; }) => 
+    {
+      let image : string = canvas.toDataURL('image/png');
+      let fecha = new Date().toLocaleDateString();
+      this.file.downloadPdfChart('Turnos solicitados en período de tiempo', 'turnos-especialista-solicitados_' + fecha, image);
+    });
+  }
 }

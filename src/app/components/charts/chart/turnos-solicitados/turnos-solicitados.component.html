@@ -3,17 +3,20 @@
 
         <h1>Informe de turnos por especialista</h1>
         <div class="d-flex">
-            <div>
+            <div class="col-sm-3">
                 <span>Desde: </span>
                 <input type="date" [(ngModel)]="this.fechaDesde" (change)="cambioFecha()">
             </div>
-            <div>
+            <div class="col-sm-3">
                 <span>Hasta: </span>
                 <input type="date" [(ngModel)]="this.fechaHasta" (change)="cambioFecha()">
             </div>
+            <div>
+                <button class="btn btn-secondary" (click)="onPdfDownload()">Descargar Informe</button>
+            </div>
         </div>
         <div class="row g-3">
-            <div class="col-sm-12">
+            <div #chartContainer class="col-sm-12">
                 <canvasjs-chart 
                 [options]="chartOptions" 
                 [styles]="{ width: '100%', height:'360px' }" 

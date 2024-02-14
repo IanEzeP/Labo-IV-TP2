@@ -5,10 +5,11 @@
         </div>
     </div>
     <div class="row">
-        <div *ngFor="let especialidad of this.especialidades" class="col-md-2 col-sm-4">
+        <div reveal *ngFor="let especialidad of this.especialidades" class="col-md-2 col-sm-4">
             <button name="especialidad" class="btn btn-primary" id="{{especialidad.nombreEspecialidad}}" (click)="actualizarEspecialistas(especialidad.nombreEspecialidad)">
                 <img style="width: 50px; height: 50px; border-radius: 50%; object-fit: cover;" src="{{especialidad.imagen}}">
             </button>
+            <span>{{especialidad.nombreEspecialidad}}</span>
         </div>
     </div>
 

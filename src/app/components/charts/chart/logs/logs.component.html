@@ -3,27 +3,29 @@
 
         <h1>Logs de ingresos al sistema</h1>
         <div class="row g-3">
-    
-        <div class="col-sm-3 overflow-auto" style="max-height: 700px;">
-        <table [cellPadding]="6">
-                <tr>
-                    <th>Usuario</th>
-                    <th>Fecha</th>
-                    <th>Hora</th>
-                </tr>
-                <tr *ngFor="let data of this.logs">
-                    <td>{{ data.Usuario }}</td>
-                    <td>{{ data.Fecha }}</td>
-                    <td>{{ data.Hora }}</td>
-                </tr>
-        </table>
-        </div>
-            <div class="col-sm-9">
-                <canvasjs-chart 
-                [options]="chartOptions" 
-                [styles]="{ width: '100%', height:'360px' }" 
-                (chartInstance)="getChartInstance($event)"></canvasjs-chart>
+            <div class="col-sm-3 overflow-auto" style="max-height: 700px;">
+                <table [cellPadding]="6">
+                        <tr>
+                            <th>Usuario</th>
+                            <th>Fecha</th>
+                            <th>Hora</th>
+                        </tr>
+                        <tr *ngFor="let data of this.logs">
+                            <td>{{ data.Usuario }}</td>
+                            <td>{{ data.Fecha }}</td>
+                            <td>{{ data.Hora }}</td>
+                        </tr>
+                </table>
             </div>
-        </div>
+            <div class="col-sm-9">
+                <div #chartContainer>
+                    <canvasjs-chart 
+                    [options]="chartOptions" 
+                    [styles]="{ width: '100%', height:'360px' }" 
+                    (chartInstance)="getChartInstance($event)"></canvasjs-chart>
+                </div>
+                <button class="btn btn-secondary" (click)="onPdfDownload()">Descargar Informe</button>
+            </div>
+        </div>    
     </div>
 </div>

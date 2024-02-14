@@ -56,6 +56,9 @@ import { ChartsComponent } from './components/charts/charts.component';
 import { TranslatePipe } from './pipes/translate.pipe';
 import { TranslateService } from '@ngx-translate/core';
 import { MatSelectModule } from '@angular/material/select';
+import { HighlightDirective } from './directivas/highlight.directive';
+import { RevealDirective } from './directivas/reveal.directive';
+import { AutofocusDirective } from './directivas/autofocus.directive';
 export function setupTranslateServiceFactory(
   service: TranslateService): Function {
 return () => service.use('es');
@@ -96,6 +99,9 @@ return () => service.use('es');
     PacienteCardComponent,
     ChartsComponent,
     TranslatePipe,
+    HighlightDirective,
+    RevealDirective,
+    AutofocusDirective,
   ],
   imports: [
     BrowserModule,

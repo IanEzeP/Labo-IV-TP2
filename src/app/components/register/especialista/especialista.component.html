@@ -7,7 +7,7 @@
             <div class="row g-3">
                 <div class="col-sm-6">
                     <label for="nombre" class="form-label">Nombre</label>
-                    <input type="text" class="form-control" id="nombre" formControlName="nombre">
+                    <input autofocus type="text" class="form-control" id="nombre" formControlName="nombre">
                     <ul class="list-group" *ngIf="this.formRegistro.controls['nombre'].errors != null && this.formRegistro.controls['nombre'].touched">
                         <li *ngIf="this.formRegistro.controls['nombre'].errors!['required']">
                             Este campo no puede estar vacío.
